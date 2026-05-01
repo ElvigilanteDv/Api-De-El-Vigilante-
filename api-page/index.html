@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="/src/icon.png" type="image/png">
+    <link rel="icon" href="https://files.catbox.moe/9f471m.png" type="image/png">
     <title id="pageTitle">Api Alya</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"/>
@@ -25,7 +25,6 @@
             overflow: hidden;
         }
 
-        /* Loading Screen */
         #loadingScreen {
             position: fixed;
             top: 0;
@@ -52,7 +51,6 @@
             border-top-color: #2c2c2c;
         }
 
-        /* Music Player Flotante */
         .music-player {
             position: fixed;
             bottom: 20px;
@@ -188,7 +186,6 @@
             background: #c0392b;
         }
 
-        /* Top Bar */
         .top-bar {
             position: fixed;
             top: 0;
@@ -293,7 +290,6 @@
             height: 16px;
         }
 
-        /* Sidebar */
         .sidebar {
             position: fixed;
             top: 60px;
@@ -361,7 +357,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* Main Content */
         .main-content {
             margin-top: 60px;
             padding: 40px 20px;
@@ -371,7 +366,6 @@
             min-height: calc(100vh - 120px);
         }
 
-        /* Home Page */
         .home-banner {
             text-align: center;
             padding: 40px 20px;
@@ -409,7 +403,6 @@
             margin-bottom: 40px;
         }
 
-        /* Status Page */
         .status-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -452,7 +445,6 @@
             margin-top: 5px;
         }
 
-        /* Endpoints Page */
         .search-box {
             margin-bottom: 30px;
             animation: fadeIn 0.6s ease;
@@ -549,7 +541,6 @@
             transform: scale(1.05);
         }
 
-        /* Modal */
         .modal-content {
             border: none;
             border-radius: 12px;
@@ -663,7 +654,6 @@
             margin-top: 16px;
         }
 
-        /* Footer */
         .footer {
             text-align: center;
             padding: 30px 20px;
@@ -672,7 +662,6 @@
             border-top: 1px solid #e5e5e5;
         }
 
-        /* Animations */
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -684,28 +673,22 @@
             }
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .top-links {
                 display: none;
             }
-
             .home-title {
                 font-size: 32px;
             }
-
             .home-description {
                 font-size: 16px;
             }
-
             .endpoints-grid {
                 grid-template-columns: 1fr;
             }
-
             .main-content {
                 padding: 20px 15px;
             }
-
             .music-player {
                 width: 280px;
                 bottom: 10px;
@@ -715,15 +698,13 @@
     </style>
 </head>
 <body>
-    <!-- Loading Screen -->
-    <div id="loadingScreen">
+    div id="loadingScreen">
         <div class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
         <p style="margin-top: 16px; color: #666;">Loading...</p>
     </div>
 
-    <!-- Reproductor de Música Flotante -->
     <div class="music-player" id="musicPlayer">
         <div class="music-header">
             <span class="music-title">🎵 MUSIC PLAYER</span>
@@ -749,7 +730,6 @@
 
     <audio id="audioPlayer" style="display: none;"></audio>
 
-    <!-- Top Bar -->
     <div class="top-bar">
         <div class="top-bar-left">
             <button class="menu-toggle" id="menuToggle">
@@ -764,7 +744,6 @@
         </div>
     </div>
 
-    <!-- Sidebar -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
     <div class="sidebar" id="sidebar">
         <div class="sidebar-nav">
@@ -776,15 +755,12 @@
         </div>
     </div>
 
-    <!-- Main Content -->
     <div class="main-content" id="mainContent"></div>
 
-    <!-- Footer -->
     <div class="footer">
         <p id="footerText"></p>
     </div>
 
-    <!-- Modal -->
     <div class="modal fade" id="apiModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
@@ -812,7 +788,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // ============ REPRODUCTOR DE MÚSICA ============
         const playlist = [
             { name: "Latin Lover", artist: "Neutro Shorty, Big Soto", url: "https://raw.githubusercontent.com/JTxs00/uploads/main/1775936364197.mpeg" },
             { name: "El La Engaño Lambada", artist: "Natusha", url: "https://raw.githubusercontent.com/JTxs00/uploads/main/1775936787983.mpeg" },
@@ -927,11 +902,8 @@
         audio.addEventListener('ended', nextSong);
         progressContainer.addEventListener('click', setProgress);
         toggleMinimize.addEventListener('click', toggleMinimizePlayer);
-
-        // Cargar primera canción
         loadSong(0);
 
-        // ============ API DASHBOARD ORIGINAL ============
         let settings = {};
         let currentPage = 'home';
 
@@ -946,12 +918,10 @@
             try {
                 const response = await fetch('/src/settings.json');
                 settings = await response.json();
-
                 document.getElementById('pageTitle').textContent = settings.name || 'API';
                 document.getElementById('apiName').textContent = settings.name || 'API';
                 document.getElementById('footerText').textContent = `Created by ${settings.apiSettings?.creator || 'Unknown'}`;
 
-                // Top links
                 const topLinksContainer = document.getElementById('topLinks');
                 if (settings.links && settings.links.length > 0) {
                     settings.links.forEach(link => {
@@ -970,7 +940,6 @@
                     });
                 }
 
-                // Categories navigation
                 const categoriesNav = document.getElementById('categoriesNav');
                 if (settings.categories) {
                     settings.categories.forEach(category => {
@@ -988,7 +957,6 @@
         }
 
         function initializeUI() {
-            // Menu toggle
             const menuToggle = document.getElementById('menuToggle');
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebarOverlay');
@@ -1005,28 +973,23 @@
                 overlay.classList.remove('active');
             });
 
-            // Sidebar navigation
             document.querySelectorAll('.sidebar-item').forEach(item => {
                 item.addEventListener('click', () => {
                     const page = item.dataset.page;
                     const category = item.dataset.category;
-
                     document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
                     item.classList.add('active');
-
                     if (page === 'category') {
                         renderPage('category', category);
                     } else {
                         renderPage(page);
                     }
-
                     menuToggle.classList.remove('active');
                     sidebar.classList.remove('active');
                     overlay.classList.remove('active');
                 });
             });
 
-            // Scroll effect
             window.addEventListener('scroll', () => {
                 const topBar = document.querySelector('.top-bar');
                 if (window.scrollY > 0) {
@@ -1040,7 +1003,6 @@
         function renderPage(page, category = null) {
             currentPage = page;
             const content = document.getElementById('mainContent');
-
             switch (page) {
                 case 'home':
                     renderHomePage(content);
@@ -1058,13 +1020,10 @@
         }
 
         function renderHomePage(container) {
-            const imageSrc = Array.isArray(settings.header.imageSrc) && settings.header.imageSrc.length > 0
-                ? settings.header.imageSrc[Math.floor(Math.random() * settings.header.imageSrc.length)]
-                : '';
-
+            const imageSrc = "https://files.catbox.moe/9f471m.png";
             container.innerHTML = `
                 <div class="home-banner">
-                    ${imageSrc ? `<img src="${imageSrc}" alt="${settings.name}" style="max-width: ${settings.header.imageSize?.desktop || '40%'}">` : ''}
+                    <img src="${imageSrc}" alt="${settings.name || 'API'}" style="max-width: 40%;">
                     <h1 class="home-title">${settings.name || 'API'}</h1>
                     <div class="home-version">${settings.version || 'v1.0'}</div>
                     <p class="home-description">${settings.description || 'API Documentation'}</p>
@@ -1074,65 +1033,24 @@
 
         async function renderStatusPage(container) {
             container.innerHTML = '<div style="text-align: center; padding: 40px;"><div class="spinner-border"></div></div>';
-
             try {
                 const response = await fetch('/status');
                 const data = await response.json();
-
                 container.innerHTML = `
                     <h2 style="font-size: 28px; font-weight: 600; margin-bottom: 30px;">API Status</h2>
                     <div class="status-grid">
-                        <div class="status-card">
-                            <div class="status-card-title">Status</div>
-                            <div class="status-card-value" style="color: #28a745;">Online</div>
-                        </div>
-                        <div class="status-card">
-                            <div class="status-card-title">Version</div>
-                            <div class="status-card-value">${settings.version || 'N/A'}</div>
-                        </div>
-                        <div class="status-card">
-                            <div class="status-card-title">Total Requests</div>
-                            <div class="status-card-value">${data.total_requests || 0}</div>
-                        </div>
-                        <div class="status-card">
-                            <div class="status-card-title">Active Users</div>
-                            <div class="status-card-value">${data.active_users || 0}</div>
-                        </div>
-                        <div class="status-card">
-                            <div class="status-card-title">Daily Limit</div>
-                            <div class="status-card-value">${data.daily_limit || 'N/A'}</div>
-                        </div>
-                        <div class="status-card">
-                            <div class="status-card-title">Routes Loaded</div>
-                            <div class="status-card-value">${data.routes_loaded || 0}</div>
-                        </div>
-                        <div class="status-card">
-                            <div class="status-card-title">Uptime</div>
-                            <div class="status-card-value">${formatUptime(data.uptime_seconds)}</div>
-                        </div>
-                        <div class="status-card">
-                            <div class="status-card-title">API Latency</div>
-                            <div class="status-card-value">${data.api_latency_ms || 0}ms</div>
-                        </div>
-                        <div class="status-card">
-                            <div class="status-card-title">CPU Cores</div>
-                            <div class="status-card-value">${data.system?.cores || 'N/A'}</div>
-                            <div class="status-card-small">${data.system?.cpu_model || ''}</div>
-                        </div>
-                        <div class="status-card">
-                            <div class="status-card-title">CPU Load</div>
-                            <div class="status-card-value">${data.system?.cpu_load_percent || 0}%</div>
-                        </div>
-                        <div class="status-card">
-                            <div class="status-card-title">RAM Usage</div>
-                            <div class="status-card-value">${data.system?.ram_used_gb || 0} GB</div>
-                            <div class="status-card-small">of ${data.system?.ram_total_gb || 0} GB</div>
-                        </div>
-                        <div class="status-card">
-                            <div class="status-card-title">Disk Usage</div>
-                            <div class="status-card-value">${data.system?.disk_used_gb || 0} GB</div>
-                            <div class="status-card-small">of ${data.system?.disk_total_gb || 0} GB</div>
-                        </div>
+                        <div class="status-card"><div class="status-card-title">Status</div><div class="status-card-value" style="color: #28a745;">Online</div></div>
+                        <div class="status-card"><div class="status-card-title">Version</div><div class="status-card-value">${settings.version || 'N/A'}</div></div>
+                        <div class="status-card"><div class="status-card-title">Total Requests</div><div class="status-card-value">${data.total_requests || 0}</div></div>
+                        <div class="status-card"><div class="status-card-title">Active Users</div><div class="status-card-value">${data.active_users || 0}</div></div>
+                        <div class="status-card"><div class="status-card-title">Daily Limit</div><div class="status-card-value">${data.daily_limit || 'N/A'}</div></div>
+                        <div class="status-card"><div class="status-card-title">Routes Loaded</div><div class="status-card-value">${data.routes_loaded || 0}</div></div>
+                        <div class="status-card"><div class="status-card-title">Uptime</div><div class="status-card-value">${formatUptime(data.uptime_seconds)}</div></div>
+                        <div class="status-card"><div class="status-card-title">API Latency</div><div class="status-card-value">${data.api_latency_ms || 0}ms</div></div>
+                        <div class="status-card"><div class="status-card-title">CPU Cores</div><div class="status-card-value">${data.system?.cores || 'N/A'}</div><div class="status-card-small">${data.system?.cpu_model || ''}</div></div>
+                        <div class="status-card"><div class="status-card-title">CPU Load</div><div class="status-card-value">${data.system?.cpu_load_percent || 0}%</div></div>
+                        <div class="status-card"><div class="status-card-title">RAM Usage</div><div class="status-card-value">${data.system?.ram_used_gb || 0} GB</div><div class="status-card-small">of ${data.system?.ram_total_gb || 0} GB</div></div>
+                        <div class="status-card"><div class="status-card-title">Disk Usage</div><div class="status-card-value">${data.system?.disk_used_gb || 0} GB</div><div class="status-card-small">of ${data.system?.disk_total_gb || 0} GB</div></div>
                     </div>
                 `;
             } catch (error) {
@@ -1143,9 +1061,7 @@
         function renderCategoryPage(container, categoryName) {
             const category = settings.categories.find(c => c.name === categoryName);
             if (!category) return;
-
             const sortedItems = [...category.items].sort((a, b) => a.name.localeCompare(b.name));
-
             container.innerHTML = `
                 <div class="search-box">
                     <input type="text" class="search-input" placeholder="Search endpoints..." id="searchInput">
@@ -1157,7 +1073,6 @@
                     </div>
                 </div>
             `;
-
             setupSearch();
             setupEndpointButtons();
         }
@@ -1169,11 +1084,9 @@
                 </div>
                 <div id="allCategories"></div>
             `;
-
             const allCategories = document.getElementById('allCategories');
             settings.categories.forEach(category => {
                 const sortedItems = [...category.items].sort((a, b) => a.name.localeCompare(b.name));
-
                 allCategories.innerHTML += `
                     <div class="category-section" data-category="${category.name}">
                         <h2 class="category-title">${category.name}</h2>
@@ -1183,7 +1096,6 @@
                     </div>
                 `;
             });
-
             setupSearch();
             setupEndpointButtons();
         }
@@ -1195,29 +1107,23 @@
                         <div class="endpoint-name">${item.name}</div>
                         <div class="endpoint-desc">${item.desc}</div>
                     </div>
-                    <button class="endpoint-btn" data-path="${item.path}" data-name="${item.name}" data-desc="${item.desc}" data-inner-desc="${item.innerDesc || ''}">
-                        GET
-                    </button>
+                    <button class="endpoint-btn" data-path="${item.path}" data-name="${item.name}" data-desc="${item.desc}" data-inner-desc="${item.innerDesc || ''}">GET</button>
                 </div>
             `;
         }
 
-        function setupSearch() {
+          function setupSearch() {
             const searchInput = document.getElementById('searchInput');
             if (!searchInput) return;
-
             searchInput.addEventListener('input', (e) => {
                 const term = e.target.value.toLowerCase();
                 const cards = document.querySelectorAll('.endpoint-card');
                 const sections = document.querySelectorAll('.category-section');
-
                 cards.forEach(card => {
                     const name = card.dataset.name;
                     const desc = card.dataset.desc;
-                    const matches = name.includes(term) || desc.includes(term);
-                    card.style.display = matches ? '' : 'none';
+                    card.style.display = (name.includes(term) || desc.includes(term)) ? '' : 'none';
                 });
-
                 sections.forEach(section => {
                     const visibleCards = section.querySelectorAll('.endpoint-card:not([style*="display: none"])');
                     section.style.display = visibleCards.length > 0 ? '' : 'none';
@@ -1232,7 +1138,6 @@
                     const name = btn.dataset.name;
                     const desc = btn.dataset.desc;
                     const innerDesc = btn.dataset.innerDesc;
-
                     openModal(path, name, desc, innerDesc);
                 });
             });
@@ -1240,7 +1145,6 @@
 
         function openModal(path, name, desc, innerDesc) {
             const modal = new bootstrap.Modal(document.getElementById('apiModal'));
-
             document.getElementById('modalTitle').textContent = name;
             document.getElementById('modalDesc').textContent = desc;
             document.getElementById('endpointBox').style.display = 'none';
@@ -1255,7 +1159,6 @@
 
             if (hasParams) {
                 const paramsContainer = document.getElementById('paramsContainer');
-
                 Array.from(params.keys()).forEach(param => {
                     const input = document.createElement('input');
                     input.type = 'text';
@@ -1265,18 +1168,15 @@
                     input.required = true;
                     paramsContainer.appendChild(input);
                 });
-
                 if (innerDesc) {
                     const descDiv = document.createElement('div');
                     descDiv.className = 'inner-desc';
                     descDiv.innerHTML = innerDesc.replace(/\n/g, '<br>');
                     paramsContainer.appendChild(descDiv);
                 }
-
                 const submitBtn = document.getElementById('submitBtn');
                 submitBtn.style.display = 'block';
                 submitBtn.disabled = true;
-
                 paramsContainer.querySelectorAll('.param-input').forEach(input => {
                     input.addEventListener('input', () => {
                         const allInputs = paramsContainer.querySelectorAll('.param-input');
@@ -1284,12 +1184,10 @@
                         submitBtn.disabled = !allFilled;
                     });
                 });
-
                 submitBtn.onclick = () => {
                     const inputs = paramsContainer.querySelectorAll('.param-input');
                     const newParams = new URLSearchParams();
                     let isValid = true;
-
                     inputs.forEach(input => {
                         if (!input.value.trim()) {
                             isValid = false;
@@ -1299,9 +1197,7 @@
                             newParams.append(input.dataset.param, input.value.trim());
                         }
                     });
-
                     if (!isValid) return;
-
                     const fullUrl = `${window.location.origin}${urlParts[0]}?${newParams.toString()}`;
                     paramsContainer.innerHTML = '';
                     submitBtn.style.display = 'none';
@@ -1310,7 +1206,6 @@
             } else {
                 makeApiRequest(baseUrl);
             }
-
             modal.show();
         }
 
@@ -1318,25 +1213,17 @@
             const endpointBox = document.getElementById('endpointBox');
             const loadingContainer = document.getElementById('loadingContainer');
             const responseContainer = document.getElementById('responseContainer');
-
             endpointBox.textContent = url;
             endpointBox.style.display = 'block';
             loadingContainer.style.display = 'block';
             responseContainer.innerHTML = '';
-
             try {
                 const response = await fetch(url);
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 const contentType = response.headers.get('Content-Type');
-
                 if (contentType && contentType.startsWith('image/')) {
                     const blob = await response.blob();
                     const imageUrl = URL.createObjectURL(blob);
-
                     const img = document.createElement('img');
                     img.src = imageUrl;
                     img.className = 'response-image';
@@ -1361,11 +1248,9 @@
 
         function formatUptime(seconds) {
             if (!seconds) return 'N/A';
-
             const days = Math.floor(seconds / 86400);
             const hours = Math.floor((seconds % 86400) / 3600);
             const minutes = Math.floor((seconds % 3600) / 60);
-
             if (days > 0) return `${days}d ${hours}h`;
             if (hours > 0) return `${hours}h ${minutes}m`;
             return `${minutes}m`;
