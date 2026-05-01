@@ -115,7 +115,7 @@ module.exports = function(app) {
         if (!text) {
             return res.status(400).json({
                 status: false,
-                creator: "DVWILKER",
+                creator: "DVLYONN",
                 error: 'El parámetro "text" es requerido.',
                 message: 'Please provide a text: ?text=YOUR_QUESTION'
             });
@@ -127,7 +127,7 @@ module.exports = function(app) {
             if (!result || !result.text) {
                 return res.status(502).json({
                     status: false,
-                    creator: "DVWILKER",
+                    creator: "DVLYONN",
                     error: "La IA no devolvió una respuesta válida.",
                     result: null
                 });
@@ -136,7 +136,7 @@ module.exports = function(app) {
             // Si hay un ID de conversación (para continuar)
             const responseData = {
                 status: true,
-                creator: "DVWILKER",
+                creator: "DVLYONN",
                 result: {
                     text: result.text
                 }
@@ -183,7 +183,7 @@ module.exports = function(app) {
         if (!id) {
             return res.status(400).json({
                 status: false,
-                creator: "DVWILKER",
+                creator: "DVLYONN",
                 error: 'El parámetro "id" es requerido para continuar la conversación.'
             });
         }
