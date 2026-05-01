@@ -1,4 +1,3 @@
-const express = require("express");
 const axios = require("axios");
 const crypto = require("crypto");
 
@@ -17,14 +16,12 @@ class SaveTube {
     }
 
     async decrypt(enc) {
-        try {
-            const [sr, ky] = [Buffer.from(enc, 'base64'), Buffer.from(this.ky, 'hex')];
-            const [iv, dt] = [sr.slice(0, 16), sr.slice(16)];
-            const dc = crypto.createDecipheriv('aes-128-cbc', ky, iv);
-            return JSON.parse(Buffer.concat([dc.update(dt), dc.final()]).toString());
-        } catch (e) {
-            throw new Error(`Error while decrypting data: ${e.message}`);
-        }
+        const sr = Buffer.from(enc, 'base64');
+        const ky = Buffer.from(this.ky, 'hex');
+        const iv = sr.slice(0, 16);
+        const dt = sr.slice(16);
+        const dc = crypto.createDecipheriv('aes-128-cbc', ky, iv);
+        return JSON.parse(Buffer.concat([dc.update(dt), dc.final()]).toString());
     }
 
     async getCdn() {
@@ -38,30 +35,26 @@ class SaveTube {
         if (!id) return { status: false, msg: "ID cannot be extracted from url" };
         if (!format || !this.fmt.includes(format)) return { status: false, msg: "Formats not found", list: this.fmt };
 
-        try {
-            const u = await this.getCdn();
-            if (!u.status) return u;
+        const u = await this.getCdn();
+        if (!u.status) return u;
 
-            const res = await this.is.post(`https://${u.data}/v2/info`, { url: `https://www.youtube.com/watch?v=${id}` });
-            const dec = await this.decrypt(res.data.data);
+        const res = await this.is.post(`https://${u.data}/v2/info`, { url: `https://www.youtube.com/watch?v=${id}` });
+        const dec = await this.decrypt(res.data.data);
 
-            const dl = await this.is.post(`https://${u.data}/download`, {
-                id: id,
-                downloadType: 'audio',
-                quality: '128',
-                key: dec.key
-            });
+        const dl = await this.is.post(`https://${u.data}/download`, {
+            id: id,
+            downloadType: 'audio',
+            quality: '128',
+            key: dec.key
+        });
 
-            return {
-                status: true,
-                title: dec.title,
-                thumb: dec.thumbnail || `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
-                duration: dec.duration,
-                dl: dl.data.data.downloadUrl
-            };
-        } catch (error) {
-            return { status: false, error: error.message };
-        }
+        return {
+            status: true,
+            title: dec.title,
+            thumb: dec.thumbnail || `https://i.ytimg.com/vi/${id}/hqdefault.jpg`,
+            duration: dec.duration,
+            dl: dl.data.data.downloadUrl
+        };
     }
 }
 
@@ -102,11 +95,11 @@ module.exports = function(app) {
                     download_url: audio.dl
                 }
             });
-        } catch (e) {
+        } catch (err) {
             return res.status(500).json({
                 status: false,
                 creator: "DVLYONN",
-                error: e.message
+                error: err.message
             });
         }
     });
