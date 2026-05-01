@@ -2,9 +2,7 @@ const axios = require('axios');
 
 module.exports = function(app) {
     
-    // Función para obtener API key (opcional, puedes ponerla directamente)
     function getYouTubeApiKey() {
-        // Puedes poner tu API key aquí directamente o usar variable de entorno
         return process.env.YOUTUBE_API_KEY || 'AIzaSyDBrbDJAhuamM54a8hLGkUlAC8qcUKS3ss';
     }
 
@@ -46,7 +44,7 @@ module.exports = function(app) {
             if (!API_KEY) {
                 return res.status(503).json({
                     status: false,
-                    creator: 'DVWILKER',
+                    creator: 'DVLYONN',
                     error: 'YouTube API no está configurada.',
                     message: 'Define YOUTUBE_API_KEY en variables de entorno o agrega tu API key en el código.'
                 });
@@ -58,7 +56,7 @@ module.exports = function(app) {
             if (!searchRes.data.items || searchRes.data.items.length === 0) {
                 return res.status(404).json({
                     status: false,
-                    creator: 'DVWILKER',
+                    creator: 'DVLYONN',
                     error: 'No se encontraron resultados',
                     message: 'No videos found for your search query'
                 });
@@ -96,7 +94,7 @@ module.exports = function(app) {
 
             res.status(200).json({
                 status: true,
-                creator: 'DVWILKER',
+                creator: 'DVLYONN',
                 query: q,
                 total_results: ytTracks.length,
                 result: ytTracks
@@ -106,7 +104,7 @@ module.exports = function(app) {
             console.error('YouTube API Error:', error.response?.data || error.message);
             res.status(500).json({
                 status: false,
-                creator: 'DVWILKER',
+                creator: 'DVLYONN',
                 error: 'Ocurrió un error en el servidor.',
                 message: error.response?.data?.error?.message || error.message
             });
