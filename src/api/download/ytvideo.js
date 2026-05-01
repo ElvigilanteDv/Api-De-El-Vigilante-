@@ -83,7 +83,6 @@ module.exports = function(app) {
                 });
             }
 
-            // Si se solicita descarga directa
             if (req.query.download === 'true') {
                 return res.redirect(result.download_url);
             }
