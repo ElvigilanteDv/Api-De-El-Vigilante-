@@ -91,6 +91,12 @@
           "desc": "Download files from Mediafire",
           "path": "/download/mediafire?url=",
           "innerDesc": "📦 Download files from Mediafire\n\nUsage: ?url=MEDIAFIRE_URL\nDownload: &download=true"
+        },
+        {
+          "name": "Spotify Downloader",
+          "desc": "Download songs from Spotify as MP3",
+          "path": "/download/spotify?url=",
+          "innerDesc": "🎧 Download music from Spotify\n\nUsage: ?url=SPOTIFY_TRACK_URL\nDownload: &download=true"
         }
       ]
     },
