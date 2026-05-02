@@ -103,6 +103,12 @@
           "desc": "Search and download images/videos from Pinterest",
           "path": "/pinterest?query=",
           "innerDesc": "🎨 Search or download from Pinterest\n\nSearch: ?query=SEARCH_TERM&limit=20\nDownload: ?url=PINTEREST_PIN_URL\nDirect download: &download=true"
+        },
+        {
+          "name": "Facebook Downloader",
+          "desc": "Download videos from Facebook",
+          "path": "/download/facebook?url=",
+          "innerDesc": "📘 Download videos from Facebook\n\nUsage: ?url=FB_VIDEO_URL\nDirect download: &download=true"
         }
       ]
     },
