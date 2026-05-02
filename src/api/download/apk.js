@@ -1,6 +1,7 @@
 const axios = require('axios');
 
 const APTOIDE_API = 'https://ws75.aptoide.com/api/7/apps/search';
+const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
 
 module.exports = function(app) {
     app.get('/apk', async (req, res) => {
@@ -15,14 +16,12 @@ module.exports = function(app) {
         }
 
         try {
-            const response = await axios.get(APTOIDE_API, {
+            const searchRes = await axios.get(APTOIDE_API, {
                 params: { query, limit: 1 },
-                headers: {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-                }
+                headers: { 'User-Agent': UA }
             });
 
-            const data = response.data;
+            const data = searchRes.data;
             if (data.info?.status !== 'OK' || !data.datalist?.list?.length) {
                 throw new Error('No se encontró la aplicación');
             }
