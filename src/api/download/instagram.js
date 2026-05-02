@@ -1,46 +1,27 @@
 const axios = require('axios');
 
-async function instagramDownload(url) {
-    const shortcodeMatch = url.match(/instagram\.com\/(?:p|reel)\/([a-zA-Z0-9_-]+)/);
-    if (!shortcodeMatch) throw new Error('URL inválida');
-    const shortcode = shortcodeMatch[1];
-
-    // Usamos el mismo método que el n8n Instagram Guest Scraper
-    const { data } = await axios.get(`https://www.instagram.com/p/${shortcode}/?__a=1&__d=1`, {
+async function downloadInstagramMedia(instagramUrl) {
+    const postId = instagramUrl.split('/p/')[1]?.split('/')[0];
+    if (!postId) throw new Error('URL de Instagram inválida');
+    
+    const response = await axios.get(`https://www.instagram.com/graphql/query/`, {
+        params: {
+            query_hash: 'c9100bf08b15db9d5b9a09f8a91da5a3',
+            variables: JSON.stringify({ shortcode: postId })
+        },
         headers: {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-            'Accept': 'application/json',
-            'Accept-Language': 'en-US,en;q=0.9',
-            'X-Requested-With': 'XMLHttpRequest'
-        }
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        },
+        timeout: 15000
     });
-
-    if (!data || !data.graphql || !data.graphql.shortcode_media) {
-        throw new Error('No se pudo obtener el contenido');
-    }
-
-    const media = data.graphql.shortcode_media;
-    let videoUrl = null;
-    let imageUrl = null;
-
-    if (media.video_url) {
-        videoUrl = media.video_url;
-    } else if (media.display_url) {
-        imageUrl = media.display_url;
-    } else if (media.edge_sidecar_to_children) {
-        // Para carruseles, tomamos el primero
-        const firstNode = media.edge_sidecar_to_children.edges[0]?.node;
-        if (firstNode.video_url) videoUrl = firstNode.video_url;
-        else if (firstNode.display_url) imageUrl = firstNode.display_url;
-    }
-
-    if (!videoUrl && !imageUrl) throw new Error('No se encontró contenido multimedia');
-
+    
+    const media = response.data.data.shortcode_media;
     return {
-        type: videoUrl ? 'video' : 'image',
-        url: videoUrl || imageUrl,
-        caption: media.edge_media_to_caption?.edges[0]?.node?.text || 'Instagram Post',
-        owner: media.owner?.username || 'Desconocido'
+        postId,
+        caption: media.edge_media_to_caption.edges[0]?.node.text || 'Sin descripción',
+        isVideo: media.is_video,
+        mediaUrl: media.is_video ? media.video_url : media.display_url,
+        likes: media.edge_liked_by?.count || 0
     };
 }
 
@@ -55,16 +36,20 @@ module.exports = function(app) {
                 usage: "/download/instagram?url=URL_DEL_POST"
             });
         }
-
         try {
-            const result = await instagramDownload(url);
+            const result = await downloadInstagramMedia(url);
             if (req.query.download === 'true') {
-                return res.redirect(result.url);
+                return res.redirect(result.mediaUrl);
             }
             return res.json({
                 status: true,
                 creator: "DVLYONN",
-                result: result
+                result: {
+                    type: result.isVideo ? 'video' : 'image',
+                    url: result.mediaUrl,
+                    caption: result.caption,
+                    likes: result.likes
+                }
             });
         } catch (err) {
             console.error('[Instagram Error]', err.message);
