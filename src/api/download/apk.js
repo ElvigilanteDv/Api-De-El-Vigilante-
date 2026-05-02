@@ -34,20 +34,23 @@ module.exports = function(app) {
                 status: false,
                 creator: "DVLYONN",
                 error: "Falta el parámetro 'q'",
-                usage: "/download/apk"
+                usage: "/download/apk?q=whatsapp"
             });
         }
         try {
             const result = await apkDownload(query);
+            // Si pide descarga directa
             if (req.query.download === 'true') {
                 return res.redirect(result.download_url);
             }
+            // Si no, devuelve JSON con info
             return res.json({
                 status: true,
                 creator: "DVLYONN",
                 result: result
             });
         } catch (err) {
+            console.error('[APK Error]', err.message);
             res.status(500).json({
                 status: false,
                 creator: "DVLYONN",
