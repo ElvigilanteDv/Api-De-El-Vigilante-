@@ -3,7 +3,17 @@ const axios = require('axios');
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
 
 async function getRandomMeme() {
-    const subreddits = ['memes', 'dankmemes', 'MemesESP', 'goodmemes', 'wholesomememes'];
+    const subreddits = [
+        'MemesES',
+        'MemesESP',
+        'spanishmemes',
+        'LATAMmemes',
+        'dankespanol',
+        'MexicoMemes',
+        'ArgentinaMemes',
+        'ColombiaMemes'
+    ];
+    
     const randomSub = subreddits[Math.floor(Math.random() * subreddits.length)];
     const url = `https://www.reddit.com/r/${randomSub}/.json?limit=50`;
     
