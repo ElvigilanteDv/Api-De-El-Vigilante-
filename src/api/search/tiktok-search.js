@@ -23,7 +23,7 @@ async function tiktokSearch(query, limit = 10) {
         const videos = data.data.videos;
         
         return videos.slice(0, limit).map(video => ({
-            id: video.id,
+            id: video.video_id,
             title: video.title || 'Sin título',
             duration: video.duration,
             cover: video.cover,
@@ -42,7 +42,7 @@ async function tiktokSearch(query, limit = 10) {
                 comments: video.comment_count || 0,
                 shares: video.share_count || 0
             },
-            url: `https://www.tiktok.com/@${video.author?.unique_id || 'user'}/video/${video.id}`
+            url: `https://www.tiktok.com/@${video.author?.unique_id || 'user'}/video/${video.video_id}`
         }));
         
     } catch (error) {
@@ -52,7 +52,6 @@ async function tiktokSearch(query, limit = 10) {
 }
 
 module.exports = function(app) {
-    
     app.get('/search/tiktok', async (req, res) => {
         const query = String(req.query.query || "").trim();
         const limit = parseInt(req.query.limit) || 10;
@@ -60,7 +59,7 @@ module.exports = function(app) {
         if (!query) {
             return res.status(400).json({
                 status: false,
-                creator: "DVLYONN",
+                creador: "DVLYONN",
                 error: "Se requiere el parámetro 'query'",
                 usage: "/search/tiktok?query=badbunny&limit=5"
             });
@@ -72,23 +71,24 @@ module.exports = function(app) {
             if (results.length === 0) {
                 return res.status(404).json({
                     status: false,
-                    creator: "DVLYONN",
+                    creador: "DVLYONN",
                     error: "No se encontraron resultados"
                 });
             }
             
             return res.status(200).json({
                 status: true,
-                creator: "DVLYONN",
+                creador: "DVLYONN",
                 query: query,
                 total_results: results.length,
                 result: results
             });
             
         } catch (error) {
+            console.error('TikTok search error:', error);
             return res.status(500).json({
                 status: false,
-                creator: "DVLYONN",
+                creador: "DVLYONN",
                 error: error.message
             });
         }
