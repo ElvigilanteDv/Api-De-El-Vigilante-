@@ -57,7 +57,7 @@
           "name": "GIF Finder",
           "desc": "Search and get GIFs from multiple sources",
           "path": "/random/gif?q=",
-          "innerDesc": "🎬 Busca GIFs por palabra clave\n\nParámetros:\n• q - Palabra clave (ej: punch, hug, kiss)\n• limit - Cantidad (1-5, default: 1)\n\nEjemplo: /random/gif?q=anime%20punch"
+          "innerDesc": "🎬 Busca GIFs por palabra clave\n\nParámetros:\n• q - Palabra clave (ej: punch, sad, hug, kiss)\n• limit - Cantidad (1-5, default: 1)\n\nEjemplo: /random/gif?q=punch&limit=1"
         }
       ]
     },
@@ -74,6 +74,12 @@
           "desc": "Search videos on TikTok",
           "path": "/search/tiktok?query=",
           "innerDesc": "🎵 Search videos on TikTok\n\nParameters:\n• query - Search term\n• limit - Results count (1-30, default: 10)\n\nExample: /search/tiktok?query=badbunny&limit=5"
+        },
+        {
+          "name": "APK Search",
+          "desc": "Search APK files on Aptoide",
+          "path": "/search/apk?q=",
+          "innerDesc": "📱 Search Android APK files\n\nParameters:\n• q - App name (whatsapp, facebook, etc.)\n• limit - Results count (1-30, default: 10)\n\nExample: /search/apk?q=whatsapp&limit=5"
         }
       ]
     },
