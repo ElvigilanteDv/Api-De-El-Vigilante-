@@ -1,88 +1,58 @@
 const axios = require('axios');
 
-const YOUTUBE_API_KEY = 'AIzaSyDBrbDJAhuamM54a8hLGkUlAC8qcUKS3ss';
+const INVICIOUS_INSTANCES = [
+    'https://invidious.snopyta.org',
+    'https://yewtu.be',
+    'https://inv.riverside.rocks',
+    'https://invidious.flokinet.to',
+    'https://inv.zzls.xyz'
+];
 
-function formatDuration(isoDuration) {
-    if (!isoDuration) return "00:00";
-    const match = isoDuration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
-    if (!match) return "00:00";
-    const hours = parseInt(match[1] || 0, 10);
-    const minutes = parseInt(match[2] || 0, 10);
-    const seconds = parseInt(match[3] || 0, 10);
-    const totalMinutes = hours * 60 + minutes;
-    return `${totalMinutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-}
+const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (Chrome)';
 
-function formatPublishedAt(dateString) {
-    if (!dateString) return "N/A";
-    const date = new Date(dateString);
-    return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+async function searchYouTube(query, limit = 20) {
+    for (const instance of INVICIOUS_INSTANCES) {
+        try {
+            const url = `${instance}/api/v1/search?q=${encodeURIComponent(query)}&type=video`;
+            const response = await axios.get(url, {
+                headers: { 'User-Agent': UA },
+                timeout: 10000
+            });
+            const results = response.data.slice(0, limit);
+            if (results.length === 0) continue;
+            return results.map(video => ({
+                title: video.title || "Sin título",
+                channel: video.author || "Desconocido",
+                channelId: video.authorId || "",
+                duration: video.lengthSeconds ? `${Math.floor(video.lengthSeconds / 60)}:${(video.lengthSeconds % 60).toString().padStart(2, '0')}` : "?",
+                views: video.viewCount ? video.viewCount.toLocaleString() : "N/A",
+                thumbnail: video.videoThumbnails?.[3]?.url || video.videoThumbnails?.[0]?.url || "",
+                url: `https://www.youtube.com/watch?v=${video.videoId}`,
+                publishedAt: video.publishedText || "N/A"
+            }));
+        } catch (error) {
+            console.log(`Instancia ${instance} falló: ${error.message}`);
+        }
+    }
+    return [];
 }
 
 module.exports = function(app) {
     app.get('/search/youtube', async (req, res) => {
         const query = req.query.q;
+        const limit = parseInt(req.query.limit) || 20;
+
         if (!query) {
             return res.status(400).json({
                 status: false,
                 creator: "DVLYONN",
                 error: "Falta el parámetro 'q'",
-                usage: "/search/youtube?q=badbunny"
-            });
-        }
-
-        if (!YOUTUBE_API_KEY) {
-            return res.status(503).json({
-                status: false,
-                creator: "DVLYONN",
-                error: "YouTube API no configurada"
+                usage: "/search/youtube?q=badbunny&limit=10"
             });
         }
 
         try {
-            const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=20&q=${encodeURIComponent(query)}&key=${YOUTUBE_API_KEY}`;
-            const searchRes = await axios.get(searchUrl);
-
-            if (!searchRes.data.items || searchRes.data.items.length === 0) {
-                return res.json({
-                    status: true,
-                    creator: "DVLYONN",
-                    query: query,
-                    total_results: 0,
-                    result: []
-                });
-            }
-
-            const videoIds = searchRes.data.items.map(item => item.id.videoId).join(',');
-            const channelIds = searchRes.data.items.map(item => item.snippet.channelId);
-
-            const videosUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&id=${videoIds}&key=${YOUTUBE_API_KEY}`;
-            const videosRes = await axios.get(videosUrl);
-
-            const uniqueChannelIds = [...new Set(channelIds)].join(',');
-            const channelsUrl = `https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${uniqueChannelIds}&key=${YOUTUBE_API_KEY}`;
-            const channelsRes = await axios.get(channelsUrl);
-
-            const channelMap = {};
-            channelsRes.data.items.forEach(channel => {
-                channelMap[channel.id] = channel.statistics.subscriberCount;
-            });
-
-            const results = videosRes.data.items.map(video => ({
-                title: video.snippet.title,
-                description: video.snippet.description,
-                channel: video.snippet.channelTitle,
-                channelId: video.snippet.channelId,
-                subscribers: channelMap[video.snippet.channelId] || "N/A",
-                publishedAt: formatPublishedAt(video.snippet.publishedAt),
-                duration: formatDuration(video.contentDetails.duration),
-                views: video.statistics.viewCount || 0,
-                likes: video.statistics.likeCount || 0,
-                comments: video.statistics.commentCount || 0,
-                thumbnail: video.snippet.thumbnails?.high?.url || video.snippet.thumbnails?.default?.url,
-                url: `https://www.youtube.com/watch?v=${video.id}`
-            }));
-
+            const results = await searchYouTube(query, Math.min(limit, 30));
             return res.json({
                 status: true,
                 creator: "DVLYONN",
@@ -92,7 +62,7 @@ module.exports = function(app) {
             });
         } catch (error) {
             console.error('[YouTube Error]', error.message);
-            return res.status(500).json({
+            res.status(500).json({
                 status: false,
                 creator: "DVLYONN",
                 error: error.message
