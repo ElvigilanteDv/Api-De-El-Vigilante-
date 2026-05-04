@@ -136,7 +136,7 @@
         {
           "name": "Audio",
           "desc": "Get a special audio from Alya",
-          "path": "/audio/lyonn",
+          "path": "/tools/lyonn",
           "innerDesc": "🎵 Reproduce un audio especial de Alya\n\nUsage: /audio/lyonn\nDownload: /audio/lyonn?download=true"
         }
       ]
