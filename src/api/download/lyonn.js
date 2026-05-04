@@ -5,7 +5,7 @@ const fs = require('fs');
 const AUDIO_URL = 'https://files.catbox.moe/i427hk.mp3';
 
 module.exports = function(app) {
-    app.get('/audio/lyonn', async (req, res) => {
+    app.get('/tools/lyonn', async (req, res) => {
         if (req.query.download === 'true') {
             // Redirigir directamente al archivo
             return res.redirect(AUDIO_URL);
