@@ -1,13 +1,14 @@
+// ==================== ENDPOINT: /download/ytvideo ====================
 const axios = require('axios');
 
-async function downloadYouTubeVideo(url, format = "360") {
+async function downloadYouTubeVideo(url, quality = "360") {
     try {
         const downloadResp = await axios.get(
             "https://p.savenow.to/ajax/download.php",
             {
                 params: {
                     copyright: 0,
-                    format,
+                    format: quality,
                     url,
                     api: "dfcb6d76f2f6a9894gjkege8a4ab232222"
                 },
@@ -63,6 +64,17 @@ module.exports = function(app) {
                 status: false,
                 creator: "DVLYONN",
                 error: "Falta el parámetro 'url'",
+                usage: "/download/ytvideo?url=YOUTUBE_URL&quality=360"
+            });
+        }
+
+        // Validar calidad
+        const validQualities = ['360', '720', '1080'];
+        if (quality && !validQualities.includes(quality)) {
+            return res.status(400).json({
+                status: false,
+                creator: "DVLYONN",
+                error: `Calidad inválida. Usa: ${validQualities.join(', ')}`,
                 usage: "/download/ytvideo?url=YOUTUBE_URL&quality=360"
             });
         }
