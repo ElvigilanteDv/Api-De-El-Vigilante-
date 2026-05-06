@@ -1,670 +1,1365 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Alya API | Tu Plataforma Profesional</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/src/icon.png" type="image/png">
+    <title id="pageTitle">API GOHAN</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Inter', sans-serif;
-            background: radial-gradient(ellipse at 20% 30%, #0B0C10, #03050B);
-            color: #E5E9F0;
-            min-height: 100vh;
+            color: #1e293b;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
             overflow-x: hidden;
         }
 
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #1E293B; }
-        ::-webkit-scrollbar-thumb { background: #F43F5E; border-radius: 10px; }
+        body.no-scroll {
+            overflow: hidden;
+        }
 
-        .auth-overlay {
+        /* Loading Screen */
+        #loadingScreen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.9);
-            backdrop-filter: blur(12px);
-            z-index: 1050;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            z-index: 10000;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 0.5s ease;
+        }
+
+        #loadingScreen.fade-out {
+            opacity: 0;
+        }
+
+        .spinner-border {
+            width: 3rem;
+            height: 3rem;
+            border: 3px solid #e2e8f0;
+            border-top-color: #e11d48;
+        }
+
+        /* Music Player Flotante */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 320px;
+            background: rgba(15,23,42,0.95);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 15px;
+            z-index: 10000;
+            box-shadow: 0 20px 35px -10px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
             transition: all 0.3s ease;
         }
 
-        .auth-card {
-            background: rgba(15, 23, 42, 0.98);
-            backdrop-filter: blur(16px);
-            border-radius: 32px;
-            border: 1px solid rgba(244, 63, 94, 0.4);
-            width: 100%;
-            max-width: 440px;
-            padding: 36px;
-            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.5);
-            animation: fadeInUp 0.5s ease;
+        .music-player.minimized {
+            width: 50px;
+            padding: 10px;
+            border-radius: 25px;
         }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        .music-player.minimized .music-info,
+        .music-player.minimized .music-controls,
+        .music-player.minimized .progress-container {
+            display: none;
         }
 
-        .auth-card h2 {
-            font-size: 28px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff, #F43F5E);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 8px;
+        .music-player.minimized .music-toggle-min {
+            transform: rotate(180deg);
         }
 
-        .auth-card .sub { font-size: 13px; color: #94A3B8; margin-bottom: 24px; }
-        .input-custom { margin-bottom: 20px; }
-        .input-custom label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #94A3B8; display: block; margin-bottom: 6px; }
-        .input-custom input { width: 100%; background: #0F172A; border: 1px solid #334155; border-radius: 16px; padding: 12px 16px; color: #F8FAFC; font-size: 14px; }
-        .input-custom input:focus { outline: none; border-color: #F43F5E; box-shadow: 0 0 0 3px rgba(244,63,94,0.2); }
-        .auth-btn { background: linear-gradient(95deg, #F43F5E, #E11D48); width: 100%; padding: 12px; border: none; border-radius: 40px; font-weight: 700; color: white; cursor: pointer; transition: 0.2s; }
-        .auth-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px -6px #F43F5E; }
-        .switch-auth { text-align: center; margin-top: 20px; font-size: 13px; color: #94A3B8; }
-        .switch-auth a { color: #F43F5E; text-decoration: none; font-weight: 600; cursor: pointer; }
+        .music-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            color: white;
+        }
 
-        .main-app { display: none; opacity: 0; transition: opacity 0.5s ease; }
+        .music-title {
+            font-size: 12px;
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            flex: 1;
+            opacity: 0.8;
+        }
 
+        .music-toggle-min {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 0 5px;
+            opacity: 0.7;
+        }
+
+        .music-info {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .song-name {
+            color: white;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .artist-name {
+            color: rgba(255,255,255,0.6);
+            font-size: 10px;
+        }
+
+        .progress-container {
+            background: rgba(255,255,255,0.15);
+            border-radius: 10px;
+            height: 4px;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+
+        .progress-bar {
+            background: #e11d48;
+            border-radius: 10px;
+            height: 100%;
+            width: 0%;
+            position: relative;
+            transition: width 0.1s linear;
+        }
+
+        .time-info {
+            display: flex;
+            justify-content: space-between;
+            color: rgba(255,255,255,0.5);
+            font-size: 10px;
+            margin-bottom: 10px;
+        }
+
+        .music-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .control-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .control-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.05);
+        }
+
+        .control-btn.play-btn {
+            background: #e11d48;
+            width: 45px;
+            height: 45px;
+        }
+
+        .control-btn.play-btn:hover {
+            background: #be123c;
+        }
+
+        /* Top Bar */
         .top-bar {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            height: 64px;
-            background: rgba(15, 23, 42, 0.95);
+            height: 60px;
+            background: rgba(255,255,255,0.95);
             backdrop-filter: blur(12px);
-            border-bottom: 1px solid #1E293B;
+            border-bottom: 1px solid #e2e8f0;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 28px;
-            z-index: 100;
+            padding: 0 24px;
+            z-index: 1000;
+            transition: all 0.3s ease;
         }
 
-        .logo-area { display: flex; align-items: center; gap: 12px; }
-        .logo-icon { font-size: 28px; color: #F43F5E; }
-        .logo-text { font-size: 20px; font-weight: 800; background: linear-gradient(135deg, #fff, #F43F5E); -webkit-background-clip: text; background-clip: text; color: transparent; }
-        .user-info { display: flex; align-items: center; gap: 16px; }
-        .user-email { font-size: 13px; background: #1E293B; padding: 6px 14px; border-radius: 40px; }
-        .logout-btn { background: none; border: 1px solid #F43F5E; padding: 6px 16px; border-radius: 40px; color: #F43F5E; cursor: pointer; transition: 0.2s; }
-        .logout-btn:hover { background: #F43F5E; color: white; }
+        .top-bar.scrolled {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
 
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .menu-toggle {
+            width: 40px;
+            height: 40px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            padding: 0;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .menu-toggle:hover {
+            background: #f1f5f9;
+        }
+
+        .menu-toggle span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: #1e293b;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        .api-name {
+            font-size: 18px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e293b, #475569);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .top-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .top-link {
+            color: #475569;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .top-link:hover {
+            color: #e11d48;
+        }
+
+        .link-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Sidebar */
         .sidebar {
             position: fixed;
-            top: 64px;
+            top: 60px;
             left: -280px;
             width: 280px;
-            height: calc(100vh - 64px);
-            background: rgba(15, 23, 42, 0.97);
-            backdrop-filter: blur(16px);
-            border-right: 1px solid #1E293B;
+            height: calc(100vh - 60px);
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(12px);
+            border-right: 1px solid #e2e8f0;
+            overflow-y: auto;
             transition: left 0.3s ease;
-            z-index: 99;
-            padding: 24px 0;
+            z-index: 999;
         }
 
-        .sidebar.open { left: 0; }
-        .sidebar-item { padding: 12px 28px; display: flex; align-items: center; gap: 12px; color: #CBD5E1; cursor: pointer; transition: 0.2s; }
-        .sidebar-item i { width: 24px; }
-        .sidebar-item:hover, .sidebar-item.active { background: #1E293B; color: #F43F5E; border-left: 3px solid #F43F5E; }
-
-        .main-content { margin-top: 80px; padding: 24px 32px; max-width: 1400px; margin-left: auto; margin-right: auto; }
-
-        .hero {
-            background: linear-gradient(135deg, #1E293B, #0F172A);
-            border-radius: 32px;
-            padding: 0;
-            margin-bottom: 48px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .hero-img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            opacity: 0.7;
-        }
-
-        .hero-content {
-            position: absolute;
-            bottom: 0;
+        .sidebar.active {
             left: 0;
-            right: 0;
-            background: linear-gradient(to top, #0F172A, transparent);
-            padding: 40px;
-            text-align: center;
         }
 
-        .hero-content h1 { font-size: 48px; font-weight: 800; margin-bottom: 16px; }
-        .hero-content p { font-size: 18px; color: #94A3B8; max-width: 600px; margin: 0 auto; }
+        .sidebar-overlay {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 60px);
+            background: rgba(0,0,0,0.3);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 998;
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .sidebar-nav {
+            padding: 20px 0;
+        }
+
+        .sidebar-item {
+            padding: 12px 24px;
+            color: #334155;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .sidebar-item:hover {
+            background: #f8fafc;
+            color: #e11d48;
+        }
+
+        .sidebar-item.active {
+            background: #fef2f2;
+            border-left-color: #e11d48;
+            color: #e11d48;
+        }
+
+        .sidebar-category {
+            padding: 20px 24px 8px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 60px;
+            padding: 40px 24px;
+            max-width: 1300px;
+            margin-left: auto;
+            margin-right: auto;
+            min-height: calc(100vh - 120px);
+        }
+
+        /* Home Page */
+        .home-banner {
+            text-align: center;
+            padding: 60px 20px;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .home-banner img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 24px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px -12px rgba(0,0,0,0.1);
+        }
+
+        .home-title {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #1e293b, #475569);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        .home-version {
+            display: inline-block;
+            background: #e11d48;
+            color: #ffffff;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+
+        .home-description {
+            font-size: 18px;
+            color: #64748b;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Status Page */
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 30px;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .status-card {
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .status-card:hover {
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.1);
+            transform: translateY(-3px);
+            border-color: #e11d48;
+        }
+
+        .status-card-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .status-card-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .status-card-small {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 5px;
+        }
+
+        /* Endpoints Page */
+        .search-box {
+            margin-bottom: 32px;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 60px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            background: white;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #e11d48;
+            box-shadow: 0 0 0 3px rgba(225,29,72,0.1);
+        }
+
+        .category-section {
+            margin-bottom: 48px;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .category-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e2e8f0;
+        }
 
         .endpoints-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 24px;
-            margin-top: 32px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
         }
 
-        .api-card {
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(8px);
-            border-radius: 24px;
-            border: 1px solid #1E293B;
+        .endpoint-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
             padding: 20px;
-            transition: all 0.3s;
-        }
-
-        .api-card:hover { border-color: #F43F5E; transform: translateY(-4px); }
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .card-title { font-size: 18px; font-weight: 700; }
-        .method { background: #F43F5E20; padding: 4px 12px; border-radius: 40px; font-size: 11px; color: #F43F5E; }
-        .card-desc { font-size: 13px; color: #94A3B8; margin-bottom: 20px; }
-        .try-btn { background: #1E293B; border: none; padding: 8px 20px; border-radius: 40px; color: white; cursor: pointer; transition: 0.2s; }
-        .try-btn:hover { background: #F43F5E; }
-
-        .floating-player {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            z-index: 1100;
-        }
-
-        .player-toggle {
-            width: 56px;
-            height: 56px;
-            background: linear-gradient(135deg, #F43F5E, #E11D48);
-            border-radius: 50%;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 8px 20px rgba(244,63,94,0.4);
-            border: none;
-            color: white;
-            font-size: 24px;
-        }
-
-        .player-card {
-            position: absolute;
-            bottom: 70px;
-            right: 0;
-            width: 340px;
-            background: rgba(15, 23, 42, 0.98);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 20px;
-            border: 1px solid rgba(244,63,94,0.4);
-            box-shadow: 0 20px 35px -10px rgba(0,0,0,0.4);
             transition: all 0.3s ease;
-            transform: scale(0);
-            transform-origin: bottom right;
-            opacity: 0;
-            visibility: hidden;
         }
 
-        .player-card.open { transform: scale(1); opacity: 1; visibility: visible; }
-        .song-info { text-align: center; margin-bottom: 16px; }
-        .song-name { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
-        .artist-name { font-size: 11px; opacity: 0.6; }
-        .progress-container { background: #1E293B; border-radius: 20px; height: 4px; margin: 12px 0; cursor: pointer; }
-        .progress-bar { background: #F43F5E; border-radius: 20px; height: 100%; width: 0%; transition: width 0.1s linear; }
-        .time-info { display: flex; justify-content: space-between; font-size: 10px; opacity: 0.6; margin-bottom: 12px; }
-        .player-controls { display: flex; justify-content: center; gap: 20px; }
-        .ctrl-btn { background: rgba(255,255,255,0.08); border: none; width: 36px; height: 36px; border-radius: 50%; color: white; cursor: pointer; }
-        .ctrl-btn.play { background: #F43F5E; width: 48px; height: 48px; }
-        .ctrl-btn:hover { transform: scale(1.05); background: rgba(255,255,255,0.15); }
-        .queue-list { margin-top: 16px; border-top: 1px solid #334155; padding-top: 12px; max-height: 200px; overflow-y: auto; }
-        .queue-item { font-size: 11px; padding: 6px 8px; border-radius: 8px; cursor: pointer; margin: 4px 0; }
-        .queue-item:hover { background: #1E293B; }
-        .queue-item.active { background: #F43F5E20; color: #F43F5E; }
+        .endpoint-card:hover {
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+            border-color: #e11d48;
+        }
 
+        .endpoint-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .endpoint-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 6px;
+        }
+
+        .endpoint-desc {
+            font-size: 12px;
+            color: #64748b;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .endpoint-btn {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: #ffffff;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            margin-left: 15px;
+        }
+
+        .endpoint-btn:hover {
+            background: linear-gradient(135deg, #e11d48, #be123c);
+            transform: scale(1.02);
+        }
+
+        /* Modal */
+        .modal-content {
+            border: none;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px -12px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid #e2e8f0;
+            padding: 20px 24px;
+            background: white;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .modal-desc {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-footer {
+            border-top: 1px solid #e2e8f0;
+            padding: 16px 24px;
+            background: #f8fafc;
+        }
+
+        .api-endpoint-box {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 12px;
+            font-family: monospace;
+            font-size: 13px;
+            color: #e11d48;
+            word-break: break-all;
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .param-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 14px;
+            margin-bottom: 12px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .param-input:focus {
+            outline: none;
+            border-color: #e11d48;
+            box-shadow: 0 0 0 3px rgba(225,29,72,0.1);
+        }
+
+        .param-input.is-invalid {
+            border-color: #dc3545;
+        }
+
+        .inner-desc {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: #ffffff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #e11d48, #be123c);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .response-box {
+            background: #1e293b;
+            padding: 16px;
+            border-radius: 12px;
+            font-family: monospace;
+            font-size: 12px;
+            color: #e2e8f0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+
+        .response-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #94a3b8;
+            font-size: 13px;
+            border-top: 1px solid #e2e8f0;
+            margin-top: 40px;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .main-content { padding: 16px; }
-            .hero-content h1 { font-size: 28px; }
-            .hero-img { height: 200px; }
+            .top-links {
+                display: none;
+            }
+
+            .home-title {
+                font-size: 32px;
+            }
+
+            .home-description {
+                font-size: 15px;
+            }
+
+            .endpoints-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .main-content {
+                padding: 20px 16px;
+            }
+
+            .music-player {
+                width: 280px;
+                bottom: 10px;
+                right: 10px;
+            }
         }
     </style>
 </head>
 <body>
-
-<!-- LOGIN -->
-<div id="authOverlay" class="auth-overlay">
-    <div class="auth-card" id="loginCard">
-        <h2>Bienvenido</h2>
-        <div class="sub">Accede a Alya API</div>
-        <div class="input-custom"><label>CORREO</label><input type="email" id="loginEmail" placeholder="usuario@ejemplo.com"></div>
-        <div class="input-custom"><label>CONTRASEÑA</label><input type="password" id="loginPassword" placeholder="••••••••"></div>
-        <button class="auth-btn" id="doLoginBtn">Iniciar Sesión</button>
-        <div class="switch-auth">¿Sin cuenta? <a id="showRegisterBtn">Regístrate</a></div>
+    <!-- Loading Screen -->
+    <div id="loadingScreen">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p style="margin-top: 16px; color: #64748b;">Loading...</p>
     </div>
-    <div class="auth-card" id="registerCard" style="display:none">
-        <h2>Crear Cuenta</h2>
-        <div class="sub">Regístrate gratis</div>
-        <div class="input-custom"><label>CORREO</label><input type="email" id="regEmail"></div>
-        <div class="input-custom"><label>CONTRASEÑA</label><input type="password" id="regPassword"></div>
-        <div class="input-custom"><label>CONFIRMAR</label><input type="password" id="regConfirm"></div>
-        <button class="auth-btn" id="doRegisterBtn">Registrarse</button>
-        <div class="switch-auth">¿Ya tienes cuenta? <a id="showLoginBtn">Inicia Sesión</a></div>
-    </div>
-</div>
 
-<!-- MAIN APP -->
-<div class="main-app" id="mainApp">
+    <!-- Reproductor de Música Flotante -->
+    <div class="music-player" id="musicPlayer">
+        <div class="music-header">
+            <span class="music-title">🎵 UNA VAINA LOCA</span>
+            <button class="music-toggle-min" id="toggleMinimize">−</button>
+        </div>
+        <div class="music-info">
+            <div class="song-name" id="songName">Cargando...</div>
+            <div class="artist-name" id="artistName">---</div>
+        </div>
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="time-info">
+            <span id="currentTime">0:00</span>
+            <span id="duration">0:00</span>
+        </div>
+        <div class="music-controls">
+            <button class="control-btn" id="prevBtn"><i class="fas fa-backward"></i></button>
+            <button class="control-btn play-btn" id="playPauseBtn"><i class="fas fa-play"></i></button>
+            <button class="control-btn" id="nextBtn"><i class="fas fa-forward"></i></button>
+        </div>
+    </div>
+
+    <audio id="audioPlayer" style="display: none;"></audio>
+
+    <!-- Top Bar -->
     <div class="top-bar">
-        <div class="logo-area"><i class="fas fa-code-branch logo-icon"></i><span class="logo-text">Alya API</span></div>
-        <div class="user-info"><span class="user-email" id="userEmailDisplay">usuario</span><button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Salir</button></div>
+        <div class="top-bar-left">
+            <button class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="api-name" id="apiName"></div>
+        </div>
+        <div class="top-bar-right">
+            <div class="top-links" id="topLinks"></div>
+        </div>
     </div>
 
+    <!-- Sidebar -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
     <div class="sidebar" id="sidebar">
-        <div class="sidebar-item active" data-section="home"><i class="fas fa-home"></i> Inicio</div>
-        <div class="sidebar-item" data-section="endpoints"><i class="fas fa-cubes"></i> Endpoints</div>
-        <div class="sidebar-item" data-section="status"><i class="fas fa-chart-line"></i> Estado</div>
+        <div class="sidebar-nav">
+            <div class="sidebar-item active" data-page="home"><i class="fas fa-home me-2"></i> Home</div>
+            <div class="sidebar-item" data-page="status"><i class="fas fa-chart-line me-2"></i> Status</div>
+            <div class="sidebar-category"><i class="fas fa-tag me-2"></i> Categories</div>
+            <div id="categoriesNav"></div>
+            <div class="sidebar-item" data-page="all"><i class="fas fa-cubes me-2"></i> All Endpoints</div>
+        </div>
     </div>
 
-    <div class="main-content">
-        <div id="homeSection">
-            <div class="hero">
-                <img src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?w=1200&h=300&fit=crop" class="hero-img" alt="Hero">
-                <div class="hero-content">
-                    <h1><i class="fas fa-cloud"></i> Alya API Platform</h1>
-                    <p>La API más potente para bots, automatización y desarrollo</p>
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent"></div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p id="footerText"></p>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="apiModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div>
+                        <h5 class="modal-title" id="modalTitle"></h5>
+                        <p class="modal-desc" id="modalDesc"></p>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="api-endpoint-box" id="endpointBox" style="display: none;"></div>
+                    <div id="paramsContainer"></div>
+                    <div id="loadingContainer" style="display: none; text-align: center; padding: 40px;">
+                        <div class="spinner-border" role="status"></div>
+                    </div>
+                    <div id="responseContainer"></div>
+                </div>
+                <div class="modal-footer">
+                    <button class="submit-btn" id="submitBtn" style="display: none;">Submit</button>
                 </div>
             </div>
-            <div class="endpoints-grid" id="homeEndpoints"></div>
-        </div>
-
-        <div id="endpointsSection" style="display:none;">
-            <h2 class="mb-4"><i class="fas fa-cubes me-2"></i> Todos los Endpoints</h2>
-            <div class="endpoints-grid" id="allEndpointsGrid"></div>
-        </div>
-
-        <div id="statusSection" style="display:none;">
-            <h2 class="mb-4"><i class="fas fa-chart-line me-2"></i> Estado del Sistema</h2>
-            <div class="row g-4" id="statusCards"></div>
         </div>
     </div>
 
-    <!-- REPRODUCTOR FLOTANTE CON LISTA DE CANCIONES -->
-    <div class="floating-player">
-        <button class="player-toggle" id="playerToggleBtn"><i class="fas fa-music"></i></button>
-        <div class="player-card" id="playerCard">
-            <div class="song-info">
-                <div class="song-name" id="currentSongName">Una vaina loca</div>
-                <div class="artist-name" id="currentArtistName">🎧 Lyonn Player</div>
-            </div>
-            <div class="progress-container" id="progressContainerMusic">
-                <div class="progress-bar" id="progressBarMusic"></div>
-            </div>
-            <div class="time-info">
-                <span id="currentTimeMusic">0:00</span>
-                <span id="durationMusic">0:00</span>
-            </div>
-            <div class="player-controls">
-                <button class="ctrl-btn" id="prevMusicBtn"><i class="fas fa-backward"></i></button>
-                <button class="ctrl-btn play" id="playPauseMusicBtn"><i class="fas fa-play"></i></button>
-                <button class="ctrl-btn" id="nextMusicBtn"><i class="fas fa-forward"></i></button>
-            </div>
-            <div class="queue-list" id="queueList"></div>
-        </div>
-    </div>
-</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // ============ REPRODUCTOR DE MÚSICA ============
+        const playlist = [
+            { name: "Una vaina loca", artist: "Lyonn Special", url: "https://files.catbox.moe/g2zd2z.mp3" },
+            { name: "Latin Lover", artist: "Neutro Shorty, Big Soto", url: "https://raw.githubusercontent.com/JTxs00/uploads/main/1775936364197.mpeg" },
+            { name: "Odisea", artist: "Ozuna", url: "https://raw.githubusercontent.com/JTxs00/uploads/main/1775935979163.mpeg" },
+            { name: "Maquiavélico", artist: "Cancerbero", url: "https://raw.githubusercontent.com/JTxs00/uploads/main/1775936827892.mpeg" },
+            { name: "Eoo", artist: "Bad Bunny", url: "https://raw.githubusercontent.com/JTxs00/uploads/main/1775936322243.mpeg" },
+            { name: "Ninfómana", artist: "Jossimar ft El Apóstol", url: "https://raw.githubusercontent.com/JTxs00/uploads/main/1775936920447.mpeg" }
+        ];
 
-<audio id="audioPlayer" style="display: none;"></audio>
+        let currentSongIndex = 0;
+        let isPlaying = false;
+        let isMinimized = false;
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    // ========== LISTA DE CANCIONES COMPLETA ==========
-    const playlist = [
-        { name: "Una vaina loca", artist: "Lyonn Special", url: "https://files.catbox.moe/g2zd2z.mp3" },
-        { name: "Latin Lover", artist: "Neutro Shorty, Big Soto", url: "https://raw.githubusercontent.com/JTxs00/uploads/main/1775936364197.mpeg" },
-        { name: "Odisea", artist: "Ozuna", url: "https://raw.githubusercontent.com/JTxs00/uploads/main/1775935979163.mpeg" },
-        { name: "Maquiavélico", artist: "Cancerbero", url: "https://raw.githubusercontent.com/JTxs00/uploads/main/1775936827892.mpeg" },
-        { name: "Eoo", artist: "Bad Bunny", url: "https://raw.githubusercontent.com/JTxs00/uploads/main/1775936322243.mpeg" },
-        { name: "Ninfómana", artist: "Jossimar ft El Apóstol", url: "https://raw.githubusercontent.com/JTxs00/uploads/main/1775936920447.mpeg" }
-    ];
+        const audio = document.getElementById('audioPlayer');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const songNameEl = document.getElementById('songName');
+        const artistNameEl = document.getElementById('artistName');
+        const progressBar = document.getElementById('progressBar');
+        const progressContainer = document.getElementById('progressContainer');
+        const currentTimeEl = document.getElementById('currentTime');
+        const durationEl = document.getElementById('duration');
+        const toggleMinimize = document.getElementById('toggleMinimize');
+        const musicPlayer = document.getElementById('musicPlayer');
 
-    let currentIndex = 0;
-    let isPlaying = false;
-    const audio = document.getElementById('audioPlayer');
-    const playPauseBtn = document.getElementById('playPauseMusicBtn');
-    const progressBar = document.getElementById('progressBarMusic');
-    const progressContainer = document.getElementById('progressContainerMusic');
-    const currentTimeSpan = document.getElementById('currentTimeMusic');
-    const durationSpan = document.getElementById('durationMusic');
-    const currentSongNameSpan = document.getElementById('currentSongName');
-    const currentArtistSpan = document.getElementById('currentArtistName');
-    const prevBtn = document.getElementById('prevMusicBtn');
-    const nextBtn = document.getElementById('nextMusicBtn');
-    const queueList = document.getElementById('queueList');
-
-    function formatTime(sec) {
-        if (isNaN(sec)) return '0:00';
-        const mins = Math.floor(sec / 60);
-        const s = Math.floor(sec % 60);
-        return `${mins}:${s.toString().padStart(2, '0')}`;
-    }
-
-    function loadSong(index) {
-        const song = playlist[index];
-        currentSongNameSpan.textContent = song.name;
-        currentArtistSpan.textContent = song.artist;
-        audio.src = song.url;
-        audio.load();
-        updateQueueActive();
-        if (isPlaying) {
-            audio.play().catch(e => console.log('Error:', e));
+        function loadSong(index) {
+            const song = playlist[index];
+            songNameEl.textContent = song.name;
+            artistNameEl.textContent = song.artist;
+            audio.src = song.url;
+            audio.load();
+            if (isPlaying) {
+                audio.play().catch(e => console.log('Error playing:', e));
+            }
+            updatePlayPauseIcon();
         }
-    }
 
-    function updateQueueActive() {
-        const items = document.querySelectorAll('.queue-item');
-        items.forEach((item, idx) => {
-            if (idx === currentIndex) item.classList.add('active');
-            else item.classList.remove('active');
+        function updatePlayPauseIcon() {
+            const icon = playPauseBtn.querySelector('i');
+            if (isPlaying) {
+                icon.className = 'fas fa-pause';
+            } else {
+                icon.className = 'fas fa-play';
+            }
+        }
+
+        function playPause() {
+            if (isPlaying) {
+                audio.pause();
+            } else {
+                audio.play().catch(e => console.log('Error playing:', e));
+            }
+            isPlaying = !isPlaying;
+            updatePlayPauseIcon();
+        }
+
+        function nextSong() {
+            currentSongIndex = (currentSongIndex + 1) % playlist.length;
+            loadSong(currentSongIndex);
+            if (!isPlaying) {
+                playPause();
+            }
+        }
+
+        function prevSong() {
+            currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
+            loadSong(currentSongIndex);
+            if (!isPlaying) {
+                playPause();
+            }
+        }
+
+        function updateProgress() {
+            if (audio.duration && !isNaN(audio.duration)) {
+                const percent = (audio.currentTime / audio.duration) * 100;
+                progressBar.style.width = `${percent}%`;
+                currentTimeEl.textContent = formatTime(audio.currentTime);
+                durationEl.textContent = formatTime(audio.duration);
+            }
+        }
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return "0:00";
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function setProgress(e) {
+            const rect = progressContainer.getBoundingClientRect();
+            const percent = (e.clientX - rect.left) / rect.width;
+            audio.currentTime = percent * audio.duration;
+        }
+
+        function toggleMinimizePlayer() {
+            isMinimized = !isMinimized;
+            if (isMinimized) {
+                musicPlayer.classList.add('minimized');
+                toggleMinimize.textContent = '+';
+            } else {
+                musicPlayer.classList.remove('minimized');
+                toggleMinimize.textContent = '−';
+            }
+        }
+
+        playPauseBtn.addEventListener('click', playPause);
+        nextBtn.addEventListener('click', nextSong);
+        prevBtn.addEventListener('click', prevSong);
+        audio.addEventListener('timeupdate', updateProgress);
+        audio.addEventListener('ended', nextSong);
+        progressContainer.addEventListener('click', setProgress);
+        toggleMinimize.addEventListener('click', toggleMinimizePlayer);
+
+        // Cargar primera canción (Una vaina loca)
+        loadSong(0);
+
+        // ============ API DASHBOARD ORIGINAL ============
+        let settings = {};
+        let currentPage = 'home';
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadSettings();
+            initializeUI();
+            renderPage('home');
+            hideLoading();
         });
-    }
 
-    function renderQueue() {
-        queueList.innerHTML = '';
-        playlist.forEach((song, idx) => {
-            const div = document.createElement('div');
-            div.className = `queue-item ${idx === currentIndex ? 'active' : ''}`;
-            div.innerHTML = `<i class="fas fa-music me-2"></i> ${song.name} <span style="float:right; font-size:9px;">${song.artist}</span>`;
-            div.onclick = () => {
-                currentIndex = idx;
-                loadSong(currentIndex);
-                if (!isPlaying) {
-                    isPlaying = true;
-                    audio.play();
-                    playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        async function loadSettings() {
+            try {
+                const response = await fetch('/src/settings.json');
+                settings = await response.json();
+
+                document.getElementById('pageTitle').textContent = settings.name || 'API GOHAN';
+                document.getElementById('apiName').textContent = settings.name || 'API GOHAN';
+                document.getElementById('footerText').innerHTML = `Created by ${settings.apiSettings?.creator || 'Lyonn'} <i class="fas fa-crown ms-1"></i>`;
+
+                const topLinksContainer = document.getElementById('topLinks');
+                if (settings.links && settings.links.length > 0) {
+                    settings.links.forEach(link => {
+                        const a = document.createElement('a');
+                        a.href = link.url;
+                        a.className = 'top-link';
+                        a.target = '_blank';
+                        a.innerHTML = `
+                            <svg class="link-icon" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z"></path>
+                                <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z"></path>
+                            </svg>
+                            ${link.name}
+                        `;
+                        topLinksContainer.appendChild(a);
+                    });
                 }
-            };
-            queueList.appendChild(div);
-        });
-    }
 
-    function playPause() {
-        if (isPlaying) {
-            audio.pause();
-            playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-        } else {
-            audio.play().catch(e => console.log('Error:', e));
-            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                const categoriesNav = document.getElementById('categoriesNav');
+                if (settings.categories) {
+                    settings.categories.forEach(category => {
+                        const item = document.createElement('div');
+                        item.className = 'sidebar-item';
+                        item.dataset.page = 'category';
+                        item.dataset.category = category.name;
+                        item.innerHTML = `<i class="fas fa-folder me-2"></i> ${category.name}`;
+                        categoriesNav.appendChild(item);
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading settings:', error);
+            }
         }
-        isPlaying = !isPlaying;
-    }
 
-    function nextSong() {
-        currentIndex = (currentIndex + 1) % playlist.length;
-        loadSong(currentIndex);
-        if (!isPlaying) {
-            isPlaying = true;
-            audio.play();
-            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-        }
-    }
+        function initializeUI() {
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
 
-    function prevSong() {
-        currentIndex = (currentIndex - 1 + playlist.length) % playlist.length;
-        loadSong(currentIndex);
-        if (!isPlaying) {
-            isPlaying = true;
-            audio.play();
-            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-        }
-    }
-
-    function updateProgress() {
-        if (audio.duration && !isNaN(audio.duration)) {
-            const percent = (audio.currentTime / audio.duration) * 100;
-            progressBar.style.width = `${percent}%`;
-            currentTimeSpan.textContent = formatTime(audio.currentTime);
-            durationSpan.textContent = formatTime(audio.duration);
-        }
-    }
-
-    function setProgress(e) {
-        const rect = progressContainer.getBoundingClientRect();
-        const percent = (e.clientX - rect.left) / rect.width;
-        audio.currentTime = percent * audio.duration;
-    }
-
-    playPauseBtn.addEventListener('click', playPause);
-    nextBtn.addEventListener('click', nextSong);
-    prevBtn.addEventListener('click', prevSong);
-    audio.addEventListener('timeupdate', updateProgress);
-    audio.addEventListener('ended', nextSong);
-    progressContainer.addEventListener('click', setProgress);
-
-    renderQueue();
-    loadSong(0);
-
-    // Toggle reproductor
-    const playerToggle = document.getElementById('playerToggleBtn');
-    const playerCard = document.getElementById('playerCard');
-    playerToggle.addEventListener('click', () => playerCard.classList.toggle('open'));
-
-    // ========== LOGIN ==========
-    const authOverlay = document.getElementById('authOverlay');
-    const mainApp = document.getElementById('mainApp');
-    const loginCard = document.getElementById('loginCard');
-    const registerCard = document.getElementById('registerCard');
-    const userEmailSpan = document.getElementById('userEmailDisplay');
-
-    let users = JSON.parse(localStorage.getItem('alya_users')) || [];
-    function saveUsers() { localStorage.setItem('alya_users', JSON.stringify(users)); }
-
-    document.getElementById('showRegisterBtn').onclick = () => { loginCard.style.display = 'none'; registerCard.style.display = 'block'; };
-    document.getElementById('showLoginBtn').onclick = () => { registerCard.style.display = 'none'; loginCard.style.display = 'block'; };
-    document.getElementById('doLoginBtn').onclick = () => {
-        const email = document.getElementById('loginEmail').value.trim();
-        const pass = document.getElementById('loginPassword').value.trim();
-        const user = users.find(u => u.email === email && u.password === pass);
-        if (user) {
-            localStorage.setItem('alya_logged', JSON.stringify({ email }));
-            authOverlay.style.display = 'none';
-            mainApp.style.display = 'block';
-            setTimeout(() => mainApp.style.opacity = '1', 50);
-            userEmailSpan.textContent = email;
-        } else alert('Credenciales incorrectas');
-    };
-    document.getElementById('doRegisterBtn').onclick = () => {
-        const email = document.getElementById('regEmail').value.trim();
-        const pass = document.getElementById('regPassword').value.trim();
-        const confirm = document.getElementById('regConfirm').value.trim();
-        if (!email || !pass) return alert('Completa campos');
-        if (pass !== confirm) return alert('Contraseñas no coinciden');
-        if (users.find(u => u.email === email)) return alert('Usuario existe');
-        users.push({ email, password: pass });
-        saveUsers();
-        alert('Registro exitoso. Inicia sesión');
-        registerCard.style.display = 'none';
-        loginCard.style.display = 'block';
-    };
-    document.getElementById('logoutBtn').onclick = () => {
-        localStorage.removeItem('alya_logged');
-        mainApp.style.opacity = '0';
-        setTimeout(() => {
-            mainApp.style.display = 'none';
-            authOverlay.style.display = 'flex';
-            loginCard.style.display = 'block';
-            registerCard.style.display = 'none';
-        }, 300);
-    };
-
-    const savedSession = localStorage.getItem('alya_logged');
-    if (savedSession) {
-        const session = JSON.parse(savedSession);
-        authOverlay.style.display = 'none';
-        mainApp.style.display = 'block';
-        setTimeout(() => mainApp.style.opacity = '1', 50);
-        userEmailSpan.textContent = session.email;
-    }
-
-    // ========== CARGA DE ENDPOINTS DESDE SETTINGS ==========
-    let settings = { categories: [] };
-
-    async function loadSettings() {
-        try {
-            const response = await fetch('/src/settings.json');
-            settings = await response.json();
-            renderHomeEndpoints();
-            renderAllEndpoints();
-        } catch (error) {
-            console.error('Error cargando settings:', error);
-            document.getElementById('homeEndpoints').innerHTML = '<div class="alert alert-danger">Error cargando endpoints. Asegúrate de que el archivo settings.json existe en /src/settings.json</div>';
-        }
-    }
-
-    function renderHomeEndpoints() {
-        const container = document.getElementById('homeEndpoints');
-        if (!settings.categories || settings.categories.length === 0) {
-            container.innerHTML = '<div class="alert alert-warning">No hay endpoints configurados</div>';
-            return;
-        }
-        // Mostrar primeros 3 endpoints de la primera categoría
-        const firstCategory = settings.categories[0];
-        const items = firstCategory.items.slice(0, 3);
-        container.innerHTML = items.map(item => createEndpointCard(item)).join('');
-        attachTryButtons();
-    }
-
-    function renderAllEndpoints() {
-        const container = document.getElementById('allEndpointsGrid');
-        if (!settings.categories || settings.categories.length === 0) {
-            container.innerHTML = '<div class="alert alert-warning">No hay endpoints configurados</div>';
-            return;
-        }
-        let allItems = [];
-        settings.categories.forEach(cat => {
-            allItems = [...allItems, ...cat.items];
-        });
-        container.innerHTML = allItems.map(item => createEndpointCard(item)).join('');
-        attachTryButtons();
-    }
-
-    function createEndpointCard(item) {
-        const paramsText = item.params ? item.params.map(p => `${p.name}: ${p.desc}`).join(' · ') : 'Sin parámetros';
-        return `
-            <div class="api-card">
-                <div class="card-header"><span class="card-title">${item.name}</span><span class="method">GET</span></div>
-                <div class="card-desc">${item.desc || paramsText}</div>
-                <button class="try-btn" data-path="${item.path}" data-params='${JSON.stringify(item.params || [])}'>Probar Endpoint</button>
-            </div>
-        `;
-    }
-
-    function attachTryButtons() {
-        document.querySelectorAll('.try-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const path = btn.dataset.path;
-                const paramsList = JSON.parse(btn.dataset.params);
-                showEndpointModal(path, paramsList);
+            menuToggle.addEventListener('click', () => {
+                menuToggle.classList.toggle('active');
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
             });
-        });
-    }
 
-    let currentModal = null;
-    function showEndpointModal(path, paramsList) {
-        if (currentModal) currentModal.hide();
-        const modalHtml = `
-            <div class="modal fade" id="apiModal" tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered modal-lg">
-                    <div class="modal-content bg-dark text-white">
-                        <div class="modal-header border-secondary"><h5 class="modal-title">${path}</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div>
-                        <div class="modal-body">
-                            <div id="paramInputs"></div>
-                            <button class="btn btn-danger w-100" id="executeApiBtn">Ejecutar</button>
-                            <pre id="apiResponse" class="mt-3 p-3 bg-black rounded" style="color:#A5F3C3;">// Esperando ejecución...</pre>
-                        </div>
+            overlay.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            });
+
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const page = item.dataset.page;
+                    const category = item.dataset.category;
+
+                    document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+
+                    if (page === 'category') {
+                        renderPage('category', category);
+                    } else {
+                        renderPage(page);
+                    }
+
+                    menuToggle.classList.remove('active');
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                });
+            });
+
+            window.addEventListener('scroll', () => {
+                const topBar = document.querySelector('.top-bar');
+                if (window.scrollY > 0) {
+                    topBar.classList.add('scrolled');
+                } else {
+                    topBar.classList.remove('scrolled');
+                }
+            });
+        }
+
+        function renderPage(page, category = null) {
+            currentPage = page;
+            const content = document.getElementById('mainContent');
+
+            switch (page) {
+                case 'home':
+                    renderHomePage(content);
+                    break;
+                case 'status':
+                    renderStatusPage(content);
+                    break;
+                case 'category':
+                    renderCategoryPage(content, category);
+                    break;
+                case 'all':
+                    renderAllEndpoints(content);
+                    break;
+            }
+        }
+
+        function renderHomePage(container) {
+            const imageSrc = Array.isArray(settings.header.imageSrc) && settings.header.imageSrc.length > 0
+                ? settings.header.imageSrc[Math.floor(Math.random() * settings.header.imageSrc.length)]
+                : 'https://files.catbox.moe/osy7r9.jpg';
+
+            container.innerHTML = `
+                <div class="home-banner">
+                    <img src="${imageSrc}" alt="${settings.name}" style="max-width: ${settings.header.imageSize?.desktop || '50%'}">
+                    <h1 class="home-title">${settings.name || 'API GOHAN'}</h1>
+                    <div class="home-version">${settings.version || 'v1.0'}</div>
+                    <p class="home-description">${settings.description || 'API Documentation'}</p>
+                </div>
+            `;
+        }
+
+        async function renderStatusPage(container) {
+            container.innerHTML = '<div style="text-align: center; padding: 40px;"><div class="spinner-border"></div></div>';
+
+            try {
+                const response = await fetch('/status');
+                const data = await response.json();
+
+                container.innerHTML = `
+                    <h2 style="font-size: 28px; font-weight: 700; margin-bottom: 30px;"><i class="fas fa-chart-line me-2"></i> API Status</h2>
+                    <div class="status-grid">
+                        <div class="status-card"><div class="status-card-title">Status</div><div class="status-card-value" style="color: #10b981;">Online</div></div>
+                        <div class="status-card"><div class="status-card-title">Version</div><div class="status-card-value">${settings.version || 'N/A'}</div></div>
+                        <div class="status-card"><div class="status-card-title">Total Requests</div><div class="status-card-value">${data.total_requests || 0}</div></div>
+                        <div class="status-card"><div class="status-card-title">Active Users</div><div class="status-card-value">${data.active_users || 0}</div></div>
+                        <div class="status-card"><div class="status-card-title">Daily Limit</div><div class="status-card-value">${data.daily_limit || 'N/A'}</div></div>
+                        <div class="status-card"><div class="status-card-title">Routes Loaded</div><div class="status-card-value">${data.routes_loaded || 0}</div></div>
+                        <div class="status-card"><div class="status-card-title">Uptime</div><div class="status-card-value">${formatUptime(data.uptime_seconds)}</div></div>
+                        <div class="status-card"><div class="status-card-title">API Latency</div><div class="status-card-value">${data.api_latency_ms || 0}ms</div></div>
+                        <div class="status-card"><div class="status-card-title">CPU Cores</div><div class="status-card-value">${data.system?.cores || 'N/A'}</div><div class="status-card-small">${data.system?.cpu_model || ''}</div></div>
+                        <div class="status-card"><div class="status-card-title">CPU Load</div><div class="status-card-value">${data.system?.cpu_load_percent || 0}%</div></div>
+                        <div class="status-card"><div class="status-card-title">RAM Usage</div><div class="status-card-value">${data.system?.ram_used_gb || 0} GB</div><div class="status-card-small">of ${data.system?.ram_total_gb || 0} GB</div></div>
+                        <div class="status-card"><div class="status-card-title">Disk Usage</div><div class="status-card-value">${data.system?.disk_used_gb || 0} GB</div><div class="status-card-small">of ${data.system?.disk_total_gb || 0} GB</div></div>
+                    </div>
+                `;
+            } catch (error) {
+                container.innerHTML = '<p style="text-align: center; color: #dc3545;">Failed to load status</p>';
+            }
+        }
+
+        function renderCategoryPage(container, categoryName) {
+            const category = settings.categories.find(c => c.name === categoryName);
+            if (!category) return;
+
+            const sortedItems = [...category.items].sort((a, b) => a.name.localeCompare(b.name));
+
+            container.innerHTML = `
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="🔍 Search endpoints..." id="searchInput">
+                </div>
+                <div class="category-section">
+                    <h2 class="category-title"><i class="fas fa-folder-open me-2"></i> ${category.name}</h2>
+                    <div class="endpoints-grid" id="endpointsGrid">
+                        ${sortedItems.map(item => createEndpointCard(item)).join('')}
                     </div>
                 </div>
-            </div>
-        `;
-        const existing = document.getElementById('apiModal');
-        if (existing) existing.remove();
-        document.body.insertAdjacentHTML('beforeend', modalHtml);
-        const modalEl = document.getElementById('apiModal');
-        currentModal = new bootstrap.Modal(modalEl);
-        const inputsDiv = document.getElementById('paramInputs');
-        if (paramsList && paramsList.length > 0) {
-            inputsDiv.innerHTML = paramsList.map(p => `
-                <div class="mb-3"><label class="form-label">${p.name} ${p.required ? '*' : ''}</label>
-                <input type="text" class="form-control bg-dark text-white border-secondary" id="param_${p.name}" placeholder="${p.desc || ''}"></div>
-            `).join('');
-        } else {
-            inputsDiv.innerHTML = '<p class="text-muted">Este endpoint no requiere parámetros</p>';
+            `;
+
+            setupSearch();
+            setupEndpointButtons();
         }
-        document.getElementById('executeApiBtn').onclick = async () => {
-            const params = {};
-            if (paramsList && paramsList.length > 0) {
-                for (let p of paramsList) {
-                    const val = document.getElementById(`param_${p.name}`)?.value.trim();
-                    if (p.required && !val) return alert(`Campo ${p.name} es requerido`);
-                    if (val) params[p.name] = val;
+
+        function renderAllEndpoints(container) {
+            container.innerHTML = `
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="🔍 Search endpoints..." id="searchInput">
+                </div>
+                <div id="allCategories"></div>
+            `;
+
+            const allCategories = document.getElementById('allCategories');
+            settings.categories.forEach(category => {
+                const sortedItems = [...category.items].sort((a, b) => a.name.localeCompare(b.name));
+
+                allCategories.innerHTML += `
+                    <div class="category-section" data-category="${category.name}">
+                        <h2 class="category-title"><i class="fas fa-cube me-2"></i> ${category.name}</h2>
+                        <div class="endpoints-grid">
+                            ${sortedItems.map(item => createEndpointCard(item)).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+
+            setupSearch();
+            setupEndpointButtons();
+        }
+
+        function createEndpointCard(item) {
+            return `
+                <div class="endpoint-card" data-name="${item.name.toLowerCase()}" data-desc="${item.desc.toLowerCase()}">
+                    <div class="endpoint-info">
+                        <div class="endpoint-name"><i class="fas fa-code me-2"></i> ${item.name}</div>
+                        <div class="endpoint-desc">${item.desc}</div>
+                    </div>
+                    <button class="endpoint-btn" data-path="${item.path}" data-name="${item.name}" data-desc="${item.desc}" data-inner-desc="${item.innerDesc || ''}">
+                        GET <i class="fas fa-arrow-right ms-1"></i>
+                    </button>
+                </div>
+            `;
+        }
+
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            if (!searchInput) return;
+
+            searchInput.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                const cards = document.querySelectorAll('.endpoint-card');
+                const sections = document.querySelectorAll('.category-section');
+
+                cards.forEach(card => {
+                    const name = card.dataset.name;
+                    const desc = card.dataset.desc;
+                    const matches = name.includes(term) || desc.includes(term);
+                    card.style.display = matches ? '' : 'none';
+                });
+
+                sections.forEach(section => {
+                    const visibleCards = section.querySelectorAll('.endpoint-card:not([style*="display: none"])');
+                    section.style.display = visibleCards.length > 0 ? '' : 'none';
+                });
+            });
+        }
+
+        function setupEndpointButtons() {
+            document.querySelectorAll('.endpoint-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const path = btn.dataset.path;
+                    const name = btn.dataset.name;
+                    const desc = btn.dataset.desc;
+                    const innerDesc = btn.dataset.innerDesc;
+
+                    openModal(path, name, desc, innerDesc);
+                });
+            });
+        }
+
+        function openModal(path, name, desc, innerDesc) {
+            const modal = new bootstrap.Modal(document.getElementById('apiModal'));
+
+            document.getElementById('modalTitle').textContent = name;
+            document.getElementById('modalDesc').textContent = desc;
+            document.getElementById('endpointBox').style.display = 'none';
+            document.getElementById('paramsContainer').innerHTML = '';
+            document.getElementById('responseContainer').innerHTML = '';
+            document.getElementById('submitBtn').style.display = 'none';
+
+            const baseUrl = window.location.origin + path;
+            const urlParts = path.split('?');
+            const params = new URLSearchParams(urlParts[1] || '');
+            const hasParams = Array.from(params.keys()).length > 0;
+
+            if (hasParams) {
+                const paramsContainer = document.getElementById('paramsContainer');
+
+                Array.from(params.keys()).forEach(param => {
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.className = 'param-input';
+                    input.placeholder = `Enter ${param}...`;
+                    input.dataset.param = param;
+                    input.required = true;
+                    paramsContainer.appendChild(input);
+                });
+
+                if (innerDesc) {
+                    const descDiv = document.createElement('div');
+                    descDiv.className = 'inner-desc';
+                    descDiv.innerHTML = `<i class="fas fa-info-circle me-1"></i> ${innerDesc.replace(/\n/g, '<br>')}`;
+                    paramsContainer.appendChild(descDiv);
                 }
+
+                const submitBtn = document.getElementById('submitBtn');
+                submitBtn.style.display = 'block';
+                submitBtn.disabled = true;
+
+                paramsContainer.querySelectorAll('.param-input').forEach(input => {
+                    input.addEventListener('input', () => {
+                        const allInputs = paramsContainer.querySelectorAll('.param-input');
+                        const allFilled = Array.from(allInputs).every(inp => inp.value.trim() !== '');
+                        submitBtn.disabled = !allFilled;
+                    });
+                });
+
+                submitBtn.onclick = () => {
+                    const inputs = paramsContainer.querySelectorAll('.param-input');
+                    const newParams = new URLSearchParams();
+                    let isValid = true;
+
+                    inputs.forEach(input => {
+                        if (!input.value.trim()) {
+                            isValid = false;
+                            input.classList.add('is-invalid');
+                        } else {
+                            input.classList.remove('is-invalid');
+                            newParams.append(input.dataset.param, input.value.trim());
+                        }
+                    });
+
+                    if (!isValid) return;
+
+                    const fullUrl = `${window.location.origin}${urlParts[0]}?${newParams.toString()}`;
+                    paramsContainer.innerHTML = '';
+                    submitBtn.style.display = 'none';
+                    makeApiRequest(fullUrl);
+                };
+            } else {
+                makeApiRequest(baseUrl);
             }
-            const query = new URLSearchParams(params).toString();
-            const url = `${window.location.origin}${path}${query ? '?' + query : ''}`;
-            const respDiv = document.getElementById('apiResponse');
-            respDiv.textContent = 'Cargando...';
+
+            modal.show();
+        }
+
+        async function makeApiRequest(url) {
+            const endpointBox = document.getElementById('endpointBox');
+            const loadingContainer = document.getElementById('loadingContainer');
+            const responseContainer = document.getElementById('responseContainer');
+
+            endpointBox.textContent = url;
+            endpointBox.style.display = 'block';
+            loadingContainer.style.display = 'block';
+            responseContainer.innerHTML = '';
+
             try {
-                const res = await fetch(url);
-                const data = await res.json();
-                respDiv.textContent = JSON.stringify(data, null, 2);
-            } catch (e) {
-                respDiv.textContent = `Error: ${e.message}`;
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const contentType = response.headers.get('Content-Type');
+
+                if (contentType && contentType.startsWith('image/')) {
+                    const blob = await response.blob();
+                    const imageUrl = URL.createObjectURL(blob);
+
+                    const img = document.createElement('img');
+                    img.src = imageUrl;
+                    img.className = 'response-image';
+                    responseContainer.appendChild(img);
+                } else {
+                    const data = await response.json();
+                    const pre = document.createElement('pre');
+                    pre.className = 'response-box';
+                    pre.textContent = JSON.stringify(data, null, 2);
+                    responseContainer.appendChild(pre);
+                }
+            } catch (error) {
+                const pre = document.createElement('pre');
+                pre.className = 'response-box';
+                pre.textContent = `Error: ${error.message}`;
+                pre.style.color = '#f87171';
+                responseContainer.appendChild(pre);
+            } finally {
+                loadingContainer.style.display = 'none';
             }
-        };
-        currentModal.show();
-        modalEl.addEventListener('hidden.bs.modal', () => { currentModal = null; modalEl.remove(); });
-    }
+        }
 
-    function loadStatus() {
-        const container = document.getElementById('statusCards');
-        container.innerHTML = `
-            <div class="col-md-4"><div class="api-card"><div class="card-header"><span>API Status</span></div><div style="font-size:32px; font-weight:700; color:#10B981;">● Online</div><div>Respuesta instantánea</div></div></div>
-            <div class="col-md-4"><div class="api-card"><div class="card-header"><span>Request hoy</span></div><div style="font-size:32px; font-weight:700;">1,234</div><div>Peticiones realizadas</div></div></div>
-            <div class="col-md-4"><div class="api-card"><div class="card-header"><span>Uptime</span></div><div style="font-size:32px; font-weight:700;">99.98%</div><div>Disponibilidad</div></div></div>
-        `;
-    }
+        function formatUptime(seconds) {
+            if (!seconds) return 'N/A';
+            const days = Math.floor(seconds / 86400);
+            const hours = Math.floor((seconds % 86400) / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            if (days > 0) return `${days}d ${hours}h`;
+            if (hours > 0) return `${hours}h ${minutes}m`;
+            return `${minutes}m`;
+        }
 
-    // Sidebar navigation
-    const sectionsElements = {
-        home: document.getElementById('homeSection'),
-        endpoints: document.getElementById('endpointsSection'),
-        status: document.getElementById('statusSection')
-    };
-
-    function showSection(section) {
-        Object.keys(sectionsElements).forEach(s => {
-            sectionsElements[s].style.display = 'none';
-        });
-        sectionsElements[section].style.display = 'block';
-        document.querySelectorAll('.sidebar-item').forEach(item => item.classList.remove('active'));
-        document.querySelector(`.sidebar-item[data-section="${section}"]`).classList.add('active');
-        if (section === 'status') loadStatus();
-    }
-
-    document.querySelectorAll('.sidebar-item').forEach(item => {
-        item.addEventListener('click', () => showSection(item.dataset.section));
-    });
-
-    // Inicializar
-    loadSettings();
-    showSection('home');
-</script>
+        function hideLoading() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            loadingScreen.classList.add('fade-out');
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+                document.body.classList.remove('no-scroll');
+            }, 500);
+        }
+    </script>
 </body>
 </html>
