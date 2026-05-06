@@ -9,26 +9,25 @@ module.exports = function(app) {
             return res.status(400).json({
                 status: false,
                 creator: "DVLYONN",
-                error: "Falta el parámetro 'q'",
-                usage: "/search/facebook?q=BadBunny&limit=10"
+                error: "Falta el parámetro 'q'"
             });
         }
 
         try {
-           
-            const apiUrl = `https://api.akng.io.vn/graph/v19.0/search?q=${encodeURIComponent(query)}&type=post&limit=${Math.min(limit, 25)}&access_token=public_key`;
+            // API pública de Facebook (sin token, funciona)
+            const apiUrl = `https://fb-search.vercel.app/search?q=${encodeURIComponent(query)}&limit=${limit}`;
             const response = await axios.get(apiUrl, { timeout: 15000 });
             
-            const posts = response.data.data || [];
+            const posts = response.data.posts || [];
             const results = posts.map(post => ({
                 id: post.id,
-                message: post.message || 'Sin texto',
-                created_time: post.created_time,
-                permalink_url: `https://facebook.com/${post.id}`,
-                from: post.from || { name: 'Usuario' },
-                likes: post.likes?.summary?.total_count || 0,
-                comments: post.comments?.summary?.total_count || 0,
-                shares: post.shares?.count || 0
+                message: post.text || 'Sin texto',
+                created_time: post.timestamp,
+                permalink_url: post.url,
+                from: { name: post.author },
+                likes: post.likes || 0,
+                comments: post.comments || 0,
+                shares: post.shares || 0
             }));
             
             return res.json({
@@ -43,7 +42,7 @@ module.exports = function(app) {
             res.status(500).json({
                 status: false,
                 creator: "DVLYONN",
-                error: "No se pudieron obtener resultados"
+                error: "No se pudieron obtener resultados. La API pública puede estar caída temporalmente."
             });
         }
     });
