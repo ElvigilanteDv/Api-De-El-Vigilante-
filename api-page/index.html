@@ -1,10 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍚</text></svg>">
-    <title>ALYA · API Profesional</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💙</text></svg>">
+    <title>DANNY APIS · Profesional</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -21,50 +22,82 @@
             overflow-x: hidden;
         }
 
-        /* ========== TEMA BLANCO ========== */
-        body.white-theme {
-            background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
-            color: #0f172a;
+        /* ========== TEMA AZUL OSCURO / MARINO (único) ========== */
+        body.blue-theme {
+            background: linear-gradient(135deg, #0a192f 0%, #0b2b3b 100%);
+            color: #e0f2fe;
         }
 
-        /* ========== TEMA NEGRO ========== */
-        body.black-theme {
-            background: linear-gradient(135deg, #0a0f1a 0%, #0f172a 100%);
-            color: #e2e8f0;
-        }
-
-        body.black-theme .top-bar,
-        body.black-theme .sidebar,
-        body.black-theme .status-card,
-        body.black-theme .endpoint-card,
-        body.black-theme .auth-card,
-        body.black-theme .modal-content,
-        body.black-theme .stat-card {
-            background: rgba(15, 23, 42, 0.95);
+        body.blue-theme .top-bar,
+        body.blue-theme .sidebar,
+        body.blue-theme .status-card,
+        body.blue-theme .endpoint-card,
+        body.blue-theme .auth-card,
+        body.blue-theme .modal-content,
+        body.blue-theme .stat-card {
+            background: rgba(10, 35, 55, 0.92);
             backdrop-filter: blur(12px);
-            border-color: #334155;
-            color: #f1f5f9;
+            border-color: #1e4a6e;
+            color: #f0f9ff;
         }
 
-        body.black-theme .search-input {
-            background: #1e293b;
-            border-color: #475569;
+        body.blue-theme .search-input {
+            background: #0b2b3b;
+            border-color: #2c6e9e;
+            color: #ffffff;
+        }
+
+        body.blue-theme .response-box {
+            background: #071a28;
+            border: 1px solid #1e4a6e;
+            color: #b9e6ff;
+        }
+
+        body.blue-theme .sidebar-item:hover {
+            background: #0d3b50;
+        }
+
+        body.blue-theme .sidebar-item.active {
+            background: #0f4a62;
+            border-left-color: #38bdf8;
+            color: #7dd3fc;
+        }
+
+        body.blue-theme .stat-number {
+            color: #38bdf8;
+        }
+
+        body.blue-theme .endpoint-btn {
+            background: linear-gradient(135deg, #0f4a62, #0a2a3b);
             color: white;
         }
 
-        body.black-theme .response-box {
-            background: #0f172a;
-            border: 1px solid #334155;
+        body.blue-theme .endpoint-btn:hover {
+            background: linear-gradient(135deg, #1e6a8a, #0f4a62);
         }
 
-        body.black-theme .sidebar-item:hover {
-            background: #1e293b;
+        body.blue-theme .submit-btn {
+            background: linear-gradient(135deg, #0f4a62, #0a2a3b);
         }
 
-        body.black-theme .sidebar-item.active {
-            background: #1e293b;
-            border-left-color: #f43f5e;
-            color: #f43f5e;
+        body.blue-theme .submit-btn:hover {
+            background: linear-gradient(135deg, #1e6a8a, #0f4a62);
+        }
+
+        body.blue-theme .live-url-box {
+            background: #071a28;
+            color: #38bdf8;
+            border-color: #1e6a8e;
+        }
+
+        body.blue-theme .home-version {
+            background: #1e6a8a;
+            color: white;
+        }
+
+        body.blue-theme .footer {
+            border-top-color: #1e4a6e;
+            color: #7fa3bc;
         }
 
         /* Loading Screen */
@@ -74,7 +107,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+            background: linear-gradient(135deg, #0a192f 0%, #0b2b3b 100%);
             z-index: 10000;
             display: flex;
             justify-content: center;
@@ -83,19 +116,11 @@
             transition: opacity 0.5s ease;
         }
 
-        body.black-theme #loadingScreen {
-            background: linear-gradient(135deg, #0a0f1a 0%, #0f172a 100%);
-        }
-
-        #loadingScreen.fade-out {
-            opacity: 0;
-        }
-
         .spinner-border {
             width: 3rem;
             height: 3rem;
-            border: 3px solid #e2e8f0;
-            border-top-color: #e11d48;
+            border: 3px solid #e0f2fe;
+            border-top-color: #38bdf8;
         }
 
         /* ========== REPRODUCTOR FLOTANTE ========== */
@@ -104,13 +129,13 @@
             bottom: 20px;
             right: 20px;
             width: 320px;
-            background: rgba(15, 23, 42, 0.96);
+            background: rgba(10, 35, 55, 0.96);
             backdrop-filter: blur(12px);
             border-radius: 24px;
             padding: 15px;
             z-index: 10000;
-            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(56, 189, 248, 0.3);
             transition: all 0.3s ease;
         }
 
@@ -131,7 +156,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
-            color: white;
+            color: #e0f2fe;
         }
 
         .music-title {
@@ -147,7 +172,7 @@
         .music-toggle-min {
             background: none;
             border: none;
-            color: white;
+            color: #e0f2fe;
             cursor: pointer;
             font-size: 16px;
             padding: 0 5px;
@@ -160,14 +185,14 @@
         }
 
         .song-name {
-            color: white;
+            color: #e0f2fe;
             font-size: 14px;
             font-weight: 600;
             margin-bottom: 5px;
         }
 
         .artist-name {
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(56, 189, 248, 0.7);
             font-size: 11px;
         }
 
@@ -180,7 +205,7 @@
         }
 
         .progress-bar {
-            background: #e11d48;
+            background: #38bdf8;
             border-radius: 10px;
             height: 100%;
             width: 0%;
@@ -190,7 +215,7 @@
         .time-info {
             display: flex;
             justify-content: space-between;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(56, 189, 248, 0.6);
             font-size: 10px;
             margin-bottom: 10px;
         }
@@ -204,7 +229,7 @@
         }
 
         .control-btn {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(56, 189, 248, 0.2);
             border: none;
             border-radius: 50%;
             width: 32px;
@@ -214,22 +239,23 @@
             justify-content: center;
             cursor: pointer;
             transition: all 0.2s ease;
-            color: white;
+            color: #e0f2fe;
         }
 
         .control-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(56, 189, 248, 0.4);
             transform: scale(1.05);
         }
 
         .control-btn.play-btn {
-            background: #e11d48;
+            background: #38bdf8;
             width: 42px;
             height: 42px;
+            color: #0a192f;
         }
 
         .control-btn.play-btn:hover {
-            background: #be123c;
+            background: #7dd3fc;
         }
 
         /* ========== TOP BAR ========== */
@@ -239,20 +265,15 @@
             left: 0;
             right: 0;
             height: 64px;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(10, 35, 55, 0.96);
             backdrop-filter: blur(12px);
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid #1e6a8e;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 28px;
             z-index: 1000;
             transition: all 0.3s ease;
-        }
-
-        body.black-theme .top-bar {
-            background: rgba(15, 23, 42, 0.95);
-            border-bottom-color: #334155;
         }
 
         .top-bar-left {
@@ -277,24 +298,16 @@
         }
 
         .menu-toggle:hover {
-            background: #f1f5f9;
-        }
-
-        body.black-theme .menu-toggle:hover {
-            background: #334155;
+            background: #1e4a6e;
         }
 
         .menu-toggle span {
             display: block;
             width: 22px;
             height: 2px;
-            background: #1e293b;
+            background: #e0f2fe;
             transition: all 0.3s ease;
             border-radius: 2px;
-        }
-
-        body.black-theme .menu-toggle span {
-            background: #e2e8f0;
         }
 
         .menu-toggle.active span:nth-child(1) {
@@ -312,7 +325,7 @@
         .api-name {
             font-size: 22px;
             font-weight: 800;
-            background: linear-gradient(135deg, #e11d48, #f97316);
+            background: linear-gradient(135deg, #7dd3fc, #38bdf8);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -325,10 +338,9 @@
             align-items: center;
         }
 
-        .theme-toggle-btn,
         .logout-btn {
             background: none;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #1e6a8e;
             border-radius: 40px;
             padding: 6px 16px;
             font-size: 13px;
@@ -338,19 +350,13 @@
             display: flex;
             align-items: center;
             gap: 6px;
+            color: #e0f2fe;
         }
 
-        body.black-theme .theme-toggle-btn,
-        body.black-theme .logout-btn {
-            border-color: #475569;
-            color: #f1f5f9;
-        }
-
-        .theme-toggle-btn:hover,
         .logout-btn:hover {
-            background: #e11d48;
-            color: white;
-            border-color: #e11d48;
+            background: #38bdf8;
+            color: #0a192f;
+            border-color: #38bdf8;
         }
 
         /* ========== SIDEBAR ========== */
@@ -360,9 +366,9 @@
             left: -280px;
             width: 280px;
             height: calc(100vh - 64px);
-            background: rgba(255, 255, 255, 0.98);
+            background: rgba(10, 35, 55, 0.98);
             backdrop-filter: blur(12px);
-            border-right: 1px solid #e2e8f0;
+            border-right: 1px solid #1e6a8e;
             overflow-y: auto;
             transition: left 0.3s ease;
             z-index: 999;
@@ -378,7 +384,7 @@
             left: 0;
             width: 100%;
             height: calc(100vh - 64px);
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.5);
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s ease;
@@ -401,24 +407,25 @@
             border-left: 3px solid transparent;
             font-size: 14px;
             font-weight: 500;
+            color: #cbd5e6;
         }
 
         .sidebar-item:hover {
-            background: #f8fafc;
-            color: #e11d48;
+            background: #0d3b50;
+            color: #7dd3fc;
         }
 
         .sidebar-item.active {
-            background: #fef2f2;
-            border-left-color: #e11d48;
-            color: #e11d48;
+            background: #0f4a62;
+            border-left-color: #38bdf8;
+            color: #7dd3fc;
         }
 
         .sidebar-category {
             padding: 20px 24px 8px;
             font-size: 11px;
             font-weight: 700;
-            color: #94a3b8;
+            color: #5d8fae;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -442,14 +449,15 @@
         .home-banner img {
             max-width: 55%;
             border-radius: 32px;
-            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.4);
             margin-bottom: 30px;
+            border: 2px solid #38bdf8;
         }
 
         .home-title {
             font-size: 56px;
             font-weight: 800;
-            background: linear-gradient(135deg, #e11d48, #f97316);
+            background: linear-gradient(135deg, #7dd3fc, #38bdf8);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -458,7 +466,7 @@
 
         .home-version {
             display: inline-block;
-            background: #e11d48;
+            background: #1e6a8a;
             color: white;
             padding: 6px 20px;
             border-radius: 50px;
@@ -476,35 +484,32 @@
         }
 
         .stat-card {
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(10, 35, 55, 0.8);
             backdrop-filter: blur(8px);
             border-radius: 28px;
             padding: 25px 35px;
             text-align: center;
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            border: 1px solid #1e6a8e;
             min-width: 180px;
             transition: all 0.2s;
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
+            border-color: #38bdf8;
         }
 
         .stat-number {
             font-size: 48px;
             font-weight: 800;
-            color: #e11d48;
+            color: #38bdf8;
         }
 
         .stat-label {
             font-size: 14px;
             font-weight: 500;
-            color: #64748b;
+            color: #9ec8e3;
             margin-top: 8px;
-        }
-
-        body.black-theme .stat-label {
-            color: #94a3b8;
         }
 
         /* ========== STATUS & ENDPOINTS ========== */
@@ -516,9 +521,9 @@
         }
 
         .status-card {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(10, 35, 55, 0.85);
             backdrop-filter: blur(10px);
-            border: 1px solid #e2e8f0;
+            border: 1px solid #1e6a8e;
             border-radius: 20px;
             padding: 24px;
             transition: all 0.3s ease;
@@ -526,7 +531,7 @@
 
         .status-card:hover {
             transform: translateY(-3px);
-            border-color: #e11d48;
+            border-color: #38bdf8;
         }
 
         .endpoints-grid {
@@ -536,9 +541,9 @@
         }
 
         .endpoint-card {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(10, 35, 55, 0.85);
             backdrop-filter: blur(8px);
-            border: 1px solid #e2e8f0;
+            border: 1px solid #1e6a8e;
             border-radius: 20px;
             padding: 20px;
             display: flex;
@@ -549,8 +554,8 @@
 
         .endpoint-card:hover {
             transform: translateY(-3px);
-            border-color: #e11d48;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            border-color: #38bdf8;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
         }
 
         .endpoint-info {
@@ -561,15 +566,16 @@
             font-size: 16px;
             font-weight: 700;
             margin-bottom: 6px;
+            color: #e0f2fe;
         }
 
         .endpoint-desc {
             font-size: 12px;
-            color: #64748b;
+            color: #9ec8e3;
         }
 
         .endpoint-btn {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
+            background: linear-gradient(135deg, #0f4a62, #0a2a3b);
             color: white;
             border: none;
             padding: 8px 20px;
@@ -583,12 +589,8 @@
         }
 
         .endpoint-btn:hover {
-            background: linear-gradient(135deg, #e11d48, #be123c);
+            background: linear-gradient(135deg, #1e6a8a, #0f4a62);
             transform: scale(1.02);
-        }
-
-        body.black-theme .endpoint-btn {
-            background: linear-gradient(135deg, #334155, #1e293b);
         }
 
         /* ========== SEARCH ========== */
@@ -599,18 +601,19 @@
         .search-input {
             width: 100%;
             padding: 14px 20px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #1e6a8e;
             border-radius: 60px;
             font-size: 15px;
             transition: all 0.3s ease;
             font-family: 'Inter', sans-serif;
-            background: white;
+            background: #0b2b3b;
+            color: #e0f2fe;
         }
 
         .search-input:focus {
             outline: none;
-            border-color: #e11d48;
-            box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.1);
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
         }
 
         .category-title {
@@ -618,71 +621,72 @@
             font-weight: 700;
             margin-bottom: 24px;
             padding-bottom: 12px;
-            border-bottom: 2px solid #e2e8f0;
+            border-bottom: 2px solid #1e6a8e;
+            color: #7dd3fc;
         }
 
         /* ========== MODAL ========== */
         .modal-content {
             border: none;
             border-radius: 24px;
-            overflow: hidden;
+            background: #0e2a3a;
+            color: #e0f2fe;
+        }
+
+        .modal-header .btn-close {
+            filter: invert(1);
         }
 
         .api-endpoint-box {
-            background: #f8fafc;
+            background: #071a28;
             padding: 12px;
             border-radius: 12px;
             font-family: monospace;
             font-size: 13px;
-            color: #e11d48;
+            color: #7dd3fc;
             word-break: break-all;
             margin-bottom: 20px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #1e6a8e;
         }
 
-        /* Nueva caja de URL en tiempo real */
         .live-url-box {
-            background: #1e293b;
+            background: #071a28;
             padding: 12px 16px;
             border-radius: 12px;
             font-family: monospace;
             font-size: 13px;
-            color: #10b981;
+            color: #38bdf8;
             word-break: break-all;
             margin-bottom: 20px;
-            border: 1px solid #334155;
-        }
-
-        body.white-theme .live-url-box {
-            background: #f1f5f9;
-            color: #e11d48;
-            border-color: #e2e8f0;
+            border: 1px solid #2c6e9e;
         }
 
         .param-input {
             width: 100%;
             padding: 12px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #1e6a8e;
             border-radius: 12px;
             font-size: 14px;
             margin-bottom: 12px;
             font-family: 'Inter', sans-serif;
             transition: all 0.3s ease;
+            background: #0b2b3b;
+            color: #e0f2fe;
         }
 
         .param-input:focus {
             outline: none;
-            border-color: #e11d48;
-            box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.1);
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
         }
 
         .response-box {
-            background: #1e293b;
+            background: #071a28;
             padding: 16px;
             border-radius: 14px;
             font-family: monospace;
             font-size: 12px;
-            color: #e2e8f0;
+            color: #b9e6ff;
             white-space: pre-wrap;
             word-wrap: break-word;
             max-height: 400px;
@@ -691,7 +695,7 @@
         }
 
         .submit-btn {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
+            background: linear-gradient(135deg, #0f4a62, #0a2a3b);
             color: white;
             border: none;
             padding: 10px 24px;
@@ -703,31 +707,28 @@
         }
 
         .submit-btn:hover {
-            background: linear-gradient(135deg, #e11d48, #be123c);
+            background: linear-gradient(135deg, #1e6a8a, #0f4a62);
         }
 
         /* ========== FOOTER ========== */
         .footer {
             text-align: center;
             padding: 30px;
-            border-top: 1px solid #e2e8f0;
+            border-top: 1px solid #1e6a8e;
             margin-top: 50px;
             font-size: 13px;
-            color: #94a3b8;
+            color: #7fa3bc;
         }
 
-        /* ========== AUTH MODAL ========== */
+        /* ========== AUTH MODAL (solo login) ========== */
         .auth-card {
             max-width: 440px;
             margin: auto;
-            background: white;
+            background: #0e2a3a;
             border-radius: 32px;
             padding: 32px;
-            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.2);
-        }
-
-        body.black-theme .auth-card {
-            background: #1e293b;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.4);
+            border: 1px solid #1e6a8e;
         }
 
         .auth-header {
@@ -739,6 +740,7 @@
             width: 90px;
             border-radius: 30px;
             margin-bottom: 15px;
+            border: 2px solid #38bdf8;
         }
 
         /* ========== ANIMATIONS ========== */
@@ -753,7 +755,6 @@
             }
         }
 
-        /* ========== RESPONSIVE ========== */
         @media (max-width: 768px) {
             .home-title {
                 font-size: 36px;
@@ -783,13 +784,13 @@
         }
     </style>
 </head>
-<body class="white-theme">
+<body class="blue-theme">
     <!-- LOADING SCREEN -->
     <div id="loadingScreen">
         <div class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
-        <p style="margin-top: 16px; font-weight: 500;">Cargando ALYA...</p>
+        <p style="margin-top: 16px; font-weight: 500; color: #e0f2fe;">Iniciando Danny Apis 💙</p>
     </div>
 
     <!-- REPRODUCTOR DE MÚSICA FLOTANTE -->
@@ -825,10 +826,9 @@
                 <span></span>
                 <span></span>
             </button>
-            <div class="api-name" id="apiName">ALYA</div>
+            <div class="api-name" id="apiName">DANNY APIS</div>
         </div>
         <div class="top-bar-right">
-            <button class="theme-toggle-btn" id="themeToggleBtn"><i class="fas fa-moon"></i> Oscuro</button>
             <button class="logout-btn" id="logoutBtn" style="display: none;"><i class="fas fa-sign-out-alt"></i> Salir</button>
         </div>
     </div>
@@ -837,8 +837,8 @@
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
     <div class="sidebar" id="sidebar">
         <div class="sidebar-nav">
-            <div class="sidebar-item active" data-page="home"><i class="fas fa-home me-2"></i> Home</div>
-            <div class="sidebar-item" data-page="status"><i class="fas fa-chart-line me-2"></i> Status</div>
+            <div class="sidebar-item active" data-page="home"><i class="fas fa-home me-2"></i> Inicio</div>
+            <div class="sidebar-item" data-page="status"><i class="fas fa-chart-line me-2"></i> Estado</div>
             <div class="sidebar-category"><i class="fas fa-tag me-2"></i> Categorías</div>
             <div id="categoriesNav"></div>
             <div class="sidebar-item" data-page="all"><i class="fas fa-cubes me-2"></i> Todos los endpoints</div>
@@ -850,7 +850,7 @@
 
     <!-- FOOTER -->
     <div class="footer">
-        <p id="footerText">✨ ALYA · API Profesional 🍚</p>
+        <p id="footerText">💙 DANNY APIS · Creada por Danny · Música: Acento Quinto Real</p>
     </div>
 
     <!-- MODAL PARA ENDPOINTS -->
@@ -866,7 +866,6 @@
                 </div>
                 <div class="modal-body">
                     <div class="api-endpoint-box" id="endpointBox" style="display: none;"></div>
-                    <!-- NUEVA CAJA DE URL EN TIEMPO REAL -->
                     <div class="live-url-box" id="liveUrlBox" style="display: none;">
                         <i class="fas fa-link me-2"></i> <span id="liveUrlText">https://ejemplo.com/api</span>
                     </div>
@@ -885,42 +884,27 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // ==================== AUTENTICACIÓN ====================
-        let currentUser = JSON.parse(localStorage.getItem('alya_user'));
-        let usersDB = JSON.parse(localStorage.getItem('alya_users') || '[]');
+        // ==================== AUTENTICACIÓN (SOLO LOGIN) ====================
+        let currentUser = JSON.parse(localStorage.getItem('danny_user'));
+        let usersDB = JSON.parse(localStorage.getItem('danny_users') || '[]');
 
-        function saveUsers() { localStorage.setItem('alya_users', JSON.stringify(usersDB)); }
-        function saveCurrentUser() { if(currentUser) localStorage.setItem('alya_user', JSON.stringify(currentUser)); else localStorage.removeItem('alya_user'); }
+        function saveUsers() { localStorage.setItem('danny_users', JSON.stringify(usersDB)); }
+        function saveCurrentUser() { if(currentUser) localStorage.setItem('danny_user', JSON.stringify(currentUser)); else localStorage.removeItem('danny_user'); }
 
         function showAuthModal() {
             const modalHTML = `
                 <div class="modal fade" id="authModal" tabindex="-1" data-bs-backdrop="static">
                     <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content auth-card" style="border: none;">
+                        <div class="modal-content auth-card">
                             <div class="auth-header">
-                                <img src="https://files.catbox.moe/osy7r9.jpg" alt="ALYA">
-                                <h3 class="mt-3">Bienvenido a ALYA</h3>
-                                <p class="text-muted">API Profesional</p>
+                                <img src="https://files.catbox.moe/osy7r9.jpg" alt="DANNY APIS">
+                                <h3 class="mt-3" style="color:#7dd3fc;">Bienvenido a Danny Apis</h3>
+                                <p class="text-info">API Profesional</p>
                             </div>
-                            <ul class="nav nav-tabs justify-content-center" id="authTab" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button" role="tab">Iniciar sesión</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register" type="button" role="tab">Registrarse</button>
-                                </li>
-                            </ul>
-                            <div class="tab-content mt-3">
-                                <div class="tab-pane fade show active" id="login" role="tabpanel">
-                                    <input type="text" id="loginUser" class="form-control mb-2" placeholder="Usuario">
-                                    <input type="password" id="loginPass" class="form-control mb-2" placeholder="Contraseña">
-                                    <button id="doLoginBtn" class="btn btn-danger w-100 mt-2">Entrar</button>
-                                </div>
-                                <div class="tab-pane fade" id="register" role="tabpanel">
-                                    <input type="text" id="regUser" class="form-control mb-2" placeholder="Nuevo usuario">
-                                    <input type="password" id="regPass" class="form-control mb-2" placeholder="Contraseña">
-                                    <button id="doRegBtn" class="btn btn-outline-danger w-100">Crear cuenta</button>
-                                </div>
+                            <div class="tab-pane fade show active">
+                                <input type="text" id="loginUser" class="form-control mb-2" placeholder="Usuario" style="background:#0b2b3b; border-color:#1e6a8e; color:white;">
+                                <input type="password" id="loginPass" class="form-control mb-2" placeholder="Contraseña" style="background:#0b2b3b; border-color:#1e6a8e; color:white;">
+                                <button id="doLoginBtn" class="btn w-100 mt-2" style="background:#38bdf8; color:#0a192f; font-weight:600;">Entrar</button>
                             </div>
                         </div>
                     </div>
@@ -944,24 +928,6 @@
                     alert('❌ Usuario o contraseña incorrectos');
                 }
             };
-
-            document.getElementById('doRegBtn').onclick = () => {
-                const user = document.getElementById('regUser').value.trim();
-                const pass = document.getElementById('regPass').value.trim();
-                if(!user || !pass) return alert('Completa todos los campos');
-                if(usersDB.find(u => u.username === user)) return alert('El usuario ya existe');
-                const newUser = { username: user, password: pass, createdAt: new Date().toISOString() };
-                usersDB.push(newUser);
-                saveUsers();
-                currentUser = newUser;
-                saveCurrentUser();
-                authModal.hide();
-                location.reload();
-            };
-
-            modalEl.addEventListener('hidden.bs.modal', () => {
-                if(!currentUser) showAuthModal();
-            });
         }
 
         if(!currentUser) {
@@ -975,36 +941,12 @@
         };
         if(currentUser) document.getElementById('logoutBtn').style.display = 'flex';
 
-        // ==================== TEMA OSCURO / CLARO ====================
-        let isDark = localStorage.getItem('alya_theme') === 'dark';
-        function applyTheme() {
-            if(isDark) {
-                document.body.classList.remove('white-theme');
-                document.body.classList.add('black-theme');
-                document.getElementById('themeToggleBtn').innerHTML = '<i class="fas fa-sun"></i> Claro';
-            } else {
-                document.body.classList.remove('black-theme');
-                document.body.classList.add('white-theme');
-                document.getElementById('themeToggleBtn').innerHTML = '<i class="fas fa-moon"></i> Oscuro';
-            }
-        }
-        applyTheme();
-        document.getElementById('themeToggleBtn').onclick = () => {
-            isDark = !isDark;
-            localStorage.setItem('alya_theme', isDark ? 'dark' : 'light');
-            applyTheme();
-        };
-
-        // ==================== REPRODUCTOR DE MÚSICA ====================
+        // ==================== REPRODUCTOR ====================
         const playlist = [
             { name: "Acento Quinto Real", artist: "Alya", url: "https://files.catbox.moe/65kqmi.mp3" },
             { name: "Una vaina loca", artist: "Alya", url: "https://files.catbox.moe/g2zd2z.mp3" }
         ];
-
-        let currentSongIndex = 0;
-        let isPlaying = false;
-        let isMinimized = false;
-
+        let currentSongIndex = 0, isPlaying = false, isMinimized = false;
         const audioEl = document.getElementById('audioPlayer');
         const playPauseBtn = document.getElementById('playPauseBtn');
         const prevBtn = document.getElementById('prevBtn');
@@ -1024,529 +966,102 @@
             artistNameEl.textContent = song.artist;
             audioEl.src = song.url;
             audioEl.load();
-            if(isPlaying) {
-                audioEl.play().catch(e => console.log('Error al reproducir:', e));
-            }
+            if(isPlaying) audioEl.play().catch(e=>console.log);
             updatePlayIcon();
         }
-
-        function updatePlayIcon() {
-            const icon = playPauseBtn.querySelector('i');
-            if(isPlaying) {
-                icon.className = 'fas fa-pause';
-            } else {
-                icon.className = 'fas fa-play';
-            }
-        }
-
-        function playPauseSong() {
-            if(isPlaying) {
-                audioEl.pause();
-            } else {
-                audioEl.play().catch(e => console.log('Error al reproducir:', e));
-            }
-            isPlaying = !isPlaying;
-            updatePlayIcon();
-        }
-
-        function nextSong() {
-            currentSongIndex = (currentSongIndex + 1) % playlist.length;
-            loadSong(currentSongIndex);
-            if(!isPlaying) {
-                playPauseSong();
-            }
-        }
-
-        function prevSong() {
-            currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
-            loadSong(currentSongIndex);
-            if(!isPlaying) {
-                playPauseSong();
-            }
-        }
-
-        function updateProgress() {
-            if(audioEl.duration && !isNaN(audioEl.duration)) {
-                const percent = (audioEl.currentTime / audioEl.duration) * 100;
-                progressBar.style.width = `${percent}%`;
-                currentTimeEl.textContent = formatTime(audioEl.currentTime);
-                durationEl.textContent = formatTime(audioEl.duration);
-            }
-        }
-
-        function formatTime(seconds) {
-            if(isNaN(seconds)) return "0:00";
-            const mins = Math.floor(seconds / 60);
-            const secs = Math.floor(seconds % 60);
-            return `${mins}:${secs.toString().padStart(2, '0')}`;
-        }
-
-        function setProgress(e) {
-            const rect = progressContainer.getBoundingClientRect();
-            const percent = (e.clientX - rect.left) / rect.width;
-            audioEl.currentTime = percent * audioEl.duration;
-        }
-
-        function toggleMinimizePlayer() {
-            isMinimized = !isMinimized;
-            if(isMinimized) {
-                musicPlayerDiv.classList.add('minimized');
-                toggleMinimizeBtn.textContent = '+';
-            } else {
-                musicPlayerDiv.classList.remove('minimized');
-                toggleMinimizeBtn.textContent = '−';
-            }
-        }
-
-        playPauseBtn.addEventListener('click', playPauseSong);
-        nextBtn.addEventListener('click', nextSong);
-        prevBtn.addEventListener('click', prevSong);
-        audioEl.addEventListener('timeupdate', updateProgress);
-        audioEl.addEventListener('ended', nextSong);
-        progressContainer.addEventListener('click', setProgress);
-        toggleMinimizeBtn.addEventListener('click', toggleMinimizePlayer);
-
+        function updatePlayIcon() { playPauseBtn.querySelector('i').className = isPlaying ? 'fas fa-pause' : 'fas fa-play'; }
+        function playPauseSong() { isPlaying ? audioEl.pause() : audioEl.play().catch(e=>console.log); isPlaying = !isPlaying; updatePlayIcon(); }
+        function nextSong() { currentSongIndex = (currentSongIndex+1)%playlist.length; loadSong(currentSongIndex); if(!isPlaying) playPauseSong(); }
+        function prevSong() { currentSongIndex = (currentSongIndex-1+playlist.length)%playlist.length; loadSong(currentSongIndex); if(!isPlaying) playPauseSong(); }
+        function updateProgress() { if(audioEl.duration && !isNaN(audioEl.duration)) { progressBar.style.width = `${(audioEl.currentTime/audioEl.duration)*100}%`; currentTimeEl.textContent = formatTime(audioEl.currentTime); durationEl.textContent = formatTime(audioEl.duration); } }
+        function formatTime(s) { if(isNaN(s)) return "0:00"; const m = Math.floor(s/60), seg = Math.floor(s%60); return `${m}:${seg.toString().padStart(2,'0')}`; }
+        function setProgress(e) { const rect = progressContainer.getBoundingClientRect(); audioEl.currentTime = ((e.clientX - rect.left)/rect.width) * audioEl.duration; }
+        function toggleMinimizePlayer() { isMinimized = !isMinimized; musicPlayerDiv.classList.toggle('minimized'); toggleMinimizeBtn.textContent = isMinimized ? '+' : '−'; }
+        playPauseBtn.onclick = playPauseSong; nextBtn.onclick = nextSong; prevBtn.onclick = prevSong; audioEl.ontimeupdate = updateProgress; audioEl.onended = nextSong; progressContainer.onclick = setProgress; toggleMinimizeBtn.onclick = toggleMinimizePlayer;
         loadSong(0);
 
-        // ==================== API Y DASHBOARD ====================
+        // ==================== API Y DASHBOARD (Danny Apis) ====================
         let settings = {
-            name: "ALYA",
-            version: "v2.0 · Alya",
-            description: "API profesional con endpoints listos para integrar",
-            header: {
-                imageSrc: ["https://files.catbox.moe/osy7r9.jpg"],
-                imageSize: { desktop: "50%" }
-            },
-            apiSettings: {
-                creator: "Alya"
-            },
+            name: "DANNY APIS",
+            version: "v2.0 · Danny",
+            description: "API profesional con endpoints creados por Danny",
+            header: { imageSrc: ["https://files.catbox.moe/osy7r9.jpg"], imageSize: { desktop: "50%" } },
+            apiSettings: { creator: "Danny" },
             categories: [
-                { 
-                    name: "Usuarios", 
-                    items: [
-                        { name: "Perfil", path: "/api/user", desc: "Obtener perfil de usuario", innerDesc: "Devuelve datos del perfil del usuario autenticado" }
-                    ] 
-                },
-                { 
-                    name: "Contenido", 
-                    items: [
-                        { name: "Feed", path: "/api/feed", desc: "Feed dinámico de contenido", innerDesc: "Obtiene las últimas publicaciones" }
-                    ] 
-                },
-                { 
-                    name: "Búsqueda", 
-                    items: [
-                        { name: "YouTube Search", path: "/search/youtube?q=", desc: "Buscar videos en YouTube", innerDesc: "Ejemplo: Goku Black" }
-                    ] 
-                },
-                { 
-                    name: "Música", 
-                    items: [
-                        { name: "Canción actual", path: "/api/song", desc: "Obtener información de la canción", innerDesc: "Devuelve los datos de la canción que suena actualmente" }
-                    ] 
-                }
+                { name: "Usuarios", items: [{ name: "Perfil", path: "/api/user", desc: "Obtener perfil de usuario", innerDesc: "Devuelve datos del perfil del usuario autenticado" }] },
+                { name: "Contenido", items: [{ name: "Feed", path: "/api/feed", desc: "Feed dinámico de contenido", innerDesc: "Obtiene las últimas publicaciones" }] },
+                { name: "Búsqueda", items: [{ name: "YouTube Search", path: "/search/youtube?q=", desc: "Buscar videos en YouTube", innerDesc: "Ejemplo: Goku Black" }] },
+                { name: "Música", items: [{ name: "Canción actual", path: "/api/song", desc: "Obtener información de la canción", innerDesc: "Devuelve los datos de la canción que suena actualmente" }] }
             ]
         };
-
         async function loadSettings() {
-            try {
-                const response = await fetch('/src/settings.json');
-                if(response.ok) {
-                    settings = await response.json();
-                }
-            } catch(e) {
-                console.log('Usando configuración por defecto');
-            }
-
-            document.title = settings.name || "ALYA";
-            document.getElementById('apiName').innerHTML = settings.name || "ALYA";
-            document.getElementById('footerText').innerHTML = `🍚 ${settings.name || 'ALYA'} · ${settings.apiSettings?.creator || 'Alya'} · Ac. Alya`;
-
+            try { const r = await fetch('/src/settings.json'); if(r.ok) settings = await r.json(); } catch(e) { console.log('default'); }
+            document.title = settings.name || "DANNY APIS";
+            document.getElementById('apiName').innerHTML = settings.name || "DANNY APIS";
+            document.getElementById('footerText').innerHTML = `💙 ${settings.name} · Creada por ${settings.apiSettings?.creator || 'Danny'} · Ac. Alya`;
             const categoriesNav = document.getElementById('categoriesNav');
-            if(settings.categories) {
-                settings.categories.forEach(category => {
-                    const item = document.createElement('div');
-                    item.className = 'sidebar-item';
-                    item.dataset.page = 'category';
-                    item.dataset.category = category.name;
-                    item.innerHTML = `<i class="fas fa-folder me-2"></i> ${category.name}`;
-                    categoriesNav.appendChild(item);
-                });
-            }
+            if(settings.categories) settings.categories.forEach(cat => { const div = document.createElement('div'); div.className = 'sidebar-item'; div.dataset.page = 'category'; div.dataset.category = cat.name; div.innerHTML = `<i class="fas fa-folder me-2"></i> ${cat.name}`; categoriesNav.appendChild(div); });
         }
-
+        function getTotalEndpoints() { let t=0; settings.categories?.forEach(c=> t+=c.items.length); return t; }
         function initUI() {
-            const menuToggle = document.getElementById('menuToggle');
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('sidebarOverlay');
-
-            menuToggle.addEventListener('click', () => {
-                menuToggle.classList.toggle('active');
-                sidebar.classList.toggle('active');
-                overlay.classList.toggle('active');
-            });
-
-            overlay.addEventListener('click', () => {
-                menuToggle.classList.remove('active');
-                sidebar.classList.remove('active');
-                overlay.classList.remove('active');
-            });
-
-            document.querySelectorAll('.sidebar-item').forEach(item => {
-                item.addEventListener('click', () => {
-                    const page = item.dataset.page;
-                    const category = item.dataset.category;
-
-                    document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
-                    item.classList.add('active');
-
-                    if(page === 'category') {
-                        renderPage('category', category);
-                    } else {
-                        renderPage(page);
-                    }
-
-                    menuToggle.classList.remove('active');
-                    sidebar.classList.remove('active');
-                    overlay.classList.remove('active');
-                });
-            });
+            const menuToggle = document.getElementById('menuToggle'), sidebar = document.getElementById('sidebar'), overlay = document.getElementById('sidebarOverlay');
+            menuToggle.onclick = () => { menuToggle.classList.toggle('active'); sidebar.classList.toggle('active'); overlay.classList.toggle('active'); };
+            overlay.onclick = () => { menuToggle.classList.remove('active'); sidebar.classList.remove('active'); overlay.classList.remove('active'); };
+            document.querySelectorAll('.sidebar-item').forEach(item => { item.onclick = () => { document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active')); item.classList.add('active'); const page = item.dataset.page, cat = item.dataset.category; renderPage(page==='category'?'category':page, cat); menuToggle.classList.remove('active'); sidebar.classList.remove('active'); overlay.classList.remove('active'); }; });
         }
-
-        function getTotalEndpoints() {
-            let total = 0;
-            if(settings.categories) {
-                settings.categories.forEach(cat => {
-                    total += cat.items.length;
-                });
-            }
-            return total;
-        }
-
-        function renderPage(page, category = null) {
+        function renderPage(page, category=null) {
             const container = document.getElementById('mainContent');
-
             if(page === 'home') {
-                const imageSrc = Array.isArray(settings.header.imageSrc) && settings.header.imageSrc.length > 0
-                    ? settings.header.imageSrc[Math.floor(Math.random() * settings.header.imageSrc.length)]
-                    : 'https://files.catbox.moe/osy7r9.jpg';
-
-                container.innerHTML = `
-                    <div class="home-banner">
-                        <img src="${imageSrc}" alt="${settings.name}">
-                        <h1 class="home-title">${settings.name}</h1>
-                        <div class="home-version">${settings.version}</div>
-                        <p class="text-secondary mb-4">${settings.description || 'API Documentation'}</p>
-                        <div class="stats-grid">
-                            <div class="stat-card">
-                                <div class="stat-number">${getTotalEndpoints()}</div>
-                                <div class="stat-label">Endpoints disponibles</div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-number">${settings.categories?.length || 0}</div>
-                                <div class="stat-label">Categorías</div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-number"><i class="fas fa-music"></i></div>
-                                <div class="stat-label">Acento Quinto Real</div>
-                            </div>
-                        </div>
-                        <p class="mt-3"><i class="fas fa-headphones text-danger"></i> Disfruta de "Una vaina loca" mientras exploras la API</p>
-                    </div>
-                `;
-            } 
-            else if(page === 'status') {
-                container.innerHTML = `
-                    <h2 class="category-title"><i class="fas fa-chart-line me-2"></i> Estado del sistema</h2>
-                    <div class="status-grid">
-                        <div class="status-card">
-                            <div class="status-card-title">API Status</div>
-                            <div class="status-card-value" style="color: #10b981;">🟢 Online</div>
-                        </div>
-                        <div class="status-card">
-                            <div class="status-card-title">Versión</div>
-                            <div class="status-card-value">${settings.version}</div>
-                        </div>
-                        <div class="status-card">
-                            <div class="status-card-title">Música Activa</div>
-                            <div class="status-card-value" style="color: #e11d48;">🎵 Una vaina loca</div>
-                        </div>
-                        <div class="status-card">
-                            <div class="status-card-title">Artista</div>
-                            <div class="status-card-value">Acento Quinto Real</div>
-                        </div>
-                    </div>
-                `;
-            }
-            else if(page === 'category' && category) {
-                const cat = settings.categories.find(c => c.name === category);
-                if(!cat) return;
-
-                container.innerHTML = `
-                    <div class="search-box">
-                        <input type="text" class="search-input" placeholder="🔍 Buscar endpoints..." id="searchInput">
-                    </div>
-                    <div class="category-section">
-                        <h2 class="category-title"><i class="fas fa-folder-open me-2"></i> ${cat.name}</h2>
-                        <div class="endpoints-grid" id="endpointsGrid">
-                            ${cat.items.map(item => `
-                                <div class="endpoint-card" data-name="${item.name.toLowerCase()}">
-                                    <div class="endpoint-info">
-                                        <div class="endpoint-name"><i class="fas fa-code me-2"></i> ${item.name}</div>
-                                        <div class="endpoint-desc">${item.desc}</div>
-                                    </div>
-                                    <button class="endpoint-btn" data-path="${item.path}" data-name="${item.name}" data-desc="${item.desc}" data-inner="${item.innerDesc || ''}">
-                                        GET <i class="fas fa-arrow-right ms-1"></i>
-                                    </button>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
-
-                setupSearch();
-                attachEndpointEvents();
-            }
-            else if(page === 'all') {
-                container.innerHTML = `
-                    <div class="search-box">
-                        <input type="text" class="search-input" placeholder="🔍 Buscar endpoints..." id="searchInput">
-                    </div>
-                    <div id="allCategories"></div>
-                `;
-
-                const allCategories = document.getElementById('allCategories');
-                if(settings.categories) {
-                    settings.categories.forEach(category => {
-                        allCategories.innerHTML += `
-                            <div class="category-section" data-category="${category.name}">
-                                <h2 class="category-title"><i class="fas fa-cube me-2"></i> ${category.name}</h2>
-                                <div class="endpoints-grid">
-                                    ${category.items.map(item => `
-                                        <div class="endpoint-card" data-name="${item.name.toLowerCase()}">
-                                            <div class="endpoint-info">
-                                                <div class="endpoint-name"><i class="fas fa-code me-2"></i> ${item.name}</div>
-                                                <div class="endpoint-desc">${item.desc}</div>
-                                            </div>
-                                            <button class="endpoint-btn" data-path="${item.path}" data-name="${item.name}" data-desc="${item.desc}" data-inner="${item.innerDesc || ''}">
-                                                GET <i class="fas fa-arrow-right ms-1"></i>
-                                            </button>
-                                        </div>
-                                    `).join('')}
-                                </div>
-                            </div>
-                        `;
-                    });
-                }
-
-                setupSearch();
-                attachEndpointEvents();
+                const imgSrc = Array.isArray(settings.header.imageSrc)? settings.header.imageSrc[0]:'https://files.catbox.moe/osy7r9.jpg';
+                container.innerHTML = `<div class="home-banner"><img src="${imgSrc}" alt="Danny Apis"><h1 class="home-title">${settings.name}</h1><div class="home-version">${settings.version}</div><p class="text-info mb-4">${settings.description}</p><div class="stats-grid"><div class="stat-card"><div class="stat-number">${getTotalEndpoints()}</div><div class="stat-label">Endpoints</div></div><div class="stat-card"><div class="stat-number">${settings.categories?.length||0}</div><div class="stat-label">Categorías</div></div><div class="stat-card"><div class="stat-number"><i class="fas fa-music"></i></div><div class="stat-label">Acento Quinto Real</div></div></div><p class="mt-3"><i class="fas fa-headphones text-info"></i> Disfruta de "Una vaina loca" mientras exploras la API</p></div>`;
+            } else if(page === 'status') {
+                container.innerHTML = `<h2 class="category-title"><i class="fas fa-chart-line me-2"></i> Estado del sistema</h2><div class="status-grid"><div class="status-card"><div class="status-card-title">API Status</div><div class="status-card-value" style="color:#38bdf8;">🟢 Online</div></div><div class="status-card"><div class="status-card-title">Versión</div><div class="status-card-value">${settings.version}</div></div><div class="status-card"><div class="status-card-title">Música Activa</div><div class="status-card-value" style="color:#38bdf8;">🎵 Una vaina loca</div></div><div class="status-card"><div class="status-card-title">Artista</div><div class="status-card-value">Acento Quinto Real</div></div></div>`;
+            } else if(page === 'category' && category) {
+                const cat = settings.categories.find(c=>c.name===category); if(!cat) return;
+                container.innerHTML = `<div class="search-box"><input type="text" class="search-input" placeholder="🔍 Buscar endpoints..." id="searchInput"></div><div class="category-section"><h2 class="category-title"><i class="fas fa-folder-open me-2"></i> ${cat.name}</h2><div class="endpoints-grid" id="endpointsGrid">${cat.items.map(item=>`<div class="endpoint-card" data-name="${item.name.toLowerCase()}"><div class="endpoint-info"><div class="endpoint-name"><i class="fas fa-code me-2"></i> ${item.name}</div><div class="endpoint-desc">${item.desc}</div></div><button class="endpoint-btn" data-path="${item.path}" data-name="${item.name}" data-desc="${item.desc}" data-inner="${item.innerDesc||''}">GET <i class="fas fa-arrow-right ms-1"></i></button></div>`).join('')}</div></div>`;
+                setupSearch(); attachEndpointEvents();
+            } else if(page === 'all') {
+                container.innerHTML = `<div class="search-box"><input type="text" class="search-input" placeholder="🔍 Buscar endpoints..." id="searchInput"></div><div id="allCategories"></div>`;
+                const allDiv = document.getElementById('allCategories');
+                settings.categories?.forEach(cat=>{ allDiv.innerHTML += `<div class="category-section" data-category="${cat.name}"><h2 class="category-title"><i class="fas fa-cube me-2"></i> ${cat.name}</h2><div class="endpoints-grid">${cat.items.map(item=>`<div class="endpoint-card" data-name="${item.name.toLowerCase()}"><div class="endpoint-info"><div class="endpoint-name"><i class="fas fa-code me-2"></i> ${item.name}</div><div class="endpoint-desc">${item.desc}</div></div><button class="endpoint-btn" data-path="${item.path}" data-name="${item.name}" data-desc="${item.desc}" data-inner="${item.innerDesc||''}">GET <i class="fas fa-arrow-right ms-1"></i></button></div>`).join('')}</div></div>`; });
+                setupSearch(); attachEndpointEvents();
             }
         }
-
-        function setupSearch() {
-            const searchInput = document.getElementById('searchInput');
-            if(!searchInput) return;
-
-            searchInput.addEventListener('input', (e) => {
-                const term = e.target.value.toLowerCase();
-                const cards = document.querySelectorAll('.endpoint-card');
-                const sections = document.querySelectorAll('.category-section');
-
-                cards.forEach(card => {
-                    const name = card.dataset.name;
-                    const matches = name.includes(term);
-                    card.style.display = matches ? '' : 'none';
-                });
-
-                sections.forEach(section => {
-                    const visibleCards = section.querySelectorAll('.endpoint-card:not([style*="display: none"])');
-                    section.style.display = visibleCards.length > 0 ? '' : 'none';
-                });
-            });
-        }
-
-        function attachEndpointEvents() {
-            document.querySelectorAll('.endpoint-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const path = btn.dataset.path;
-                    const name = btn.dataset.name;
-                    const desc = btn.dataset.desc;
-                    const innerDesc = btn.dataset.inner;
-                    openModal(path, name, desc, innerDesc);
-                });
-            });
-        }
-
+        function setupSearch() { const inp = document.getElementById('searchInput'); if(!inp) return; inp.oninput = (e) => { const term = e.target.value.toLowerCase(); document.querySelectorAll('.endpoint-card').forEach(card=>{ card.style.display = card.dataset.name.includes(term) ? '' : 'none'; }); document.querySelectorAll('.category-section').forEach(section=>{ const visible = section.querySelectorAll('.endpoint-card:not([style*="display: none"])'); section.style.display = visible.length ? '' : 'none'; }); }; }
+        function attachEndpointEvents() { document.querySelectorAll('.endpoint-btn').forEach(btn=>{ btn.onclick = ()=> openModal(btn.dataset.path, btn.dataset.name, btn.dataset.desc, btn.dataset.inner); }); }
         async function openModal(path, name, desc, innerDesc) {
             const modal = new bootstrap.Modal(document.getElementById('apiModal'));
-
-            document.getElementById('modalTitle').textContent = name;
-            document.getElementById('modalDesc').textContent = desc;
-            
-            const urlParts = path.split('?');
-            const basePath = urlParts[0];
-            const existingParams = new URLSearchParams(urlParts[1] || '');
-            
-            // Mostrar URL base
+            document.getElementById('modalTitle').textContent = name; document.getElementById('modalDesc').textContent = desc;
+            const urlParts = path.split('?'); const basePath = urlParts[0]; const existingParams = new URLSearchParams(urlParts[1]||'');
             const baseUrl = window.location.origin + basePath;
-            document.getElementById('endpointBox').style.display = 'block';
-            document.getElementById('endpointBox').innerHTML = `<code>${baseUrl}</code>`;
-            
-            // Mostrar caja de URL en tiempo real
-            const liveUrlBox = document.getElementById('liveUrlBox');
-            const liveUrlText = document.getElementById('liveUrlText');
-            liveUrlBox.style.display = 'block';
-            
-            document.getElementById('paramsContainer').innerHTML = '';
-            document.getElementById('responseContainer').innerHTML = '';
-            document.getElementById('submitBtn').style.display = 'none';
-            document.getElementById('loadingContainer').style.display = 'none';
-            
+            document.getElementById('endpointBox').style.display = 'block'; document.getElementById('endpointBox').innerHTML = `<code>${baseUrl}</code>`;
+            const liveUrlBox = document.getElementById('liveUrlBox'); const liveUrlText = document.getElementById('liveUrlText'); liveUrlBox.style.display = 'block';
+            document.getElementById('paramsContainer').innerHTML = ''; document.getElementById('responseContainer').innerHTML = ''; document.getElementById('submitBtn').style.display = 'none'; document.getElementById('loadingContainer').style.display = 'none';
             const hasParams = existingParams.keys().next().done === false;
-            
-            // Función para actualizar la URL en tiempo real
-            function updateLiveUrl() {
-                const params = new URLSearchParams();
-                const inputs = document.querySelectorAll('#paramsContainer .param-input');
-                let hasValues = false;
-                inputs.forEach(input => {
-                    if(input.value.trim()) {
-                        params.append(input.dataset.param, input.value.trim());
-                        hasValues = true;
-                    }
-                });
-                let finalUrl = baseUrl;
-                if(hasValues || (hasParams && inputs.length > 0)) {
-                    finalUrl += '?' + params.toString();
-                } else if(hasParams && inputs.length === 0) {
-                    // Si no hay inputs pero hay params fijos
-                    finalUrl += '?' + existingParams.toString();
-                }
-                liveUrlText.textContent = finalUrl;
-            }
-            
+            function updateLiveUrl() { const params = new URLSearchParams(); document.querySelectorAll('#paramsContainer .param-input').forEach(inp=>{ if(inp.value.trim()) params.append(inp.dataset.param, inp.value.trim()); }); let final = baseUrl; const ps = params.toString(); if(ps) final += '?'+ps; else if(hasParams && document.querySelectorAll('#paramsContainer .param-input').length===0) final += '?'+existingParams.toString(); liveUrlText.textContent = final; }
             if(hasParams) {
                 const paramsContainer = document.getElementById('paramsContainer');
-                
-                // Crear inputs para los parámetros existentes
-                for(let [key, value] of existingParams) {
-                    const input = document.createElement('input');
-                    input.type = 'text';
-                    input.className = 'param-input';
-                    input.placeholder = `${key} (ej: ${value || 'valor'})...`;
-                    input.dataset.param = key;
-                    if(value) input.placeholder = `${key} (ej: ${value})...`;
-                    paramsContainer.appendChild(input);
-                }
-                
-                if(innerDesc) {
-                    const descDiv = document.createElement('div');
-                    descDiv.className = 'inner-desc text-muted small mt-2 mb-2';
-                    descDiv.innerHTML = `<i class="fas fa-info-circle me-1"></i> ${innerDesc}`;
-                    paramsContainer.appendChild(descDiv);
-                }
-                
-                const submitBtn = document.getElementById('submitBtn');
-                submitBtn.style.display = 'block';
-                submitBtn.disabled = false; // No deshabilitar, permitir enviar aunque estén vacíos
-                
-                // Actualizar URL en cada cambio de input
-                paramsContainer.querySelectorAll('.param-input').forEach(input => {
-                    input.addEventListener('input', () => {
-                        updateLiveUrl();
-                    });
-                });
-                
-                // URL inicial
+                for(let [k,v] of existingParams) { const inp = document.createElement('input'); inp.type='text'; inp.className='param-input'; inp.placeholder=`${k} (ej: ${v||'valor'})...`; inp.dataset.param=k; paramsContainer.appendChild(inp); }
+                if(innerDesc) paramsContainer.innerHTML += `<div class="inner-desc text-info small mt-2 mb-2"><i class="fas fa-info-circle me-1"></i> ${innerDesc}</div>`;
+                const submitBtn = document.getElementById('submitBtn'); submitBtn.style.display='block';
+                paramsContainer.querySelectorAll('.param-input').forEach(i=>i.addEventListener('input',updateLiveUrl));
                 updateLiveUrl();
-                
-                submitBtn.onclick = async () => {
-                    const inputs = paramsContainer.querySelectorAll('.param-input');
-                    const params = new URLSearchParams();
-                    
-                    inputs.forEach(input => {
-                        if(input.value.trim()) {
-                            params.append(input.dataset.param, input.value.trim());
-                        } else {
-                            // Si está vacío y el parámetro original tenía valor por defecto, no lo añadimos
-                        }
-                    });
-                    
-                    let finalUrl = baseUrl;
-                    const paramsString = params.toString();
-                    if(paramsString) {
-                        finalUrl += '?' + paramsString;
-                    }
-                    
-                    document.getElementById('loadingContainer').style.display = 'block';
-                    document.getElementById('responseContainer').innerHTML = '';
-                    
-                    try {
-                        const response = await fetch(finalUrl);
-                        const contentType = response.headers.get('Content-Type');
-                        
-                        if(contentType && contentType.startsWith('image/')) {
-                            const blob = await response.blob();
-                            const imageUrl = URL.createObjectURL(blob);
-                            const img = document.createElement('img');
-                            img.src = imageUrl;
-                            img.className = 'response-image w-100 mt-2 rounded';
-                            document.getElementById('responseContainer').appendChild(img);
-                        } else {
-                            const data = await response.json();
-                            document.getElementById('responseContainer').innerHTML = `<pre class="response-box">${JSON.stringify(data, null, 2)}</pre>`;
-                        }
-                    } catch(error) {
-                        document.getElementById('responseContainer').innerHTML = `<pre class="response-box text-danger">Error: ${error.message}</pre>`;
-                    }
-                    
-                    document.getElementById('loadingContainer').style.display = 'none';
+                submitBtn.onclick = async ()=>{
+                    const params = new URLSearchParams(); document.querySelectorAll('#paramsContainer .param-input').forEach(inp=>{ if(inp.value.trim()) params.append(inp.dataset.param, inp.value.trim()); });
+                    let finalUrl = baseUrl; const pstr = params.toString(); if(pstr) finalUrl += '?'+pstr;
+                    document.getElementById('loadingContainer').style.display='block'; document.getElementById('responseContainer').innerHTML='';
+                    try { const resp = await fetch(finalUrl); const ct = resp.headers.get('Content-Type'); if(ct && ct.startsWith('image/')){ const blob = await resp.blob(); const img = document.createElement('img'); img.src=URL.createObjectURL(blob); img.className='response-image w-100 mt-2 rounded'; document.getElementById('responseContainer').appendChild(img); } else { const data = await resp.json(); document.getElementById('responseContainer').innerHTML = `<pre class="response-box">${JSON.stringify(data,null,2)}</pre>`; } } catch(e){ document.getElementById('responseContainer').innerHTML = `<pre class="response-box text-danger">Error: ${e.message}</pre>`; }
+                    document.getElementById('loadingContainer').style.display='none';
                 };
             } else {
-                // Sin parámetros, solo mostrar URL base
                 liveUrlText.textContent = baseUrl;
-                
-                document.getElementById('loadingContainer').style.display = 'block';
-                
-                try {
-                    const response = await fetch(baseUrl);
-                    const contentType = response.headers.get('Content-Type');
-                    
-                    if(contentType && contentType.startsWith('image/')) {
-                        const blob = await response.blob();
-                        const imageUrl = URL.createObjectURL(blob);
-                        const img = document.createElement('img');
-                        img.src = imageUrl;
-                        img.className = 'response-image w-100 mt-2 rounded';
-                        document.getElementById('responseContainer').appendChild(img);
-                    } else {
-                        const data = await response.json();
-                        document.getElementById('responseContainer').innerHTML = `<pre class="response-box">${JSON.stringify(data, null, 2)}</pre>`;
-                    }
-                } catch(error) {
-                    document.getElementById('responseContainer').innerHTML = `<pre class="response-box text-danger">Error: ${error.message}</pre>`;
-                }
-                
-                document.getElementById('loadingContainer').style.display = 'none';
+                document.getElementById('loadingContainer').style.display='block';
+                try { const resp = await fetch(baseUrl); const ct = resp.headers.get('Content-Type'); if(ct && ct.startsWith('image/')){ const blob = await resp.blob(); const img = document.createElement('img'); img.src=URL.createObjectURL(blob); img.className='response-image w-100 mt-2 rounded'; document.getElementById('responseContainer').appendChild(img); } else { const data = await resp.json(); document.getElementById('responseContainer').innerHTML = `<pre class="response-box">${JSON.stringify(data,null,2)}</pre>`; } } catch(e){ document.getElementById('responseContainer').innerHTML = `<pre class="response-box text-danger">Error: ${e.message}</pre>`; }
+                document.getElementById('loadingContainer').style.display='none';
             }
-            
             modal.show();
         }
-
-        async function start() {
-            await loadSettings();
-            initUI();
-            renderPage('home');
-
-            const loadingScreen = document.getElementById('loadingScreen');
-            loadingScreen.classList.add('fade-out');
-            setTimeout(() => {
-                loadingScreen.style.display = 'none';
-                document.body.classList.remove('no-scroll');
-            }, 500);
-        }
-
+        async function start() { await loadSettings(); initUI(); renderPage('home'); const loading = document.getElementById('loadingScreen'); loading.classList.add('fade-out'); setTimeout(()=>{loading.style.display='none';},500); }
         start();
     </script>
 </body>
