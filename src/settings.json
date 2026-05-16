@@ -1,11 +1,11 @@
 {
-  "name": "Alya Api",
+  "name": "DANNY API",
   "version": "1.0",
-  "description": "Alya Apis Oficial.",
+  "description": "DANNY API Oficial - Tu mejor aliado para integraciones.",
   "header": {
     "status": "ONLINE",
     "imageSrc": [
-      "https://files.catbox.moe/osy7r9.jpg"
+      "https://files.catbox.moe/hl8d0t.jpg"
     ],
     "imageSize": {
       "mobile": "80%",
@@ -14,7 +14,7 @@
     }
   },
   "apiSettings": {
-    "creator": "dvlyonn - Copyright Api Alya 2026",
+    "creator": "Danny - Copyright DANNY API 2026",
     "limit": "5500"
   },
   "links": [
