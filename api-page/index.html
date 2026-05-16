@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -18,86 +17,110 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            transition: background 0.3s ease, color 0.2s ease;
+            background: linear-gradient(135deg, #0a192f 0%, #0b2b3b 100%);
+            color: #e0f2fe;
             overflow-x: hidden;
         }
 
-        /* ========== TEMA AZUL OSCURO / MARINO (único) ========== */
-        body.blue-theme {
-            background: linear-gradient(135deg, #0a192f 0%, #0b2b3b 100%);
-            color: #e0f2fe;
-        }
-
-        body.blue-theme .top-bar,
-        body.blue-theme .sidebar,
-        body.blue-theme .status-card,
-        body.blue-theme .endpoint-card,
-        body.blue-theme .auth-card,
-        body.blue-theme .modal-content,
-        body.blue-theme .stat-card {
+        /* ========== ESTILOS AZUL OSCURO / MARINO ========== */
+        .top-bar,
+        .sidebar,
+        .status-card,
+        .endpoint-card,
+        .modal-content,
+        .stat-card {
             background: rgba(10, 35, 55, 0.92);
             backdrop-filter: blur(12px);
             border-color: #1e4a6e;
             color: #f0f9ff;
         }
 
-        body.blue-theme .search-input {
+        .search-input {
             background: #0b2b3b;
             border-color: #2c6e9e;
             color: #ffffff;
         }
 
-        body.blue-theme .response-box {
+        .search-input:focus {
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+            outline: none;
+        }
+
+        .response-box {
             background: #071a28;
             border: 1px solid #1e4a6e;
             color: #b9e6ff;
         }
 
-        body.blue-theme .sidebar-item:hover {
+        .sidebar-item:hover {
             background: #0d3b50;
         }
 
-        body.blue-theme .sidebar-item.active {
+        .sidebar-item.active {
             background: #0f4a62;
             border-left-color: #38bdf8;
             color: #7dd3fc;
         }
 
-        body.blue-theme .stat-number {
+        .stat-number {
             color: #38bdf8;
         }
 
-        body.blue-theme .endpoint-btn {
+        .endpoint-btn {
             background: linear-gradient(135deg, #0f4a62, #0a2a3b);
             color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            margin-left: 15px;
         }
 
-        body.blue-theme .endpoint-btn:hover {
+        .endpoint-btn:hover {
             background: linear-gradient(135deg, #1e6a8a, #0f4a62);
+            transform: scale(1.02);
         }
 
-        body.blue-theme .submit-btn {
+        .submit-btn {
             background: linear-gradient(135deg, #0f4a62, #0a2a3b);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
         }
 
-        body.blue-theme .submit-btn:hover {
+        .submit-btn:hover {
             background: linear-gradient(135deg, #1e6a8a, #0f4a62);
         }
 
-        body.blue-theme .live-url-box {
+        .live-url-box {
             background: #071a28;
             color: #38bdf8;
             border-color: #1e6a8e;
         }
 
-        body.blue-theme .home-version {
+        .home-version {
             background: #1e6a8a;
             color: white;
         }
 
-        body.blue-theme .footer {
+        .footer {
             border-top-color: #1e4a6e;
             color: #7fa3bc;
+        }
+
+        .category-title {
+            color: #7dd3fc;
+            border-bottom-color: #1e6a8e;
         }
 
         /* Loading Screen */
@@ -273,7 +296,6 @@
             justify-content: space-between;
             padding: 0 28px;
             z-index: 1000;
-            transition: all 0.3s ease;
         }
 
         .top-bar-left {
@@ -330,33 +352,6 @@
             background-clip: text;
             color: transparent;
             letter-spacing: -0.3px;
-        }
-
-        .top-bar-right {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .logout-btn {
-            background: none;
-            border: 1px solid #1e6a8e;
-            border-radius: 40px;
-            padding: 6px 16px;
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            color: #e0f2fe;
-        }
-
-        .logout-btn:hover {
-            background: #38bdf8;
-            color: #0a192f;
-            border-color: #38bdf8;
         }
 
         /* ========== SIDEBAR ========== */
@@ -574,25 +569,6 @@
             color: #9ec8e3;
         }
 
-        .endpoint-btn {
-            background: linear-gradient(135deg, #0f4a62, #0a2a3b);
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 40px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            white-space: nowrap;
-            margin-left: 15px;
-        }
-
-        .endpoint-btn:hover {
-            background: linear-gradient(135deg, #1e6a8a, #0f4a62);
-            transform: scale(1.02);
-        }
-
         /* ========== SEARCH ========== */
         .search-box {
             margin-bottom: 32px;
@@ -608,12 +584,6 @@
             font-family: 'Inter', sans-serif;
             background: #0b2b3b;
             color: #e0f2fe;
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: #38bdf8;
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
         }
 
         .category-title {
@@ -694,22 +664,6 @@
             margin-top: 20px;
         }
 
-        .submit-btn {
-            background: linear-gradient(135deg, #0f4a62, #0a2a3b);
-            color: white;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 40px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .submit-btn:hover {
-            background: linear-gradient(135deg, #1e6a8a, #0f4a62);
-        }
-
         /* ========== FOOTER ========== */
         .footer {
             text-align: center;
@@ -718,29 +672,6 @@
             margin-top: 50px;
             font-size: 13px;
             color: #7fa3bc;
-        }
-
-        /* ========== AUTH MODAL (solo login) ========== */
-        .auth-card {
-            max-width: 440px;
-            margin: auto;
-            background: #0e2a3a;
-            border-radius: 32px;
-            padding: 32px;
-            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.4);
-            border: 1px solid #1e6a8e;
-        }
-
-        .auth-header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .auth-header img {
-            width: 90px;
-            border-radius: 30px;
-            margin-bottom: 15px;
-            border: 2px solid #38bdf8;
         }
 
         /* ========== ANIMATIONS ========== */
@@ -784,13 +715,13 @@
         }
     </style>
 </head>
-<body class="blue-theme">
+<body>
     <!-- LOADING SCREEN -->
     <div id="loadingScreen">
         <div class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
-        <p style="margin-top: 16px; font-weight: 500; color: #e0f2fe;">Iniciando Danny Apis 💙</p>
+        <p style="margin-top: 16px; font-weight: 500; color: #e0f2fe;">Cargando Danny Apis 💙</p>
     </div>
 
     <!-- REPRODUCTOR DE MÚSICA FLOTANTE -->
@@ -827,9 +758,6 @@
                 <span></span>
             </button>
             <div class="api-name" id="apiName">DANNY APIS</div>
-        </div>
-        <div class="top-bar-right">
-            <button class="logout-btn" id="logoutBtn" style="display: none;"><i class="fas fa-sign-out-alt"></i> Salir</button>
         </div>
     </div>
 
@@ -884,67 +812,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // ==================== AUTENTICACIÓN (SOLO LOGIN) ====================
-        let currentUser = JSON.parse(localStorage.getItem('danny_user'));
-        let usersDB = JSON.parse(localStorage.getItem('danny_users') || '[]');
-
-        function saveUsers() { localStorage.setItem('danny_users', JSON.stringify(usersDB)); }
-        function saveCurrentUser() { if(currentUser) localStorage.setItem('danny_user', JSON.stringify(currentUser)); else localStorage.removeItem('danny_user'); }
-
-        function showAuthModal() {
-            const modalHTML = `
-                <div class="modal fade" id="authModal" tabindex="-1" data-bs-backdrop="static">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content auth-card">
-                            <div class="auth-header">
-                                <img src="https://files.catbox.moe/osy7r9.jpg" alt="DANNY APIS">
-                                <h3 class="mt-3" style="color:#7dd3fc;">Bienvenido a Danny Apis</h3>
-                                <p class="text-info">API Profesional</p>
-                            </div>
-                            <div class="tab-pane fade show active">
-                                <input type="text" id="loginUser" class="form-control mb-2" placeholder="Usuario" style="background:#0b2b3b; border-color:#1e6a8e; color:white;">
-                                <input type="password" id="loginPass" class="form-control mb-2" placeholder="Contraseña" style="background:#0b2b3b; border-color:#1e6a8e; color:white;">
-                                <button id="doLoginBtn" class="btn w-100 mt-2" style="background:#38bdf8; color:#0a192f; font-weight:600;">Entrar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            document.body.insertAdjacentHTML('beforeend', modalHTML);
-            const modalEl = document.getElementById('authModal');
-            const authModal = new bootstrap.Modal(modalEl, { backdrop: 'static', keyboard: false });
-            authModal.show();
-
-            document.getElementById('doLoginBtn').onclick = () => {
-                const user = document.getElementById('loginUser').value.trim();
-                const pass = document.getElementById('loginPass').value.trim();
-                const found = usersDB.find(u => u.username === user && u.password === pass);
-                if(found) {
-                    currentUser = found;
-                    saveCurrentUser();
-                    authModal.hide();
-                    location.reload();
-                } else {
-                    alert('❌ Usuario o contraseña incorrectos');
-                }
-            };
-        }
-
-        if(!currentUser) {
-            showAuthModal();
-        }
-
-        document.getElementById('logoutBtn').onclick = () => {
-            currentUser = null;
-            saveCurrentUser();
-            location.reload();
-        };
-        if(currentUser) document.getElementById('logoutBtn').style.display = 'flex';
-
         // ==================== REPRODUCTOR ====================
         const playlist = [
-            { name: "Acento Quinto Real", artist: "Alya", url: "https://files.catbox.moe/65kqmi.mp3" },
-            { name: "Una vaina loca", artist: "Alya", url: "https://files.catbox.moe/g2zd2z.mp3" }
+            { name: "Acento Quinto Real", artist: "Acento Quinto Real", url: "https://files.catbox.moe/65kqmi.mp3" },
+            { name: "Una vaina loca", artist: "Acento Quinto Real", url: "https://files.catbox.moe/g2zd2z.mp3" }
         ];
         let currentSongIndex = 0, isPlaying = false, isMinimized = false;
         const audioEl = document.getElementById('audioPlayer');
@@ -980,7 +851,7 @@
         playPauseBtn.onclick = playPauseSong; nextBtn.onclick = nextSong; prevBtn.onclick = prevSong; audioEl.ontimeupdate = updateProgress; audioEl.onended = nextSong; progressContainer.onclick = setProgress; toggleMinimizeBtn.onclick = toggleMinimizePlayer;
         loadSong(0);
 
-        // ==================== API Y DASHBOARD (Danny Apis) ====================
+        // ==================== API Y DASHBOARD (DANNY APIS - SIN LOGIN) ====================
         let settings = {
             name: "DANNY APIS",
             version: "v2.0 · Danny",
@@ -994,21 +865,25 @@
                 { name: "Música", items: [{ name: "Canción actual", path: "/api/song", desc: "Obtener información de la canción", innerDesc: "Devuelve los datos de la canción que suena actualmente" }] }
             ]
         };
+        
         async function loadSettings() {
-            try { const r = await fetch('/src/settings.json'); if(r.ok) settings = await r.json(); } catch(e) { console.log('default'); }
+            try { const r = await fetch('/src/settings.json'); if(r.ok) settings = await r.json(); } catch(e) { console.log('Usando configuración por defecto'); }
             document.title = settings.name || "DANNY APIS";
             document.getElementById('apiName').innerHTML = settings.name || "DANNY APIS";
-            document.getElementById('footerText').innerHTML = `💙 ${settings.name} · Creada por ${settings.apiSettings?.creator || 'Danny'} · Ac. Alya`;
+            document.getElementById('footerText').innerHTML = `💙 ${settings.name} · Creada por ${settings.apiSettings?.creator || 'Danny'} · Ac. Acento Quinto Real`;
             const categoriesNav = document.getElementById('categoriesNav');
             if(settings.categories) settings.categories.forEach(cat => { const div = document.createElement('div'); div.className = 'sidebar-item'; div.dataset.page = 'category'; div.dataset.category = cat.name; div.innerHTML = `<i class="fas fa-folder me-2"></i> ${cat.name}`; categoriesNav.appendChild(div); });
         }
+        
         function getTotalEndpoints() { let t=0; settings.categories?.forEach(c=> t+=c.items.length); return t; }
+        
         function initUI() {
             const menuToggle = document.getElementById('menuToggle'), sidebar = document.getElementById('sidebar'), overlay = document.getElementById('sidebarOverlay');
             menuToggle.onclick = () => { menuToggle.classList.toggle('active'); sidebar.classList.toggle('active'); overlay.classList.toggle('active'); };
             overlay.onclick = () => { menuToggle.classList.remove('active'); sidebar.classList.remove('active'); overlay.classList.remove('active'); };
             document.querySelectorAll('.sidebar-item').forEach(item => { item.onclick = () => { document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active')); item.classList.add('active'); const page = item.dataset.page, cat = item.dataset.category; renderPage(page==='category'?'category':page, cat); menuToggle.classList.remove('active'); sidebar.classList.remove('active'); overlay.classList.remove('active'); }; });
         }
+        
         function renderPage(page, category=null) {
             const container = document.getElementById('mainContent');
             if(page === 'home') {
@@ -1027,8 +902,11 @@
                 setupSearch(); attachEndpointEvents();
             }
         }
+        
         function setupSearch() { const inp = document.getElementById('searchInput'); if(!inp) return; inp.oninput = (e) => { const term = e.target.value.toLowerCase(); document.querySelectorAll('.endpoint-card').forEach(card=>{ card.style.display = card.dataset.name.includes(term) ? '' : 'none'; }); document.querySelectorAll('.category-section').forEach(section=>{ const visible = section.querySelectorAll('.endpoint-card:not([style*="display: none"])'); section.style.display = visible.length ? '' : 'none'; }); }; }
+        
         function attachEndpointEvents() { document.querySelectorAll('.endpoint-btn').forEach(btn=>{ btn.onclick = ()=> openModal(btn.dataset.path, btn.dataset.name, btn.dataset.desc, btn.dataset.inner); }); }
+        
         async function openModal(path, name, desc, innerDesc) {
             const modal = new bootstrap.Modal(document.getElementById('apiModal'));
             document.getElementById('modalTitle').textContent = name; document.getElementById('modalDesc').textContent = desc;
@@ -1061,6 +939,7 @@
             }
             modal.show();
         }
+        
         async function start() { await loadSettings(); initUI(); renderPage('home'); const loading = document.getElementById('loadingScreen'); loading.classList.add('fade-out'); setTimeout(()=>{loading.style.display='none';},500); }
         start();
     </script>
