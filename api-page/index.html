@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💙</text></svg>">
-    <title>DANNY APIS · Profesional</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+    <title>API DE EL VIGILANTE · Profesional</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -17,58 +17,58 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0a192f 0%, #0b2b3b 100%);
-            color: #e0f2fe;
+            background: linear-gradient(135deg, #1a0a0a 0%, #2b0b0b 100%);
+            color: #ffe0e0;
             overflow-x: hidden;
         }
 
-        /* ========== ESTILOS AZUL OSCURO / MARINO ========== */
+        /* ========== ESTILOS ROJO OSCURO / VIGILANTE ========== */
         .top-bar,
         .sidebar,
         .status-card,
         .endpoint-card,
         .modal-content,
         .stat-card {
-            background: rgba(10, 35, 55, 0.92);
+            background: rgba(35, 10, 10, 0.92);
             backdrop-filter: blur(12px);
-            border-color: #1e4a6e;
-            color: #f0f9ff;
+            border-color: #6e1e1e;
+            color: #fff0f0;
         }
 
         .search-input {
-            background: #0b2b3b;
-            border-color: #2c6e9e;
+            background: #2b0b0b;
+            border-color: #9e2c2c;
             color: #ffffff;
         }
 
         .search-input:focus {
-            border-color: #38bdf8;
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+            border-color: #f83838;
+            box-shadow: 0 0 0 3px rgba(248, 56, 56, 0.2);
             outline: none;
         }
 
         .response-box {
-            background: #071a28;
-            border: 1px solid #1e4a6e;
-            color: #b9e6ff;
+            background: #1a0710;
+            border: 1px solid #6e1e1e;
+            color: #ffb9b9;
         }
 
         .sidebar-item:hover {
-            background: #0d3b50;
+            background: #3b0d0d;
         }
 
         .sidebar-item.active {
-            background: #0f4a62;
-            border-left-color: #38bdf8;
-            color: #7dd3fc;
+            background: #4a0f0f;
+            border-left-color: #f83838;
+            color: #fc7d7d;
         }
 
         .stat-number {
-            color: #38bdf8;
+            color: #f83838;
         }
 
         .endpoint-btn {
-            background: linear-gradient(135deg, #0f4a62, #0a2a3b);
+            background: linear-gradient(135deg, #4a0f0f, #2b0a0a);
             color: white;
             border: none;
             padding: 8px 20px;
@@ -82,12 +82,12 @@
         }
 
         .endpoint-btn:hover {
-            background: linear-gradient(135deg, #1e6a8a, #0f4a62);
+            background: linear-gradient(135deg, #6e1a1a, #4a0f0f);
             transform: scale(1.02);
         }
 
         .submit-btn {
-            background: linear-gradient(135deg, #0f4a62, #0a2a3b);
+            background: linear-gradient(135deg, #4a0f0f, #2b0a0a);
             color: white;
             border: none;
             padding: 10px 24px;
@@ -99,28 +99,28 @@
         }
 
         .submit-btn:hover {
-            background: linear-gradient(135deg, #1e6a8a, #0f4a62);
+            background: linear-gradient(135deg, #6e1a1a, #4a0f0f);
         }
 
         .live-url-box {
-            background: #071a28;
-            color: #38bdf8;
-            border-color: #1e6a8e;
+            background: #1a0710;
+            color: #f83838;
+            border-color: #6e1a1a;
         }
 
         .home-version {
-            background: #1e6a8a;
+            background: #6e1a1a;
             color: white;
         }
 
         .footer {
-            border-top-color: #1e4a6e;
-            color: #7fa3bc;
+            border-top-color: #6e1e1e;
+            color: #bc7f7f;
         }
 
         .category-title {
-            color: #7dd3fc;
-            border-bottom-color: #1e6a8e;
+            color: #fc7d7d;
+            border-bottom-color: #6e1a1a;
         }
 
         /* Loading Screen */
@@ -130,7 +130,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #0a192f 0%, #0b2b3b 100%);
+            background: linear-gradient(135deg, #1a0a0a 0%, #2b0b0b 100%);
             z-index: 10000;
             display: flex;
             justify-content: center;
@@ -142,8 +142,8 @@
         .spinner-border {
             width: 3rem;
             height: 3rem;
-            border: 3px solid #e0f2fe;
-            border-top-color: #38bdf8;
+            border: 3px solid #ffe0e0;
+            border-top-color: #f83838;
         }
 
         /* ========== REPRODUCTOR FLOTANTE ========== */
@@ -152,13 +152,13 @@
             bottom: 20px;
             right: 20px;
             width: 320px;
-            background: rgba(10, 35, 55, 0.96);
+            background: rgba(35, 10, 10, 0.96);
             backdrop-filter: blur(12px);
             border-radius: 24px;
             padding: 15px;
             z-index: 10000;
             box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(56, 189, 248, 0.3);
+            border: 1px solid rgba(248, 56, 56, 0.3);
             transition: all 0.3s ease;
         }
 
@@ -179,7 +179,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
-            color: #e0f2fe;
+            color: #ffe0e0;
         }
 
         .music-title {
@@ -195,7 +195,7 @@
         .music-toggle-min {
             background: none;
             border: none;
-            color: #e0f2fe;
+            color: #ffe0e0;
             cursor: pointer;
             font-size: 16px;
             padding: 0 5px;
@@ -208,14 +208,14 @@
         }
 
         .song-name {
-            color: #e0f2fe;
+            color: #ffe0e0;
             font-size: 14px;
             font-weight: 600;
             margin-bottom: 5px;
         }
 
         .artist-name {
-            color: rgba(56, 189, 248, 0.7);
+            color: rgba(248, 56, 56, 0.7);
             font-size: 11px;
         }
 
@@ -228,7 +228,7 @@
         }
 
         .progress-bar {
-            background: #38bdf8;
+            background: #f83838;
             border-radius: 10px;
             height: 100%;
             width: 0%;
@@ -238,7 +238,7 @@
         .time-info {
             display: flex;
             justify-content: space-between;
-            color: rgba(56, 189, 248, 0.6);
+            color: rgba(248, 56, 56, 0.6);
             font-size: 10px;
             margin-bottom: 10px;
         }
@@ -252,7 +252,7 @@
         }
 
         .control-btn {
-            background: rgba(56, 189, 248, 0.2);
+            background: rgba(248, 56, 56, 0.2);
             border: none;
             border-radius: 50%;
             width: 32px;
@@ -262,23 +262,23 @@
             justify-content: center;
             cursor: pointer;
             transition: all 0.2s ease;
-            color: #e0f2fe;
+            color: #ffe0e0;
         }
 
         .control-btn:hover {
-            background: rgba(56, 189, 248, 0.4);
+            background: rgba(248, 56, 56, 0.4);
             transform: scale(1.05);
         }
 
         .control-btn.play-btn {
-            background: #38bdf8;
+            background: #f83838;
             width: 42px;
             height: 42px;
-            color: #0a192f;
+            color: #1a0a0a;
         }
 
         .control-btn.play-btn:hover {
-            background: #7dd3fc;
+            background: #fc7d7d;
         }
 
         /* ========== TOP BAR ========== */
@@ -288,9 +288,9 @@
             left: 0;
             right: 0;
             height: 64px;
-            background: rgba(10, 35, 55, 0.96);
+            background: rgba(35, 10, 10, 0.96);
             backdrop-filter: blur(12px);
-            border-bottom: 1px solid #1e6a8e;
+            border-bottom: 1px solid #6e1a1a;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -320,14 +320,14 @@
         }
 
         .menu-toggle:hover {
-            background: #1e4a6e;
+            background: #6e1e1e;
         }
 
         .menu-toggle span {
             display: block;
             width: 22px;
             height: 2px;
-            background: #e0f2fe;
+            background: #ffe0e0;
             transition: all 0.3s ease;
             border-radius: 2px;
         }
@@ -347,11 +347,29 @@
         .api-name {
             font-size: 22px;
             font-weight: 800;
-            background: linear-gradient(135deg, #7dd3fc, #38bdf8);
+            background: linear-gradient(135deg, #fc7d7d, #f83838);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             letter-spacing: -0.3px;
+        }
+
+        /* Login button */
+        .login-btn {
+            background: #24292e;
+            color: #fff;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .login-btn:hover {
+            background: #1a1f23;
+            color: #fff;
         }
 
         /* ========== SIDEBAR ========== */
@@ -361,9 +379,9 @@
             left: -280px;
             width: 280px;
             height: calc(100vh - 64px);
-            background: rgba(10, 35, 55, 0.98);
+            background: rgba(35, 10, 10, 0.98);
             backdrop-filter: blur(12px);
-            border-right: 1px solid #1e6a8e;
+            border-right: 1px solid #6e1a1a;
             overflow-y: auto;
             transition: left 0.3s ease;
             z-index: 999;
@@ -402,25 +420,25 @@
             border-left: 3px solid transparent;
             font-size: 14px;
             font-weight: 500;
-            color: #cbd5e6;
+            color: #d5cbcb;
         }
 
         .sidebar-item:hover {
-            background: #0d3b50;
-            color: #7dd3fc;
+            background: #3b0d0d;
+            color: #fc7d7d;
         }
 
         .sidebar-item.active {
-            background: #0f4a62;
-            border-left-color: #38bdf8;
-            color: #7dd3fc;
+            background: #4a0f0f;
+            border-left-color: #f83838;
+            color: #fc7d7d;
         }
 
         .sidebar-category {
             padding: 20px 24px 8px;
             font-size: 11px;
             font-weight: 700;
-            color: #5d8fae;
+            color: #8f5d5d;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -446,13 +464,13 @@
             border-radius: 32px;
             box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.4);
             margin-bottom: 30px;
-            border: 2px solid #38bdf8;
+            border: 2px solid #f83838;
         }
 
         .home-title {
             font-size: 56px;
             font-weight: 800;
-            background: linear-gradient(135deg, #7dd3fc, #38bdf8);
+            background: linear-gradient(135deg, #fc7d7d, #f83838);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -461,7 +479,7 @@
 
         .home-version {
             display: inline-block;
-            background: #1e6a8a;
+            background: #6e1a1a;
             color: white;
             padding: 6px 20px;
             border-radius: 50px;
@@ -479,31 +497,31 @@
         }
 
         .stat-card {
-            background: rgba(10, 35, 55, 0.8);
+            background: rgba(35, 10, 10, 0.8);
             backdrop-filter: blur(8px);
             border-radius: 28px;
             padding: 25px 35px;
             text-align: center;
-            border: 1px solid #1e6a8e;
+            border: 1px solid #6e1a1a;
             min-width: 180px;
             transition: all 0.2s;
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
-            border-color: #38bdf8;
+            border-color: #f83838;
         }
 
         .stat-number {
             font-size: 48px;
             font-weight: 800;
-            color: #38bdf8;
+            color: #f83838;
         }
 
         .stat-label {
             font-size: 14px;
             font-weight: 500;
-            color: #9ec8e3;
+            color: #c89e9e;
             margin-top: 8px;
         }
 
@@ -516,9 +534,9 @@
         }
 
         .status-card {
-            background: rgba(10, 35, 55, 0.85);
+            background: rgba(35, 10, 10, 0.85);
             backdrop-filter: blur(10px);
-            border: 1px solid #1e6a8e;
+            border: 1px solid #6e1a1a;
             border-radius: 20px;
             padding: 24px;
             transition: all 0.3s ease;
@@ -526,7 +544,7 @@
 
         .status-card:hover {
             transform: translateY(-3px);
-            border-color: #38bdf8;
+            border-color: #f83838;
         }
 
         .endpoints-grid {
@@ -536,9 +554,9 @@
         }
 
         .endpoint-card {
-            background: rgba(10, 35, 55, 0.85);
+            background: rgba(35, 10, 10, 0.85);
             backdrop-filter: blur(8px);
-            border: 1px solid #1e6a8e;
+            border: 1px solid #6e1a1a;
             border-radius: 20px;
             padding: 20px;
             display: flex;
@@ -549,7 +567,7 @@
 
         .endpoint-card:hover {
             transform: translateY(-3px);
-            border-color: #38bdf8;
+            border-color: #f83838;
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
         }
 
@@ -561,12 +579,12 @@
             font-size: 16px;
             font-weight: 700;
             margin-bottom: 6px;
-            color: #e0f2fe;
+            color: #ffe0e0;
         }
 
         .endpoint-desc {
             font-size: 12px;
-            color: #9ec8e3;
+            color: #c89e9e;
         }
 
         /* ========== SEARCH ========== */
@@ -577,13 +595,13 @@
         .search-input {
             width: 100%;
             padding: 14px 20px;
-            border: 1px solid #1e6a8e;
+            border: 1px solid #6e1a1a;
             border-radius: 60px;
             font-size: 15px;
             transition: all 0.3s ease;
             font-family: 'Inter', sans-serif;
-            background: #0b2b3b;
-            color: #e0f2fe;
+            background: #2b0b0b;
+            color: #ffe0e0;
         }
 
         .category-title {
@@ -591,16 +609,16 @@
             font-weight: 700;
             margin-bottom: 24px;
             padding-bottom: 12px;
-            border-bottom: 2px solid #1e6a8e;
-            color: #7dd3fc;
+            border-bottom: 2px solid #6e1a1a;
+            color: #fc7d7d;
         }
 
         /* ========== MODAL ========== */
         .modal-content {
             border: none;
             border-radius: 24px;
-            background: #0e2a3a;
-            color: #e0f2fe;
+            background: #2b0e0e;
+            color: #ffe0e0;
         }
 
         .modal-header .btn-close {
@@ -608,55 +626,55 @@
         }
 
         .api-endpoint-box {
-            background: #071a28;
+            background: #1a0710;
             padding: 12px;
             border-radius: 12px;
             font-family: monospace;
             font-size: 13px;
-            color: #7dd3fc;
+            color: #fc7d7d;
             word-break: break-all;
             margin-bottom: 20px;
-            border: 1px solid #1e6a8e;
+            border: 1px solid #6e1a1a;
         }
 
         .live-url-box {
-            background: #071a28;
+            background: #1a0710;
             padding: 12px 16px;
             border-radius: 12px;
             font-family: monospace;
             font-size: 13px;
-            color: #38bdf8;
+            color: #f83838;
             word-break: break-all;
             margin-bottom: 20px;
-            border: 1px solid #2c6e9e;
+            border: 1px solid #9e2c2c;
         }
 
         .param-input {
             width: 100%;
             padding: 12px;
-            border: 1px solid #1e6a8e;
+            border: 1px solid #6e1a1a;
             border-radius: 12px;
             font-size: 14px;
             margin-bottom: 12px;
             font-family: 'Inter', sans-serif;
             transition: all 0.3s ease;
-            background: #0b2b3b;
-            color: #e0f2fe;
+            background: #2b0b0b;
+            color: #ffe0e0;
         }
 
         .param-input:focus {
             outline: none;
-            border-color: #38bdf8;
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
+            border-color: #f83838;
+            box-shadow: 0 0 0 3px rgba(248, 56, 56, 0.1);
         }
 
         .response-box {
-            background: #071a28;
+            background: #1a0710;
             padding: 16px;
             border-radius: 14px;
             font-family: monospace;
             font-size: 12px;
-            color: #b9e6ff;
+            color: #ffb9b9;
             white-space: pre-wrap;
             word-wrap: break-word;
             max-height: 400px;
@@ -668,10 +686,10 @@
         .footer {
             text-align: center;
             padding: 30px;
-            border-top: 1px solid #1e6a8e;
+            border-top: 1px solid #6e1a1a;
             margin-top: 50px;
             font-size: 13px;
-            color: #7fa3bc;
+            color: #bc7f7f;
         }
 
         /* ========== ANIMATIONS ========== */
@@ -721,7 +739,7 @@
         <div class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
-        <p style="margin-top: 16px; font-weight: 500; color: #e0f2fe;">Cargando Danny Apis 💙</p>
+        <p style="margin-top: 16px; font-weight: 500; color: #ffe0e0;">Cargando API DE EL VIGILANTE 🛡️</p>
     </div>
 
     <!-- REPRODUCTOR DE MÚSICA FLOTANTE -->
@@ -757,8 +775,9 @@
                 <span></span>
                 <span></span>
             </button>
-            <div class="api-name" id="apiName">DANNY APIS</div>
+            <div class="api-name" id="apiName">API DE EL VIGILANTE</div>
         </div>
+        <a href="github_login.php" class="login-btn">🐙 Iniciar sesión con GitHub</a>
     </div>
 
     <!-- SIDEBAR -->
@@ -778,7 +797,7 @@
 
     <!-- FOOTER -->
     <div class="footer">
-        <p id="footerText">💙 DANNY APIS · Creada por Danny · Música: Acento Quinto Real</p>
+        <p id="footerText">🛡️ API DE EL VIGILANTE · Creada por El Vigilante · Música: Acento Quinto Real</p>
     </div>
 
     <!-- MODAL PARA ENDPOINTS -->
@@ -851,13 +870,13 @@
         playPauseBtn.onclick = playPauseSong; nextBtn.onclick = nextSong; prevBtn.onclick = prevSong; audioEl.ontimeupdate = updateProgress; audioEl.onended = nextSong; progressContainer.onclick = setProgress; toggleMinimizeBtn.onclick = toggleMinimizePlayer;
         loadSong(0);
 
-        // ==================== API Y DASHBOARD (DANNY APIS - SIN LOGIN) ====================
+        // ==================== API Y DASHBOARD (API DE EL VIGILANTE) ====================
         let settings = {
-            name: "DANNY APIS",
-            version: "v2.0 · Danny",
-            description: "API profesional con endpoints creados por Danny",
-            header: { imageSrc: ["https://files.catbox.moe/hl8d0t.jpg"], imageSize: { desktop: "50%" } },
-            apiSettings: { creator: "Danny" },
+            name: "API DE EL VIGILANTE",
+            version: "v1.0 · El Vigilante",
+            description: "API profesional con endpoints creados por El Vigilante",
+            header: { imageSrc: ["https://files.catbox.moe/0tha19.png"], imageSize: { desktop: "50%" } },
+            apiSettings: { creator: "El Vigilante" },
             categories: [
                 { name: "Usuarios", items: [{ name: "Perfil", path: "/api/user", desc: "Obtener perfil de usuario", innerDesc: "Devuelve datos del perfil del usuario autenticado" }] },
                 { name: "Contenido", items: [{ name: "Feed", path: "/api/feed", desc: "Feed dinámico de contenido", innerDesc: "Obtiene las últimas publicaciones" }] },
@@ -868,9 +887,9 @@
         
         async function loadSettings() {
             try { const r = await fetch('/src/settings.json'); if(r.ok) settings = await r.json(); } catch(e) { console.log('Usando configuración por defecto'); }
-            document.title = settings.name || "DANNY APIS";
-            document.getElementById('apiName').innerHTML = settings.name || "DANNY APIS";
-            document.getElementById('footerText').innerHTML = `💙 ${settings.name} · Creada por ${settings.apiSettings?.creator || 'Danny'} · Ac. Acento Quinto Real`;
+            document.title = settings.name || "API DE EL VIGILANTE";
+            document.getElementById('apiName').innerHTML = settings.name || "API DE EL VIGILANTE";
+            document.getElementById('footerText').innerHTML = `🛡️ ${settings.name} · Creada por ${settings.apiSettings?.creator || 'El Vigilante'} · Ac. Acento Quinto Real`;
             const categoriesNav = document.getElementById('categoriesNav');
             if(settings.categories) settings.categories.forEach(cat => { const div = document.createElement('div'); div.className = 'sidebar-item'; div.dataset.page = 'category'; div.dataset.category = cat.name; div.innerHTML = `<i class="fas fa-folder me-2"></i> ${cat.name}`; categoriesNav.appendChild(div); });
         }
@@ -887,10 +906,10 @@
         function renderPage(page, category=null) {
             const container = document.getElementById('mainContent');
             if(page === 'home') {
-                const imgSrc = Array.isArray(settings.header.imageSrc)? settings.header.imageSrc[0]:'https://files.catbox.moe/osy7r9.jpg';
-                container.innerHTML = `<div class="home-banner"><img src="${imgSrc}" alt="Danny Apis"><h1 class="home-title">${settings.name}</h1><div class="home-version">${settings.version}</div><p class="text-info mb-4">${settings.description}</p><div class="stats-grid"><div class="stat-card"><div class="stat-number">${getTotalEndpoints()}</div><div class="stat-label">Endpoints</div></div><div class="stat-card"><div class="stat-number">${settings.categories?.length||0}</div><div class="stat-label">Categorías</div></div><div class="stat-card"><div class="stat-number"><i class="fas fa-music"></i></div><div class="stat-label">Acento Quinto Real</div></div></div><p class="mt-3"><i class="fas fa-headphones text-info"></i> Disfruta de "Una vaina loca" mientras exploras la API</p></div>`;
+                const imgSrc = Array.isArray(settings.header.imageSrc)? settings.header.imageSrc[0]:'https://files.catbox.moe/0tha19.png';
+                container.innerHTML = `<div class="home-banner"><img src="${imgSrc}" alt="API DE EL VIGILANTE"><h1 class="home-title">${settings.name}</h1><div class="home-version">${settings.version}</div><p class="text-info mb-4">${settings.description}</p><div class="stats-grid"><div class="stat-card"><div class="stat-number">${getTotalEndpoints()}</div><div class="stat-label">Endpoints</div></div><div class="stat-card"><div class="stat-number">${settings.categories?.length||0}</div><div class="stat-label">Categorías</div></div><div class="stat-card"><div class="stat-number"><i class="fas fa-music"></i></div><div class="stat-label">Acento Quinto Real</div></div></div><p class="mt-3"><i class="fas fa-headphones text-info"></i> Disfruta de "Una vaina loca" mientras exploras la API</p></div>`;
             } else if(page === 'status') {
-                container.innerHTML = `<h2 class="category-title"><i class="fas fa-chart-line me-2"></i> Estado del sistema</h2><div class="status-grid"><div class="status-card"><div class="status-card-title">API Status</div><div class="status-card-value" style="color:#38bdf8;">🟢 Online</div></div><div class="status-card"><div class="status-card-title">Versión</div><div class="status-card-value">${settings.version}</div></div><div class="status-card"><div class="status-card-title">Música Activa</div><div class="status-card-value" style="color:#38bdf8;">🎵 Una vaina loca</div></div><div class="status-card"><div class="status-card-title">Artista</div><div class="status-card-value">Acento Quinto Real</div></div></div>`;
+                container.innerHTML = `<h2 class="category-title"><i class="fas fa-chart-line me-2"></i> Estado del sistema</h2><div class="status-grid"><div class="status-card"><div class="status-card-title">API Status</div><div class="status-card-value" style="color:#f83838;">🟢 Online</div></div><div class="status-card"><div class="status-card-title">Versión</div><div class="status-card-value">${settings.version}</div></div><div class="status-card"><div class="status-card-title">Música Activa</div><div class="status-card-value" style="color:#f83838;">🎵 Una vaina loca</div></div><div class="status-card"><div class="status-card-title">Artista</div><div class="status-card-value">Acento Quinto Real</div></div></div>`;
             } else if(page === 'category' && category) {
                 const cat = settings.categories.find(c=>c.name===category); if(!cat) return;
                 container.innerHTML = `<div class="search-box"><input type="text" class="search-input" placeholder="🔍 Buscar endpoints..." id="searchInput"></div><div class="category-section"><h2 class="category-title"><i class="fas fa-folder-open me-2"></i> ${cat.name}</h2><div class="endpoints-grid" id="endpointsGrid">${cat.items.map(item=>`<div class="endpoint-card" data-name="${item.name.toLowerCase()}"><div class="endpoint-info"><div class="endpoint-name"><i class="fas fa-code me-2"></i> ${item.name}</div><div class="endpoint-desc">${item.desc}</div></div><button class="endpoint-btn" data-path="${item.path}" data-name="${item.name}" data-desc="${item.desc}" data-inner="${item.innerDesc||''}">GET <i class="fas fa-arrow-right ms-1"></i></button></div>`).join('')}</div></div>`;
