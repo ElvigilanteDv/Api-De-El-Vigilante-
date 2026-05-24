@@ -1,139 +1,5 @@
 const axios = require('axios');
 
-const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
-
-async function tiktokSearch(query, limit = 10) {
-    const errors = [];
-    
-    // Fuente 1: tikwm.com
-    try {
-        const url = `https://www.tikwm.com/api/feed/search?keywords=${encodeURIComponent(query)}&count=${Math.min(limit, 30)}`;
-        const response = await axios.get(url, {
-            headers: { 'User-Agent': UA },
-            timeout: 10000
-        });
-        
-        if (response.data?.data?.videos?.length) {
-            return formatResponse(response.data.data.videos.slice(0, limit));
-        }
-    } catch (error) {
-        errors.push(`tikwm: ${error.message}`);
-    }
-    
-    // Fuente 2: ssstik.io (alternativa)
-    try {
-        const searchUrl = `https://ssstik.io/search?q=${encodeURIComponent(query)}`;
-        const response = await axios.get(searchUrl, {
-            headers: { 'User-Agent': UA },
-            timeout: 10000
-        });
-        
-        if (response.data && response.data.length) {
-            return formatSSSTikResponse(response.data.slice(0, limit));
-        }
-    } catch (error) {
-        errors.push(`ssstik: ${error.message}`);
-    }
-    
-    // Fuente 3: musicallydown (alternativa)
-    try {
-        const formData = new URLSearchParams();
-        formData.append('q', query);
-        
-        const response = await axios.post('https://musicallydown.com/search', formData, {
-            headers: {
-                'User-Agent': UA,
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            timeout: 10000
-        });
-        
-        if (response.data && response.data.results) {
-            return formatMusicallyResponse(response.data.results.slice(0, limit));
-        }
-    } catch (error) {
-        errors.push(`musicallydown: ${error.message}`);
-    }
-    
-    throw new Error(`Todas las fuentes fallaron: ${errors.join(' | ')}`);
-}
-
-function formatResponse(videos) {
-    return videos.map(video => ({
-        id: video.video_id,
-        title: video.title || 'Sin título',
-        description: video.title || 'Sin descripción',
-        duration: video.duration || 0,
-        cover_url: video.cover || '',
-        play_count: video.play_count || 0,
-        digg_count: video.digg_count || 0,
-        comment_count: video.comment_count || 0,
-        share_count: video.share_count || 0,
-        download_count: video.download_count || 0,
-        music: {
-            id: video.music?.music_id || '',
-            title: video.music?.title || '',
-            author: video.music?.author || ''
-        },
-        author: {
-            id: video.author?.id || '',
-            name: video.author?.unique_id || 'Desconocido',
-            nickname: video.author?.nickname || 'Desconocido',
-            avatar: video.author?.avatar || ''
-        },
-        url: `https://www.tiktok.com/@${video.author?.unique_id || 'user'}/video/${video.video_id}`,
-        created_at: video.create_time || 0
-    }));
-}
-
-function formatSSSTikResponse(items) {
-    return items.map(item => ({
-        id: item.id || Date.now().toString(),
-        title: item.title || 'Sin título',
-        description: item.title || 'Sin descripción',
-        duration: item.duration || 0,
-        cover_url: item.thumbnail || '',
-        play_count: parseInt(item.views) || 0,
-        digg_count: 0,
-        comment_count: 0,
-        share_count: 0,
-        download_count: 0,
-        music: { id: '', title: '', author: '' },
-        author: {
-            id: '',
-            name: item.author || 'Desconocido',
-            nickname: item.author || 'Desconocido',
-            avatar: ''
-        },
-        url: item.url || '',
-        created_at: 0
-    }));
-}
-
-function formatMusicallyResponse(results) {
-    return results.map(result => ({
-        id: result.id || Date.now().toString(),
-        title: result.title || 'Sin título',
-        description: result.title || 'Sin descripción',
-        duration: result.duration || 0,
-        cover_url: result.thumbnail || '',
-        play_count: parseInt(result.plays) || 0,
-        digg_count: parseInt(result.likes) || 0,
-        comment_count: parseInt(result.comments) || 0,
-        share_count: 0,
-        download_count: 0,
-        music: { id: '', title: '', author: '' },
-        author: {
-            id: '',
-            name: result.author || 'Desconocido',
-            nickname: result.author || 'Desconocido',
-            avatar: ''
-        },
-        url: result.url || '',
-        created_at: 0
-    }));
-}
-
 module.exports = function(app) {
     app.get('/search/tiktok', async (req, res) => {
         const query = req.query.query;
@@ -142,32 +8,52 @@ module.exports = function(app) {
             return res.status(400).json({
                 status: false,
                 creator: "EL VIGILANTE",
-                error: "Falta el parámetro 'query'",
-                usage: "/search/tiktok?query=goku&limit=10"
+                error: "Falta el parámetro 'query'"
             });
         }
         
         const limit = parseInt(req.query.limit) || 10;
-        const maxLimit = Math.min(limit, 30);
         
         try {
-            const results = await tiktokSearch(query, maxLimit);
-            
-            res.json({
-                status: true,
-                creator: "EL VIGILANTE",
-                query: query,
-                limit: maxLimit,
-                total_results: results.length,
-                result: results
+            // Usar API pública de TikTok (sin key)
+            const response = await axios.get(`https://api.tiktokv.com/aweme/v1/discover/search/?keyword=${encodeURIComponent(query)}&count=${limit}`, {
+                headers: {
+                    'User-Agent': 'com.zhiliaoapp.musically/2020 (Linux; U; Android 10; en_US; ONEPLUS A6013; Build/QKQ1.190716.003; Cronet/58.0.2991.0)'
+                },
+                timeout: 8000
             });
             
-        } catch (err) {
-            console.error('[TikTok Search Error]', err.message);
+            if (response.data?.aweme_list?.length > 0) {
+                const results = response.data.aweme_list.map(video => ({
+                    id: video.aweme_id,
+                    title: video.desc,
+                    duration: video.duration,
+                    cover_url: video.video?.cover?.url_list?.[0] || '',
+                    play_count: video.statistics?.play_count || 0,
+                    digg_count: video.statistics?.digg_count || 0,
+                    author: {
+                        name: video.author?.unique_id,
+                        nickname: video.author?.nickname
+                    },
+                    url: `https://www.tiktok.com/@${video.author?.unique_id}/video/${video.aweme_id}`
+                }));
+                
+                return res.json({
+                    status: true,
+                    creator: "EL VIGILANTE",
+                    query: query,
+                    total_results: results.length,
+                    result: results
+                });
+            } else {
+                throw new Error('No hay resultados');
+            }
+            
+        } catch (error) {
             res.status(500).json({
                 status: false,
                 creator: "EL VIGILANTE",
-                error: err.message
+                error: "Error en la búsqueda"
             });
         }
     });
