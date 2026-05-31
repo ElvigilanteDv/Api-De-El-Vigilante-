@@ -5,12 +5,12 @@ module.exports = function(app) {
 
     app.get('/search/anime', async (req, res) => {
         const query = req.query.q;
-        const url = req.query.url;
+        const descargar = req.query.url;
 
-        // Si hay URL, es descarga
-        if (url) {
+        // ===== DESCARGAR EPISODIO =====
+        if (descargar) {
             try {
-                const { data } = await axios.get(url, {
+                const { data } = await axios.get(descargar, {
                     headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 8000
                 });
                 
@@ -51,12 +51,11 @@ module.exports = function(app) {
             }
         }
 
-        // Si no hay URL, es búsqueda
+        // ===== BUSCAR ANIME =====
         if (!query) {
             return res.status(400).json({
                 status: false,
                 creator: "EL VIGILANTE",
-                error: "Falta el parámetro 'q' o 'url'",
                 buscar: "/search/anime?q=naruto",
                 descargar: "/search/anime?url=URL_EPISODIO"
             });
@@ -76,12 +75,10 @@ module.exports = function(app) {
                 const titulo = $(el).find('.Title, h3').first().text().trim();
                 const link = $(el).find('a').attr('href') || '';
                 const img = $(el).find('img').attr('src') || '';
-                const tipo = $(el).find('.Type').first().text().trim();
                 
                 if (titulo) {
                     resultados.push({
                         titulo,
-                        tipo: tipo || 'TV',
                         imagen: img.startsWith('http') ? img : 'https://www3.animeflv.net' + img,
                         link: link.startsWith('http') ? link : 'https://www3.animeflv.net' + link
                     });
