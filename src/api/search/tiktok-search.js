@@ -1,60 +1,62 @@
 const axios = require('axios');
 
 module.exports = function(app) {
+    
     app.get('/search/tiktok', async (req, res) => {
         const query = req.query.query;
-        
+        let limit = parseInt(req.query.limit) || 10;
+
         if (!query) {
             return res.status(400).json({
                 status: false,
                 creator: "EL VIGILANTE",
-                error: "Falta el parámetro 'query'"
+                error: "Falta el parámetro 'query'",
+                usage: "/search/tiktok?query=badbunny&limit=5"
             });
         }
-        
-        const limit = parseInt(req.query.limit) || 10;
-        
+
+        if (limit > 30) limit = 30;
+
         try {
-            // Usar API pública de TikTok (sin key)
-            const response = await axios.get(`https://api.tiktokv.com/aweme/v1/discover/search/?keyword=${encodeURIComponent(query)}&count=${limit}`, {
-                headers: {
-                    'User-Agent': 'com.zhiliaoapp.musically/2020 (Linux; U; Android 10; en_US; ONEPLUS A6013; Build/QKQ1.190716.003; Cronet/58.0.2991.0)'
-                },
-                timeout: 8000
-            });
-            
-            if (response.data?.aweme_list?.length > 0) {
-                const results = response.data.aweme_list.map(video => ({
-                    id: video.aweme_id,
-                    title: video.desc,
-                    duration: video.duration,
-                    cover_url: video.video?.cover?.url_list?.[0] || '',
-                    play_count: video.statistics?.play_count || 0,
-                    digg_count: video.statistics?.digg_count || 0,
-                    author: {
-                        name: video.author?.unique_id,
-                        nickname: video.author?.nickname
-                    },
-                    url: `https://www.tiktok.com/@${video.author?.unique_id}/video/${video.aweme_id}`
+            // Usar la API de TikWM para buscar
+            const { data } = await axios.get(
+                `https://tikwm.com/api/feed/search?keywords=${encodeURIComponent(query)}&count=${limit}`,
+                { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 10000 }
+            );
+
+            if (data.code === 0 && data.data && data.data.videos) {
+                const videos = data.data.videos.map(v => ({
+                    id: v.video_id || '',
+                    titulo: v.title || 'Sin título',
+                    autor: v.author?.nickname || 'Desconocido',
+                    duracion: v.duration || '00:00',
+                    vistas: v.play_count?.toLocaleString() || '0',
+                    video_url: v.play || '',
+                    cover: v.cover || ''
                 }));
-                
+
                 return res.json({
                     status: true,
                     creator: "EL VIGILANTE",
                     query: query,
-                    total_results: results.length,
-                    result: results
+                    total: videos.length,
+                    resultados: videos
                 });
-            } else {
-                throw new Error('No hay resultados');
             }
-            
+
+            return res.json({
+                status: false,
+                creator: "EL VIGILANTE",
+                mensaje: "No se encontraron videos"
+            });
+
         } catch (error) {
-            res.status(500).json({
+            return res.status(500).json({
                 status: false,
                 creator: "EL VIGILANTE",
                 error: "Error en la búsqueda"
             });
         }
     });
+
 };
