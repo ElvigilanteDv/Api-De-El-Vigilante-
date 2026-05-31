@@ -29,18 +29,19 @@ module.exports = function(app) {
             const $ = cheerio.load(data);
             const resultados = [];
 
-            $('[data-app-id], .app-card, .search-result, a[href*="/app/"]').each((i, el) => {
+            // Buscar resultados
+            $('a[href*="/app/"]').each((i, el) => {
                 if (resultados.length >= 10) return;
-
-                const titulo = $(el).find('[title], .title, .app-name, h2, h3').first().text().trim() ||
+                
+                const href = $(el).attr('href') || '';
+                const titulo = $(el).find('.title, [title], h2, h3').first().text().trim() ||
                                $(el).attr('title') || '';
-                const link = $(el).is('a') ? $(el).attr('href') : $(el).find('a').attr('href') || '';
                 const img = $(el).find('img').attr('src') || $(el).find('img').attr('data-src') || '';
 
-                if (titulo && link) {
+                if (href.includes('/app/') && titulo && !resultados.find(r => r.link === href)) {
                     resultados.push({
-                        titulo,
-                        link: link.startsWith('http') ? link : 'https://es.aptoide.com' + link,
+                        titulo: titulo,
+                        link: href.startsWith('http') ? href : 'https://es.aptoide.com' + href,
                         imagen: img.startsWith('http') ? img : ''
                     });
                 }
@@ -50,13 +51,14 @@ module.exports = function(app) {
                 return res.json({
                     status: false,
                     creator: "EL VIGILANTE",
-                    mensaje: "No se encontraron resultados"
+                    mensaje: "No se encontraron resultados para: " + query
                 });
             }
 
             return res.json({
                 status: true,
                 creator: "EL VIGILANTE",
+                fuente: "Aptoide",
                 query: query,
                 total: resultados.length,
                 resultados
