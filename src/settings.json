@@ -40,13 +40,24 @@
       ]
     },
     {
+      "name": "🎲 Random",
+      "items": [
+        {
+          "name": "Memes",
+          "desc": "Meme aleatorio de múltiples fuentes",
+          "path": "/random/meme",
+          "innerDesc": "🤣 Meme aleatorio\n\nVer: /random/meme\nDescargar: /random/meme?download=true"
+        }
+      ]
+    },
+    {
       "name": "📱 APK Mod",
       "items": [
         {
           "name": "Buscar APK Mod",
           "desc": "Busca apps modificadas y descarga",
           "path": "/search/apkmod",
-          "innerDesc": "🎮 Buscar APK Mod: /search/apkmod?q=free fire\n📥 Descargar: /search/apkmod?url=URL"
+          "innerDesc": "🎮 Buscar: /search/apkmod?q=free fire\n📥 Descargar: /search/apkmod?url=URL"
         }
       ]
     },
@@ -63,12 +74,6 @@
           "desc": "Buscar videos en TikTok",
           "path": "/search/tiktok?query=",
           "innerDesc": "🎵 Buscar videos en TikTok\n\nParámetros:\n• query - Término de búsqueda\n• limit - Cantidad de resultados (1-30, default: 10)\n\nEjemplo: /search/tiktok?query=badbunny&limit=5"
-        },
-        {
-          "name": "Memes",
-          "desc": "Meme aleatorio de múltiples fuentes",
-          "path": "/random/meme",
-          "innerDesc": "🤣 Meme aleatorio\n\nEjemplo: /random/meme"
         }
       ]
     },
