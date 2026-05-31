@@ -43,16 +43,10 @@
       "name": "🎬 Anime",
       "items": [
         {
-          "name": "Buscar Anime",
-          "desc": "Busca anime en AnimeFLV",
-          "path": "/search/anime?q=",
-          "innerDesc": "🔍 Buscar anime\n\nEjemplo: /search/anime?q=naruto"
-        },
-        {
-          "name": "Descargar Episodio",
-          "desc": "Obtiene links de descarga de un episodio",
-          "path": "/search/anime?url=",
-          "innerDesc": "📥 Descargar episodio\n\nEjemplo: /search/anime?url=URL_EPISODIO"
+          "name": "Anime",
+          "desc": "Buscar anime y descargar episodios",
+          "path": "/search/anime",
+          "innerDesc": "🔍 Buscar anime: /search/anime?q=naruto\n📥 Descargar episodio: /search/anime?url=URL_EPISODIO"
         }
       ]
     },
@@ -69,12 +63,6 @@
           "desc": "Buscar videos en TikTok",
           "path": "/search/tiktok?query=",
           "innerDesc": "🎵 Buscar videos en TikTok\n\nParámetros:\n• query - Término de búsqueda\n• limit - Cantidad de resultados (1-30, default: 10)\n\nEjemplo: /search/tiktok?query=badbunny&limit=5"
-        },
-        {
-          "name": "Stickers",
-          "desc": "Buscar stickers para WhatsApp",
-          "path": "/search/sticker?q=",
-          "innerDesc": "🎯 Buscar stickers\n\nEjemplo: /search/sticker?q=love"
         }
       ]
     },
