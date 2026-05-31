@@ -68,6 +68,12 @@
           "desc": "Buscar videos en TikTok",
           "path": "/search/tiktok?query=",
           "innerDesc": "🎵 Buscar videos en TikTok\n\nParámetros:\n• query - Término de búsqueda\n• limit - Cantidad de resultados (1-30, default: 10)\n\nEjemplo: /search/tiktok?query=badbunny&limit=5"
+        },
+        {
+          "name": "APK Search",
+          "desc": "Buscar aplicaciones APK",
+          "path": "/search/apk?q=",
+          "innerDesc": "📱 Buscar apps APK\n\nEjemplo: /search/apk?q=whatsapp"
         }
       ]
     },
@@ -91,6 +97,12 @@
           "desc": "Descargar video de TikTok sin marca de agua",
           "path": "/download/tiktok?url=",
           "innerDesc": "📱 Descargar videos de TikTok sin marca de agua\n\nUso: ?url=TIKTOK_URL\nDescargar: &download=true"
+        },
+        {
+          "name": "APK Downloader",
+          "desc": "Descargar archivos APK",
+          "path": "/download/apk?url=",
+          "innerDesc": "📱 Descargar APK desde APKMirror\n\nUso: ?url=URL_DEL_APK"
         },
         {
           "name": "Mediafire Downloader",
