@@ -44,20 +44,9 @@
       "items": [
         {
           "name": "Memes",
-          "desc": "Meme aleatorio de múltiples fuentes",
+          "desc": "Meme aleatorio en español",
           "path": "/random/meme",
           "innerDesc": "🤣 Meme aleatorio\n\nVer: /random/meme\nDescargar: /random/meme?download=true"
-        }
-      ]
-    },
-    {
-      "name": "📱 APK Mod",
-      "items": [
-        {
-          "name": "Buscar APK Mod",
-          "desc": "Busca apps modificadas y descarga",
-          "path": "/search/apkmod",
-          "innerDesc": "🎮 Buscar: /search/apkmod?q=free fire\n📥 Descargar: /search/apkmod?url=URL"
         }
       ]
     },
