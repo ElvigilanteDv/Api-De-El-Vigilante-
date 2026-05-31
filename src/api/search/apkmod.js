@@ -17,50 +17,49 @@ module.exports = function(app) {
 
         const resultados = [];
 
-        // ===== PROVEEDOR 1: Moddroid =====
+        // ===== PROVEEDOR 1: Androeed =====
         try {
             const { data } = await axios.get(
-                `https://moddroid.com/?s=${encodeURIComponent(query)}`,
+                `https://androeed.com/?s=${encodeURIComponent(query)}`,
                 { headers: { 'User-Agent': 'Mozilla/5.0 (Linux; Android 10)' }, timeout: 8000 }
             );
             const $ = cheerio.load(data);
-            $('article, .post, .app-item').each((i, el) => {
-                if (i >= 5) return;
-                const titulo = $(el).find('h2, h3, .title').first().text().trim();
+            $('article, .post, .item').each((i, el) => {
+                if (resultados.length >= 10) return;
+                const titulo = $(el).find('h2, .title, .entry-title').first().text().trim();
                 const link = $(el).find('a').attr('href') || '';
-                const img = $(el).find('img').attr('src') || '';
-                if (titulo) resultados.push({ titulo, link, imagen: img, proveedor: 'Moddroid' });
+                const img = $(el).find('img').attr('src') || $(el).find('img').attr('data-src') || '';
+                if (titulo && link) {
+                    resultados.push({ 
+                        titulo, 
+                        link: link.startsWith('http') ? link : link,
+                        imagen: img.startsWith('http') ? img : '',
+                        proveedor: 'Androeed' 
+                    });
+                }
             });
         } catch (e) {}
 
-        // ===== PROVEEDOR 2: APKModget =====
+        // ===== PROVEEDOR 2: Modyolo =====
         try {
             const { data } = await axios.get(
-                `https://apkmodget.com/?s=${encodeURIComponent(query)}`,
+                `https://modyolo.com/?s=${encodeURIComponent(query)}`,
                 { headers: { 'User-Agent': 'Mozilla/5.0 (Linux; Android 10)' }, timeout: 8000 }
             );
             const $ = cheerio.load(data);
-            $('article, .post').each((i, el) => {
-                if (i >= 5) return;
-                const titulo = $(el).find('h2, .entry-title').first().text().trim();
+            $('article, .post, .app-item, .item').each((i, el) => {
+                if (resultados.length >= 10) return;
+                const titulo = $(el).find('h2, .title, .entry-title').first().text().trim();
                 const link = $(el).find('a').attr('href') || '';
-                const img = $(el).find('img').attr('src') || '';
-                if (titulo) resultados.push({ titulo, link, imagen: img, proveedor: 'APKModget' });
-            });
-        } catch (e) {}
-
-        // ===== PROVEEDOR 3: RexDL =====
-        try {
-            const { data } = await axios.get(
-                `https://rexdl.com/?s=${encodeURIComponent(query)}`,
-                { headers: { 'User-Agent': 'Mozilla/5.0 (Linux; Android 10)' }, timeout: 8000 }
-            );
-            const $ = cheerio.load(data);
-            $('article, .post').each((i, el) => {
-                if (i >= 5) return;
-                const titulo = $(el).find('h2, .entry-title').first().text().trim();
-                const link = $(el).find('a').attr('href') || '';
-                if (titulo) resultados.push({ titulo, link, proveedor: 'RexDL' });
+                const img = $(el).find('img').attr('src') || $(el).find('img').attr('data-src') || '';
+                if (titulo && link) {
+                    resultados.push({ 
+                        titulo, 
+                        link: link.startsWith('http') ? link : link,
+                        imagen: img.startsWith('http') ? img : '',
+                        proveedor: 'Modyolo' 
+                    });
+                }
             });
         } catch (e) {}
 
