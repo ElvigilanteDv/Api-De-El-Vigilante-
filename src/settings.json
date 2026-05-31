@@ -40,18 +40,19 @@
       ]
     },
     {
-      "name": "🎲 Random",
+      "name": "🎬 Anime",
       "items": [
         {
-          "name": "Blue Archive",
-          "desc": "Imágenes aleatorias de Blue Archive",
-          "path": "/random/ba"
+          "name": "Buscar Anime",
+          "desc": "Busca anime en AnimeFLV",
+          "path": "/search/anime?q=",
+          "innerDesc": "🔍 Buscar anime\n\nEjemplo: /search/anime?q=naruto"
         },
         {
-          "name": "Random Meme",
-          "desc": "Meme aleatorio de Reddit/Pinterest/Imgflip en español",
-          "path": "/random/meme",
-          "innerDesc": "🖼️ Meme aleatorio de múltiples fuentes\n\nEjemplo: /random/meme\nImagen directa: /random/meme?imagen=true"
+          "name": "Descargar Episodio",
+          "desc": "Obtiene links de descarga de un episodio",
+          "path": "/search/anime?url=",
+          "innerDesc": "📥 Descargar episodio\n\nEjemplo: /search/anime?url=URL_EPISODIO"
         }
       ]
     },
@@ -70,10 +71,10 @@
           "innerDesc": "🎵 Buscar videos en TikTok\n\nParámetros:\n• query - Término de búsqueda\n• limit - Cantidad de resultados (1-30, default: 10)\n\nEjemplo: /search/tiktok?query=badbunny&limit=5"
         },
         {
-          "name": "APK Search",
-          "desc": "Buscar aplicaciones APK",
-          "path": "/search/apk?q=",
-          "innerDesc": "📱 Buscar apps APK\n\nEjemplo: /search/apk?q=whatsapp"
+          "name": "Stickers",
+          "desc": "Buscar stickers para WhatsApp",
+          "path": "/search/sticker?q=",
+          "innerDesc": "🎯 Buscar stickers\n\nEjemplo: /search/sticker?q=love"
         }
       ]
     },
@@ -97,12 +98,6 @@
           "desc": "Descargar video de TikTok sin marca de agua",
           "path": "/download/tiktok?url=",
           "innerDesc": "📱 Descargar videos de TikTok sin marca de agua\n\nUso: ?url=TIKTOK_URL\nDescargar: &download=true"
-        },
-        {
-          "name": "APK Downloader",
-          "desc": "Descargar archivos APK",
-          "path": "/download/apk?url=",
-          "innerDesc": "📱 Descargar APK desde APKMirror\n\nUso: ?url=URL_DEL_APK"
         },
         {
           "name": "Mediafire Downloader",
