@@ -17,14 +17,13 @@ module.exports = function(app) {
 
         try {
             const { data } = await axios.get(
-                `https://tikwm.com/api/?url=${encodeURIComponent(url)}`,
+                `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`,
                 { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 10000 }
             );
 
             if (data.code === 0 && data.data) {
                 const video = data.data;
-                
-                // Si pide descarga directa, redirigir
+
                 if (directo === 'true' && video.play) {
                     return res.redirect(video.play);
                 }
@@ -37,7 +36,7 @@ module.exports = function(app) {
                     autor: video.author?.nickname || 'Desconocido',
                     duracion: video.duration || '00:00',
                     vistas: video.play_count?.toLocaleString() || '0',
-                    video_sin_marca: video.play || '',
+                    tiktok_url: video.play || '',
                     musica: video.music || '',
                     cover: video.cover || '',
                     descargar: `/download/tiktok?url=${encodeURIComponent(url)}&download=true`
