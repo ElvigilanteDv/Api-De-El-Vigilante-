@@ -30,7 +30,8 @@ module.exports = function(app) {
                     autor: v.author?.nickname || 'Desconocido',
                     duracion: v.duration || '00:00',
                     vistas: v.play_count?.toLocaleString() || '0',
-                    cover: v.cover || ''
+                    cover: v.cover || '',
+                    tiktok_url: `https://www.tiktok.com/@${v.author?.unique_id || 'user'}/video/${v.video_id || ''}`
                 }));
 
                 return res.json({
