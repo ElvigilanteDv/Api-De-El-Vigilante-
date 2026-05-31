@@ -6,102 +6,82 @@ module.exports = function(app) {
     app.get('/random/meme', async (req, res) => {
         const descargar = req.query.download || 'false';
 
-        const fuentes = [
-            // Fuente 1: Imgflip - memes en español
-            async () => {
-                const busquedas = ['meme+español', 'meme+gracioso', 'meme+divertido', 'shitpost+español', 'meme+latino'];
-                const q = busquedas[Math.floor(Math.random() * busquedas.length)];
-                const { data } = await axios.get(
-                    `https://imgflip.com/ajax-search?q=${q}&nsfw=false`,
-                    { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 8000 }
-                );
-                if (data && data.length > 0) {
-                    const meme = data[Math.floor(Math.random() * data.length)];
-                    return {
-                        titulo: meme.title || meme.name || 'Meme en español',
-                        imagen: 'https://imgflip.com/i/' + meme.id + '.jpg',
-                        fuente: 'Imgflip'
-                    };
-                }
-                return null;
-            },
+        try {
+            // Memedroid - memes en español (top del día)
+            const { data } = await axios.get('https://es.memedroid.com/memes/top/day', {
+                headers: { 
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                    'Accept': 'text/html,application/xhtml+xml',
+                    'Accept-Language': 'es-ES,es;q=0.9'
+                }, 
+                timeout: 10000 
+            });
 
-            // Fuente 2: Cuanto Cabrón (memes españoles)
-            async () => {
-                const paginas = ['', '/page/2', '/page/3', '/page/4', '/page/5'];
-                const pag = paginas[Math.floor(Math.random() * paginas.length)];
-                const { data } = await axios.get(`https://www.cuantocabron.com${pag}`, {
-                    headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 8000
-                });
-                const $ = cheerio.load(data);
-                const imagenes = [];
-                $('img').each((i, el) => {
-                    const src = $(el).attr('src') || '';
-                    if (src.includes('cuantocabron') && (src.endsWith('.jpg') || src.endsWith('.jpeg') || src.endsWith('.png'))) {
-                        imagenes.push(src);
-                    }
-                });
-                if (imagenes.length === 0) return null;
-                const img = imagenes[Math.floor(Math.random() * imagenes.length)];
-                return {
-                    titulo: 'Meme español',
-                    imagen: img.startsWith('http') ? img : 'https:' + img,
-                    fuente: 'Cuanto Cabrón'
-                };
-            },
+            const $ = cheerio.load(data);
+            const memes = [];
 
-            // Fuente 3: Memedroid (memes en español)
-            async () => {
-                const { data } = await axios.get('https://es.memedroid.com/memes/top/day', {
-                    headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 8000
-                });
-                const $ = cheerio.load(data);
-                const imagenes = [];
-                $('img').each((i, el) => {
-                    const src = $(el).attr('src') || $(el).attr('data-src') || '';
-                    if (src && (src.endsWith('.jpg') || src.endsWith('.jpeg') || src.endsWith('.png') || src.endsWith('.gif'))) {
-                        imagenes.push(src);
-                    }
-                });
-                if (imagenes.length === 0) return null;
-                const img = imagenes[Math.floor(Math.random() * imagenes.length)];
-                return {
-                    titulo: 'Meme en español',
-                    imagen: img.startsWith('http') ? img : 'https:' + img,
-                    fuente: 'Memedroid'
-                };
-            }
-        ];
-
-        const shuffled = fuentes.sort(() => Math.random() - 0.5);
-
-        for (const fuente of shuffled) {
-            try {
-                const resultado = await fuente();
-                if (resultado && resultado.imagen) {
-                    
-                    if (descargar === 'true') {
-                        return res.redirect(resultado.imagen);
-                    }
-
-                    return res.json({
-                        status: true,
-                        creator: "EL VIGILANTE",
-                        idioma: "Español",
-                        descargar: `/random/meme?download=true`,
-                        ...resultado
+            // Buscar todas las imágenes de memes
+            $('img').each((i, el) => {
+                const src = $(el).attr('src') || $(el).attr('data-src') || '';
+                const alt = $(el).attr('alt') || '';
+                
+                // Solo imágenes de memes (no iconos, logos, etc.)
+                if (src && (src.includes('memedroid') || src.includes('meme')) && 
+                    (src.endsWith('.jpg') || src.endsWith('.jpeg') || src.endsWith('.png') || src.endsWith('.gif')) &&
+                    !src.includes('avatar') && !src.includes('logo') && !src.includes('icon')) {
+                    memes.push({
+                        titulo: alt || 'Meme en español',
+                        imagen: src.startsWith('http') ? src : 'https://es.memedroid.com' + src
                     });
                 }
-            } catch (e) {
-                continue;
-            }
-        }
+            });
 
-        return res.json({
-            status: false,
-            creator: "EL VIGILANTE",
-            mensaje: "No se pudo obtener un meme en español"
-        });
+            if (memes.length === 0) {
+                // Si no encuentra, buscar también en artículos
+                $('article, .meme-item, .gallery-item').each((i, el) => {
+                    const img = $(el).find('img').attr('src') || $(el).find('img').attr('data-src') || '';
+                    const titulo = $(el).find('img').attr('alt') || 'Meme';
+                    if (img && (img.endsWith('.jpg') || img.endsWith('.jpeg') || img.endsWith('.png'))) {
+                        memes.push({
+                            titulo,
+                            imagen: img.startsWith('http') ? img : 'https://es.memedroid.com' + img
+                        });
+                    }
+                });
+            }
+
+            if (memes.length === 0) {
+                return res.json({
+                    status: false,
+                    creator: "EL VIGILANTE",
+                    mensaje: "No se encontraron memes. Intenta de nuevo."
+                });
+            }
+
+            // Elegir meme aleatorio
+            const meme = memes[Math.floor(Math.random() * memes.length)];
+
+            // Si pide descarga, redirigir
+            if (descargar === 'true') {
+                return res.redirect(meme.imagen);
+            }
+
+            return res.json({
+                status: true,
+                creator: "EL VIGILANTE",
+                idioma: "Español",
+                fuente: "Memedroid",
+                descargar: `/random/meme?download=true`,
+                ...meme
+            });
+
+        } catch (error) {
+            return res.status(500).json({
+                status: false,
+                creator: "EL VIGILANTE",
+                error: "Error al obtener meme"
+            });
+        }
     });
 
 };
