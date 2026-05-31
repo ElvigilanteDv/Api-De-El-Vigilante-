@@ -40,13 +40,13 @@
       ]
     },
     {
-      "name": "🎬 Anime",
+      "name": "📱 APK Mod",
       "items": [
         {
-          "name": "Anime",
-          "desc": "Buscar anime y descargar episodios",
-          "path": "/search/anime",
-          "innerDesc": "🔍 Buscar anime: /search/anime?q=naruto\n📥 Descargar episodio: /search/anime?url=URL_EPISODIO"
+          "name": "Buscar APK Mod",
+          "desc": "Busca apps modificadas con dinero infinito, VIP, etc.",
+          "path": "/search/apkmod?q=",
+          "innerDesc": "🎮 Buscar APK Mod\n\nEjemplo: /search/apkmod?q=free fire"
         }
       ]
     },
