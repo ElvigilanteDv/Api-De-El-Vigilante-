@@ -15,82 +15,55 @@ module.exports = function(app) {
             });
         }
 
-        const resultados = [];
-
-        // ===== APKCombo =====
         try {
             const { data } = await axios.get(
-                `https://apkcombo.com/es/search/${encodeURIComponent(query)}`,
-                { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' }, timeout: 10000 }
+                `https://search.f-droid.org/?q=${encodeURIComponent(query)}&lang=es`,
+                { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 10000 }
             );
+
             const $ = cheerio.load(data);
-            
-            $('.search-item, .app-item, .content-app, a[href*="/app/"]').each((i, el) => {
-                if (resultados.length >= 10) return;
-                
-                const titulo = $(el).find('.title, h2, .app-name, .name').first().text().trim();
-                const link = $(el).is('a') ? $(el).attr('href') : $(el).find('a').attr('href') || '';
-                const img = $(el).find('img').attr('src') || $(el).find('img').attr('data-src') || '';
-                const version = $(el).find('.version, .ver').first().text().trim();
-                
-                if (titulo && link) {
+            const resultados = [];
+
+            $('.package-header').each((i, el) => {
+                if (i >= 10) return;
+
+                const titulo = $(el).find('.package-name').text().trim();
+                const resumen = $(el).find('.package-summary').text().trim();
+                const link = $(el).find('a.package-header').attr('href') || '';
+
+                if (titulo) {
                     resultados.push({
                         titulo,
-                        version: version || 'Mod',
-                        link: link.startsWith('http') ? link : 'https://apkcombo.com' + link,
-                        imagen: img.startsWith('http') ? img : (img.startsWith('/') ? 'https://apkcombo.com' + img : ''),
-                        proveedor: 'APKCombo'
+                        resumen: resumen || 'Sin descripción',
+                        link: link.startsWith('http') ? link : 'https://f-droid.org' + link,
+                        proveedor: 'F-Droid'
                     });
                 }
             });
-        } catch (e) {
-            console.log('APKCombo error:', e.message);
-        }
 
-        // ===== APKPure (respaldo) =====
-        if (resultados.length === 0) {
-            try {
-                const { data } = await axios.get(
-                    `https://apkpure.com/es/search?q=${encodeURIComponent(query)}`,
-                    { headers: { 'User-Agent': 'Mozilla/5.0 (Linux; Android 10)' }, timeout: 10000 }
-                );
-                const $ = cheerio.load(data);
-                
-                $('.search-results li, .category-template .apk, .search-dl').each((i, el) => {
-                    if (resultados.length >= 10) return;
-                    const titulo = $(el).find('.p_title, .title, h2').first().text().trim();
-                    const link = $(el).find('a').attr('href') || '';
-                    const img = $(el).find('img').attr('src') || '';
-                    
-                    if (titulo && link) {
-                        resultados.push({
-                            titulo,
-                            link: link.startsWith('http') ? link : 'https://apkpure.com' + link,
-                            imagen: img.startsWith('http') ? img : '',
-                            proveedor: 'APKPure'
-                        });
-                    }
+            if (resultados.length === 0) {
+                return res.json({
+                    status: false,
+                    creator: "EL VIGILANTE",
+                    mensaje: "No se encontraron resultados"
                 });
-            } catch (e) {
-                console.log('APKPure error:', e.message);
             }
-        }
 
-        if (resultados.length === 0) {
             return res.json({
+                status: true,
+                creator: "EL VIGILANTE",
+                query: query,
+                total: resultados.length,
+                resultados
+            });
+
+        } catch (error) {
+            return res.status(500).json({
                 status: false,
                 creator: "EL VIGILANTE",
-                mensaje: "No se encontraron resultados. Prueba con otro nombre."
+                error: "Error en la búsqueda"
             });
         }
-
-        return res.json({
-            status: true,
-            creator: "EL VIGILANTE",
-            query: query,
-            total: resultados.length,
-            resultados
-        });
     });
 
 };
