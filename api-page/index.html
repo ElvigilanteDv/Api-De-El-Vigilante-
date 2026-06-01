@@ -12,7 +12,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: #0a0a0a; color: #e4e4e7; overflow-x: hidden; }
 
-        /* ========== AUTH ========== */
         #authScreen { position: fixed; inset: 0; background: #0a0a0a; display: flex; align-items: center; justify-content: center; z-index: 10001; padding: 20px; }
         #authScreen.hidden { display: none; }
         .auth-card { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 20px; padding: 40px; width: 100%; max-width: 420px; text-align: center; }
@@ -28,7 +27,6 @@
 
         #appContainer { display: none; } #appContainer.show { display: block; }
 
-        /* ========== ESTILOS SAKI HOST ========== */
         .top-bar, .sidebar, .status-card, .endpoint-card, .modal-content, .stat-card { background: rgba(17, 17, 17, 0.92); backdrop-filter: blur(12px); border-color: #2a2a2a; color: #e4e4e7; }
         .search-input { background: #0a0a0a; border-color: #2a2a2a; color: #ffffff; }
         .search-input:focus { border-color: #6c5ce7; box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2); outline: none; }
@@ -177,15 +175,30 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+// ==================== AUTH ====================
 const CODIGO_SECRETO = 'elvigilante';
 let modo = 'login';
 
 function renderAuth() {
     const card = document.getElementById('authCard');
     if (modo === 'login') {
-        card.innerHTML = `<img src="https://files.catbox.moe/0tha19.png" alt="Logo"><h2>Iniciar Sesión</h2><div class="auth-error" id="authError"></div><input type="text" id="authUser" class="inp" placeholder="Usuario o Email"><input type="password" id="authPass" class="inp" placeholder="Contraseña"><button class="btn btn-primary" onclick="login()">Entrar</button><p class="auth-toggle" onclick="modo='register';renderAuth();">¿No tienes cuenta? Regístrate</p>`;
+        card.innerHTML = `
+            <img src="https://files.catbox.moe/0tha19.png" alt="Logo"><h2>Iniciar Sesión</h2>
+            <div class="auth-error" id="authError"></div>
+            <input type="text" id="authUser" class="inp" placeholder="Usuario o Email">
+            <input type="password" id="authPass" class="inp" placeholder="Contraseña">
+            <button class="btn btn-primary" onclick="login()">Entrar</button>
+            <p class="auth-toggle" onclick="modo='register';renderAuth();">¿No tienes cuenta? Regístrate</p>`;
     } else {
-        card.innerHTML = `<img src="https://files.catbox.moe/0tha19.png" alt="Logo"><h2>Registro</h2><div class="auth-error" id="authError"></div><div class="auth-ok" id="authOk"></div><input type="text" id="regUser" class="inp" placeholder="Usuario (mín. 3)"><input type="email" id="regEmail" class="inp" placeholder="Email"><input type="password" id="regPass" class="inp" placeholder="Contraseña (mín. 6)"><input type="text" id="regCode" class="inp" placeholder="Código de invitación"><button class="btn btn-primary" onclick="register()">Crear cuenta</button><p class="auth-toggle" onclick="modo='login';renderAuth();">¿Ya tienes cuenta? Inicia sesión</p>`;
+        card.innerHTML = `
+            <img src="https://files.catbox.moe/0tha19.png" alt="Logo"><h2>Registro</h2>
+            <div class="auth-error" id="authError"></div><div class="auth-ok" id="authOk"></div>
+            <input type="text" id="regUser" class="inp" placeholder="Usuario (mín. 3)">
+            <input type="email" id="regEmail" class="inp" placeholder="Email">
+            <input type="password" id="regPass" class="inp" placeholder="Contraseña (mín. 6)">
+            <input type="text" id="regCode" class="inp" placeholder="Código de invitación">
+            <button class="btn btn-primary" onclick="register()">Crear cuenta</button>
+            <p class="auth-toggle" onclick="modo='login';renderAuth();">¿Ya tienes cuenta? Inicia sesión</p>`;
     }
 }
 
