@@ -9,31 +9,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root {
-            --bg: #f8f9fc; --sidebar-bg: #ffffff; --card: #ffffff;
-            --border: #e5e7eb; --text: #1a1a2e; --text2: #6b7280;
-            --primary: #4f46e5; --primary-light: #eef2ff;
+            --bg: #0a0a0a; --bg2: #111111; --card: #1a1a1a;
+            --border: #2a2a2a; --text: #e4e4e7; --text2: #a1a1aa;
+            --primary: #6c5ce7; --primary-light: rgba(108,92,231,0.1);
             --danger: #ef4444; --success: #10b981;
-            --shadow: 0 1px 3px rgba(0,0,0,0.06);
-            --shadow-md: 0 4px 6px rgba(0,0,0,0.05);
+            --shadow: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.4);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; }
 
         #authScreen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
         #authScreen.hidden { display: none; }
-        .auth-card { background: #fff; border: 1px solid var(--border); border-radius: 20px; padding: 40px; width: 100%; max-width: 420px; text-align: center; box-shadow: var(--shadow-md); }
+        .auth-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 40px; width: 100%; max-width: 420px; text-align: center; box-shadow: var(--shadow-md); }
         .auth-card img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 3px solid var(--primary); margin-bottom: 16px; }
         .auth-card h2 { font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 20px; }
         .auth-card .inp { width: 100%; padding: 12px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 14px; outline: none; margin-bottom: 12px; transition: all 0.2s; }
-        .auth-card .inp:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79,70,229,0.1); }
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-        .btn-primary { background: var(--primary); color: #fff; } .btn-primary:hover { background: #4338ca; }
+        .auth-card .inp:focus { border-color: var(--primary); }
+        .btn { padding: 12px 20px; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .btn-primary { background: var(--primary); color: #fff; width: 100%; } .btn-primary:hover { background: #7c6cf0; }
         .auth-error, .auth-ok { padding: 8px 12px; border-radius: 8px; font-size: 12px; margin-bottom: 10px; display: none; }
-        .auth-error { background: #fef2f2; color: var(--danger); } .auth-ok { background: #ecfdf5; color: var(--success); }
+        .auth-error { background: rgba(239,68,68,0.1); color: #fca5a5; } .auth-ok { background: rgba(16,185,129,0.1); color: #6ee7b7; }
         .auth-toggle { color: var(--primary); cursor: pointer; font-size: 13px; margin-top: 14px; } .auth-toggle:hover { text-decoration: underline; }
 
         #appContainer { display: none; width: 100%; } #appContainer.show { display: flex; }
-        .sidebar { width: 240px; min-height: 100vh; background: var(--sidebar-bg); border-right: 1px solid var(--border); padding: 20px 0; position: sticky; top: 0; flex-shrink: 0; }
+        .sidebar { width: 240px; min-height: 100vh; background: var(--bg2); border-right: 1px solid var(--border); padding: 20px 0; position: sticky; top: 0; flex-shrink: 0; }
         .sidebar-logo { padding: 0 20px 24px; font-size: 18px; font-weight: 700; color: var(--primary); }
         .sidebar-logo img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; margin-right: 8px; vertical-align: middle; }
         .sidebar-nav { padding: 0 12px; }
@@ -43,35 +43,40 @@
         .sidebar-divider { padding: 16px 14px 8px; font-size: 10px; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: 1px; }
 
         .main-panel { flex: 1; display: flex; flex-direction: column; }
-        .header { background: #fff; border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
+        .header { background: var(--bg2); border-bottom: 1px solid var(--border); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
         .header-left { display: flex; align-items: center; gap: 16px; }
         .header-title { font-size: 16px; font-weight: 600; }
         .header-avatar { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; cursor: pointer; }
-        .logout-btn { background: #fef2f2; color: var(--danger); border: none; padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; } .logout-btn:hover { background: #fee2e2; }
+        .logout-btn { background: rgba(239,68,68,0.1); color: #fca5a5; border: none; padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; } .logout-btn:hover { background: rgba(239,68,68,0.2); }
 
         .content { padding: 24px; flex: 1; }
         .page-title { font-size: 22px; font-weight: 700; margin-bottom: 20px; }
-        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 28px; }
-        .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; box-shadow: var(--shadow); transition: all 0.2s; cursor: pointer; }
-        .card:hover { box-shadow: var(--shadow-md); }
-        .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-        .card-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; background: var(--primary-light); color: var(--primary); }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin-bottom: 28px; }
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; box-shadow: var(--shadow); transition: all 0.2s; display: flex; flex-direction: column; cursor: pointer; }
+        .card:hover { box-shadow: var(--shadow-md); border-color: var(--primary); }
+        .card-badge { display: inline-block; background: var(--primary-light); color: var(--primary); padding: 3px 10px; border-radius: 6px; font-size: 10px; font-weight: 600; margin-bottom: 10px; width: fit-content; }
+        .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .card-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; background: var(--primary-light); color: var(--primary); flex-shrink: 0; }
         .card-title { font-size: 15px; font-weight: 600; }
-        .card-desc { font-size: 12px; color: var(--text2); margin-bottom: 12px; }
-        .card .btn-sm { width: auto; padding: 6px 14px; font-size: 11px; background: var(--primary); color: #fff; border: none; border-radius: 8px; cursor: pointer; }
+        .card-desc { font-size: 12px; color: var(--text2); margin-bottom: 14px; flex: 1; }
+        .card .btn-probar { width: 100%; padding: 12px; background: var(--primary); color: #fff; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-top: auto; }
+        .card .btn-probar:hover { background: #7c6cf0; }
 
         .stats-row { display: flex; gap: 16px; margin-bottom: 28px; flex-wrap: wrap; }
-        .stat-box { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; flex: 1; min-width: 130px; box-shadow: var(--shadow); }
+        .stat-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; flex: 1; min-width: 130px; box-shadow: var(--shadow); }
         .stat-num { font-size: 28px; font-weight: 700; color: var(--primary); }
         .stat-lbl { font-size: 11px; color: var(--text2); margin-top: 4px; text-transform: uppercase; }
 
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; display: none; align-items: center; justify-content: center; }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; display: none; align-items: center; justify-content: center; }
         .modal-overlay.show { display: flex; }
-        .modal-box { background: #fff; border-radius: 16px; padding: 28px; width: 90%; max-width: 600px; max-height: 80vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
-        .modal-box h3 { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
-        .modal-box .inp { width: 100%; padding: 10px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; font-size: 13px; outline: none; margin-bottom: 8px; }
+        .modal-box { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; width: 90%; max-width: 650px; max-height: 80vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+        .modal-box h3 { font-size: 18px; font-weight: 600; margin-bottom: 6px; color: var(--primary); }
+        .modal-box .badge { display: inline-block; background: var(--primary-light); color: var(--primary); padding: 3px 10px; border-radius: 6px; font-size: 10px; font-weight: 600; margin-bottom: 12px; }
+        .modal-box .inp { width: 100%; padding: 12px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 14px; outline: none; margin-bottom: 10px; }
         .modal-box .inp:focus { border-color: var(--primary); }
-        .modal-box .response { background: #1e1e2e; color: #10b981; font-family: monospace; padding: 14px; border-radius: 8px; font-size: 11px; max-height: 250px; overflow-y: auto; white-space: pre-wrap; margin-top: 8px; }
+        .modal-box .live-url { background: #000; color: var(--primary); font-family: monospace; padding: 10px 14px; border-radius: 8px; font-size: 12px; word-break: break-all; margin-bottom: 10px; }
+        .modal-box .response { background: #000; color: #10b981; font-family: monospace; padding: 14px; border-radius: 8px; font-size: 11px; max-height: 250px; overflow-y: auto; white-space: pre-wrap; margin-top: 10px; }
+        .modal-box .btn { padding: 10px 20px; font-size: 14px; }
 
         @media (max-width: 768px) { .sidebar { display: none; } .card-grid { grid-template-columns: 1fr; } .stats-row { flex-direction: column; } }
     </style>
@@ -128,6 +133,7 @@ async function cargarSettings(){
     try{const r=await fetch('/src/settings.json');if(r.ok)settings=await r.json();}catch(e){}
     document.getElementById('headerTitle').textContent=settings.name||'API DE EL VIGILANTE';
     const nav=document.getElementById('categoriesNav');
+    nav.innerHTML='';
     if(settings.categories)settings.categories.forEach(c=>{const d=document.createElement('div');d.className='sidebar-item';d.dataset.page='category';d.dataset.category=c.name;d.innerHTML='<i class="fas fa-folder"></i> '+c.name;nav.appendChild(d);});
     initSidebar();renderHome();
 }
@@ -145,37 +151,46 @@ function renderHome(){
         <div class="page-title" style="font-size:16px;">Endpoints disponibles</div>
         <div class="card-grid">
             ${settings.categories?.map(c=>c.items.map(i=>`
-                <div class="card" onclick="abrirModal('${i.name}','${i.desc||""}','${i.path}','${i.innerDesc||""}')">
+                <div class="card" onclick="abrirModal('${i.name}','${i.desc||""}','${i.path}','${c.name}','${i.innerDesc||""}')">
+                    <div class="card-badge">${c.name}</div>
                     <div class="card-header"><div class="card-icon"><i class="fas fa-code"></i></div><div class="card-title">${i.name}</div></div>
                     <div class="card-desc">${i.desc||''}</div>
-                    <button class="btn-sm">Probar</button>
+                    <button class="btn-probar">Probar</button>
                 </div>
             `).join('')).join('')}
         </div>`;
 }
-function renderCategory(cat){const c=settings.categories.find(x=>x.name===cat);if(!c)return;document.getElementById('mainContent').innerHTML=`<div class="page-title">${c.name}</div><div class="card-grid">${c.items.map(i=>`<div class="card" onclick="abrirModal('${i.name}','${i.desc||""}','${i.path}','${i.innerDesc||""}')"><div class="card-header"><div class="card-icon"><i class="fas fa-code"></i></div><div class="card-title">${i.name}</div></div><div class="card-desc">${i.desc||''}</div><button class="btn-sm">Probar</button></div>`).join('')}</div>`;}
+function renderCategory(cat){const c=settings.categories.find(x=>x.name===cat);if(!c)return;document.getElementById('mainContent').innerHTML=`<div class="page-title">${c.name}</div><div class="card-grid">${c.items.map(i=>`<div class="card" onclick="abrirModal('${i.name}','${i.desc||""}','${i.path}','${c.name}','${i.innerDesc||""}')"><div class="card-badge">${c.name}</div><div class="card-header"><div class="card-icon"><i class="fas fa-code"></i></div><div class="card-title">${i.name}</div></div><div class="card-desc">${i.desc||''}</div><button class="btn-probar">Probar</button></div>`).join('')}</div>`;}
 function renderStatus(){document.getElementById('mainContent').innerHTML=`<div class="page-title">Estado del Sistema</div><div class="card"><p>🟢 API Online</p><p>Versión: ${settings.version||'v1.0'}</p></div>`;}
-function renderAll(){document.getElementById('mainContent').innerHTML=`<div class="page-title">Todos los Endpoints</div><div class="card-grid">${settings.categories?.map(c=>c.items.map(i=>`<div class="card" onclick="abrirModal('${i.name}','${i.desc||""}','${i.path}','${i.innerDesc||""}')"><div class="card-header"><div class="card-icon"><i class="fas fa-code"></i></div><div class="card-title">${i.name}</div></div><div class="card-desc">${i.desc||''}</div><button class="btn-sm">Probar</button></div>`).join('')).join('')}</div>`;}
+function renderAll(){document.getElementById('mainContent').innerHTML=`<div class="page-title">Todos los Endpoints</div><div class="card-grid">${settings.categories?.map(c=>c.items.map(i=>`<div class="card" onclick="abrirModal('${i.name}','${i.desc||""}','${i.path}','${c.name}','${i.innerDesc||""}')"><div class="card-badge">${c.name}</div><div class="card-header"><div class="card-icon"><i class="fas fa-code"></i></div><div class="card-title">${i.name}</div></div><div class="card-desc">${i.desc||''}</div><button class="btn-probar">Probar</button></div>`).join('')).join('')}</div>`;}
 
-function abrirModal(name,desc,path,innerDesc){
+function abrirModal(name,desc,path,categoria,innerDesc){
     const modal=document.getElementById('modalOverlay');
+    const basePath=BASE_URL+path;
     document.getElementById('modalBox').innerHTML=`
-        <h3>${name}</h3><p style="color:var(--text2);margin-bottom:12px;">${desc||''}</p>
+        <h3>${name}</h3>
+        <div class="badge">${categoria||'General'}</div>
+        <p style="color:var(--text2);margin-bottom:8px;">${desc||''}</p>
         ${innerDesc?`<p style="color:var(--text2);font-size:12px;margin-bottom:8px;white-space:pre-wrap;">${innerDesc}</p>`:''}
-        <code style="background:#f1f5f9;padding:8px 12px;border-radius:6px;display:block;margin-bottom:12px;font-size:12px;">${BASE_URL}${path}</code>
-        <input type="text" id="modalParam" class="inp" placeholder="Parámetro...">
-        <button class="btn btn-primary" style="width:auto;margin-top:8px;" onclick="probar('${path}')">Enviar</button>
+        <div class="live-url" id="liveUrl">${basePath}</div>
+        <input type="text" id="modalParam" class="inp" placeholder="Escribe el parámetro aquí..." oninput="actualizarURL('${basePath}')">
+        <button class="btn btn-primary" style="width:100%;margin-top:8px;" onclick="probar('${basePath}')">Enviar solicitud</button>
         <div class="response" id="modalResponse">Esperando...</div>
     `;
     modal.classList.add('show');
 }
-async function probar(path){
+function actualizarURL(base){
+    const param=document.getElementById('modalParam')?.value||'';
+    const sep=base.includes('?')?'&':'?';
+    document.getElementById('liveUrl').textContent=param?base+sep+param:base;
+}
+async function probar(base){
     const param=document.getElementById('modalParam')?.value||'';
     const respEl=document.getElementById('modalResponse');
     respEl.textContent='Cargando...';
     try{
-        const sep=path.includes('?')?'&':'?';
-        const url=BASE_URL+path+sep+encodeURIComponent(param);
+        const sep=base.includes('?')?'&':'?';
+        const url=param?base+sep+encodeURIComponent(param):base;
         const r=await fetch(url);const d=await r.json();
         respEl.textContent=JSON.stringify(d,null,2);
     }catch(e){respEl.textContent='Error: '+e.message;}
