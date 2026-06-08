@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
-    <title>API DE EL VIGILANTE · Detector de Bots</title>
+    <title>API DE EL VIGILANTE · Plan Pro</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -30,150 +30,97 @@
             --accent-hover: #b87aff;
             --text: #e0d7f0;
             --text-muted: #a092b8;
-            --bot-red: #ff4444;
-            --human-green: #44ff44;
         }
 
-        .top-bar, .sidebar, .status-card, .endpoint-card, .modal-content, .stat-card, .bot-detector-card {
+        /* Pantalla de verificación de El Vigilante */
+        .vigilante-verify-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 40%, #1a1130, #0a0a0f);
+            z-index: 20000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            backdrop-filter: blur(20px);
+        }
+
+        .vigilante-card {
+            background: rgba(15, 10, 25, 0.95);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            padding: 40px;
+            width: 420px;
+            max-width: 90%;
+            text-align: center;
+            box-shadow: 0 30px 50px rgba(0,0,0,0.8);
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .vigilante-card img {
+            width: 100px;
+            border-radius: 50%;
+            border: 2px solid #9b4dff;
+            margin-bottom: 20px;
+        }
+
+        .vigilante-card h2 {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #c9b0ff, #9b4dff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .vigilante-card p {
+            color: #a092b8;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .vigilante-btn {
+            background: linear-gradient(135deg, #9b4dff, #6a1b9a);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .vigilante-btn:hover {
+            background: linear-gradient(135deg, #b87aff, #8a2be2);
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(155, 77, 255, 0.5);
+        }
+
+        .vigilante-loading {
+            display: none;
+            margin-top: 20px;
+            color: #9b4dff;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .top-bar, .sidebar, .status-card, .endpoint-card, .modal-content, .stat-card {
             background: var(--bg-card);
             backdrop-filter: blur(16px);
             border-color: var(--border);
             color: var(--text);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
-        }
-
-        /* Detector de Bots */
-        .bot-detector-card {
-            background: linear-gradient(135deg, rgba(15,10,25,0.95), rgba(25,15,45,0.95));
-            border-radius: 28px;
-            padding: 32px;
-            margin-bottom: 30px;
-            border: 1px solid var(--border);
-            transition: all 0.3s ease;
-        }
-
-        .bot-detector-card:hover {
-            border-color: var(--accent);
-            box-shadow: 0 0 30px rgba(155, 77, 255, 0.2);
-        }
-
-        .detector-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .detector-badge {
-            background: #2a1a45;
-            padding: 6px 16px;
-            border-radius: 40px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .test-buttons {
-            display: flex;
-            gap: 15px;
-            margin: 25px 0;
-            flex-wrap: wrap;
-        }
-
-        .test-btn {
-            background: rgba(155, 77, 255, 0.15);
-            border: 1px solid rgba(155, 77, 255, 0.3);
-            padding: 12px 24px;
-            border-radius: 50px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .test-btn:hover {
-            background: rgba(155, 77, 255, 0.3);
-            transform: translateY(-2px);
-        }
-
-        .test-btn.bot {
-            border-color: #ff4444;
-            background: rgba(255, 68, 68, 0.15);
-        }
-
-        .test-btn.bot:hover {
-            background: rgba(255, 68, 68, 0.3);
-        }
-
-        .test-btn.human {
-            border-color: #44ff44;
-            background: rgba(68, 255, 68, 0.1);
-        }
-
-        .detector-result {
-            background: #0d0720;
-            border-radius: 20px;
-            padding: 20px;
-            margin-top: 20px;
-            border: 1px solid var(--border);
-        }
-
-        .result-badge {
-            display: inline-block;
-            padding: 6px 16px;
-            border-radius: 40px;
-            font-weight: 700;
-            font-size: 14px;
-        }
-
-        .result-badge.bot {
-            background: rgba(255, 68, 68, 0.2);
-            color: #ff8888;
-            border: 1px solid #ff4444;
-        }
-
-        .result-badge.human {
-            background: rgba(68, 255, 68, 0.15);
-            color: #88ff88;
-            border: 1px solid #44ff44;
-        }
-
-        .reason-list {
-            list-style: none;
-            margin-top: 15px;
-        }
-
-        .reason-list li {
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            font-size: 13px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .bot-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .bot-stat-card {
-            background: rgba(0,0,0,0.3);
-            border-radius: 16px;
-            padding: 16px;
-            text-align: center;
-        }
-
-        .bot-stat-number {
-            font-size: 28px;
-            font-weight: 800;
-            color: var(--accent);
         }
 
         .search-input {
@@ -228,7 +175,6 @@
             transition: all 0.2s;
             white-space: nowrap;
             margin-left: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
 
         .endpoint-btn:hover {
@@ -264,8 +210,7 @@
             margin-bottom: 24px;
         }
 
-        /* Loading Screen */
-        #loadingScreen {
+        .loading-screen {
             position: fixed;
             top: 0;
             left: 0;
@@ -287,7 +232,6 @@
             border-top-color: var(--accent);
         }
 
-        /* Reproductor flotante */
         .music-player {
             position: fixed;
             bottom: 20px;
@@ -298,9 +242,8 @@
             border-radius: 24px;
             padding: 16px;
             z-index: 10000;
-            box-shadow: 0 25px 40px -10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(155, 77, 255, 0.2);
+            box-shadow: 0 25px 40px -10px rgba(0, 0, 0, 0.8);
             border: 1px solid var(--border);
-            transition: all 0.3s ease;
         }
 
         .music-player.minimized {
@@ -320,7 +263,6 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 10px;
-            color: var(--text);
         }
 
         .music-title {
@@ -339,8 +281,6 @@
             color: var(--text);
             cursor: pointer;
             font-size: 18px;
-            padding: 0 5px;
-            opacity: 0.7;
         }
 
         .progress-container {
@@ -359,14 +299,6 @@
             transition: width 0.1s linear;
         }
 
-        .time-info {
-            display: flex;
-            justify-content: space-between;
-            color: rgba(155, 77, 255, 0.8);
-            font-size: 10px;
-            margin-bottom: 10px;
-        }
-
         .music-controls {
             display: flex;
             justify-content: center;
@@ -381,13 +313,8 @@
             border-radius: 50%;
             width: 32px;
             height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             cursor: pointer;
-            transition: all 0.2s ease;
             color: var(--text);
-            font-size: 13px;
         }
 
         .control-btn.play-btn {
@@ -395,7 +322,6 @@
             width: 42px;
             height: 42px;
             color: #0a0a0f;
-            font-size: 16px;
         }
 
         .top-bar {
@@ -432,7 +358,6 @@
             align-items: center;
             gap: 5px;
             border-radius: 8px;
-            transition: all 0.2s;
         }
 
         .menu-toggle:hover {
@@ -445,7 +370,6 @@
             height: 2px;
             background: var(--text);
             transition: all 0.3s ease;
-            border-radius: 2px;
         }
 
         .menu-toggle.active span:nth-child(1) {
@@ -467,7 +391,6 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: -0.3px;
         }
 
         .pro-badge {
@@ -478,7 +401,6 @@
             padding: 4px 12px;
             border-radius: 20px;
             margin-left: 10px;
-            box-shadow: 0 0 12px rgba(155, 77, 255, 0.4);
         }
 
         .sidebar {
@@ -574,7 +496,6 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            margin-bottom: 10px;
         }
 
         .stats-grid {
@@ -592,7 +513,6 @@
             text-align: center;
             border: 1px solid var(--border);
             min-width: 180px;
-            transition: all 0.2s;
         }
 
         .stat-card:hover {
@@ -615,50 +535,65 @@
             color: #7a6b93;
         }
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
         @media (max-width: 768px) {
             .home-title { font-size: 36px; }
             .stat-card { padding: 18px 24px; min-width: 140px; }
             .music-player { width: 260px; }
             .main-content { padding: 20px 16px; }
-            .bot-stats { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <div id="loadingScreen">
-        <div class="spinner-border" role="status"></div>
-        <p style="margin-top: 16px; font-weight: 500;">Cargando API DE EL VIGILANTE 🛡️</p>
-    </div>
 
-    <div class="music-player" id="musicPlayer">
-        <div class="music-header">
-            <span class="music-title">🎵 ACENTO · QUINTO REAL</span>
-            <button class="music-toggle-min" id="toggleMinimize">−</button>
-        </div>
-        <div class="music-info">
-            <div class="song-name" id="songName">Una vaina loca</div>
-            <div class="artist-name" id="artistName">Acento Quinto Real</div>
-        </div>
-        <div class="progress-container" id="progressContainer">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
-        <div class="time-info">
-            <span id="currentTime">0:00</span>
-            <span id="duration">0:00</span>
-        </div>
-        <div class="music-controls">
-            <button class="control-btn" id="prevBtn"><i class="fas fa-backward"></i></button>
-            <button class="control-btn play-btn" id="playPauseBtn"><i class="fas fa-play"></i></button>
-            <button class="control-btn" id="nextBtn"><i class="fas fa-forward"></i></button>
+<!-- Pantalla de verificación de El Vigilante (se muestra hasta pasar el CAPTCHA) -->
+<div id="vigilanteScreen" class="vigilante-verify-screen">
+    <div class="vigilante-card">
+        <img src="https://files.catbox.moe/0tha19.png" alt="El Vigilante">
+        <h2>EL VIGILANTE</h2>
+        <p>Verificación de seguridad requerida</p>
+        <button class="vigilante-btn" id="verifyHumanBtn">
+            <i class="fas fa-shield-alt"></i> Verificar que soy humano
+        </button>
+        <div id="vigilanteLoading" class="vigilante-loading">
+            <div class="spinner-border spinner-border-sm" role="status"></div>
+            <span style="margin-left: 10px;">Cargando verificación...</span>
         </div>
     </div>
-    <audio id="audioPlayer"></audio>
+</div>
 
+<!-- Reproductor de música -->
+<div class="music-player" id="musicPlayer">
+    <div class="music-header">
+        <span class="music-title">🎵 ACENTO · QUINTO REAL</span>
+        <button class="music-toggle-min" id="toggleMinimize">−</button>
+    </div>
+    <div class="music-info">
+        <div class="song-name" id="songName">Una vaina loca</div>
+        <div class="artist-name" id="artistName">Acento Quinto Real</div>
+    </div>
+    <div class="progress-container" id="progressContainer">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="time-info">
+        <span id="currentTime">0:00</span>
+        <span id="duration">0:00</span>
+    </div>
+    <div class="music-controls">
+        <button class="control-btn" id="prevBtn"><i class="fas fa-backward"></i></button>
+        <button class="control-btn play-btn" id="playPauseBtn"><i class="fas fa-play"></i></button>
+        <button class="control-btn" id="nextBtn"><i class="fas fa-forward"></i></button>
+    </div>
+</div>
+<audio id="audioPlayer"></audio>
+
+<!-- Loading inicial -->
+<div id="loadingScreen" class="loading-screen">
+    <div class="spinner-border" role="status"></div>
+    <p style="margin-top: 16px; font-weight: 500;">Cargando API DE EL VIGILANTE 🛡️</p>
+</div>
+
+<!-- Interfaz principal (oculta hasta pasar verificación) -->
+<div id="mainInterface" style="display: none;">
     <div class="top-bar" id="topBar">
         <div class="top-bar-left">
             <button class="menu-toggle" id="menuToggle">
@@ -676,7 +611,6 @@
     <div class="sidebar" id="sidebar">
         <div class="sidebar-nav">
             <div class="sidebar-item active" data-page="home"><i class="fas fa-home"></i> Inicio</div>
-            <div class="sidebar-item" data-page="detector"><i class="fas fa-robot"></i> Detector de Bots</div>
             <div class="sidebar-item" data-page="status"><i class="fas fa-chart-line"></i> Estado</div>
             <div class="sidebar-category"><i class="fas fa-tag me-2"></i> Categorías</div>
             <div id="categoriesNav"></div>
@@ -686,406 +620,240 @@
     <div class="main-content" id="mainContent"></div>
 
     <div class="footer" id="footer">
-        <p>🛡️ API DE EL VIGILANTE · Detector de Bots Integrado · Música: Acento Quinto Real</p>
+        <p>🛡️ API DE EL VIGILANTE · Plan Pro · Verificación Anti-Bots Activada</p>
     </div>
+</div>
 
-    <div class="modal fade" id="apiModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div>
-                        <h5 class="modal-title" id="modalTitle"></h5>
-                        <p class="modal-desc" id="modalDesc"></p>
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+<div class="modal fade" id="apiModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h5 class="modal-title" id="modalTitle"></h5>
+                    <p class="modal-desc" id="modalDesc"></p>
                 </div>
-                <div class="modal-body">
-                    <div class="api-endpoint-box" id="endpointBox" style="display: none;"></div>
-                    <div id="paramsContainer"></div>
-                    <div id="loadingContainer" style="display: none; text-align: center; padding: 40px;">
-                        <div class="spinner-border" role="status"></div>
-                    </div>
-                    <div id="responseContainer"></div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="api-endpoint-box" id="endpointBox" style="display: none;"></div>
+                <div id="paramsContainer"></div>
+                <div id="loadingContainer" style="display: none; text-align: center; padding: 40px;">
+                    <div class="spinner-border" role="status"></div>
                 </div>
-                <div class="modal-footer">
-                    <button class="submit-btn" id="submitBtn" style="display: none;">Enviar</button>
-                </div>
+                <div id="responseContainer"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="submit-btn" id="submitBtn" style="display: none;">Enviar</button>
             </div>
         </div>
     </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // ==================== REPRODUCTOR ====================
-        const playlist = [
-            { name: "Acento Quinto Real", artist: "Acento Quinto Real", url: "https://files.catbox.moe/65kqmi.mp3" },
-            { name: "Una vaina loca", artist: "Acento Quinto Real", url: "https://files.catbox.moe/g2zd2z.mp3" }
-        ];
-        let currentSongIndex = 0, isPlaying = false, isMinimized = false;
-        const audioEl = document.getElementById('audioPlayer');
-        const playPauseBtn = document.getElementById('playPauseBtn');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const songNameEl = document.getElementById('songName');
-        const artistNameEl = document.getElementById('artistName');
-        const progressBar = document.getElementById('progressBar');
-        const progressContainer = document.getElementById('progressContainer');
-        const currentTimeEl = document.getElementById('currentTime');
-        const durationEl = document.getElementById('duration');
-        const toggleMinimizeBtn = document.getElementById('toggleMinimize');
-        const musicPlayerDiv = document.getElementById('musicPlayer');
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // ==================== REPRODUCTOR ====================
+    const playlist = [
+        { name: "Acento Quinto Real", artist: "Acento Quinto Real", url: "https://files.catbox.moe/65kqmi.mp3" },
+        { name: "Una vaina loca", artist: "Acento Quinto Real", url: "https://files.catbox.moe/g2zd2z.mp3" }
+    ];
+    let currentSongIndex = 0, isPlaying = false, isMinimized = false;
+    const audioEl = document.getElementById('audioPlayer');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const songNameEl = document.getElementById('songName');
+    const artistNameEl = document.getElementById('artistName');
+    const progressBar = document.getElementById('progressBar');
+    const progressContainer = document.getElementById('progressContainer');
+    const currentTimeEl = document.getElementById('currentTime');
+    const durationEl = document.getElementById('duration');
+    const toggleMinimizeBtn = document.getElementById('toggleMinimize');
+    const musicPlayerDiv = document.getElementById('musicPlayer');
 
-        function loadSong(index) {
-            const song = playlist[index];
-            songNameEl.textContent = song.name;
-            artistNameEl.textContent = song.artist;
-            audioEl.src = song.url;
-            audioEl.load();
-            if(isPlaying) audioEl.play().catch(e=>console.log);
-            updatePlayIcon();
-        }
-        function updatePlayIcon() { playPauseBtn.querySelector('i').className = isPlaying ? 'fas fa-pause' : 'fas fa-play'; }
-        function playPauseSong() { isPlaying ? audioEl.pause() : audioEl.play().catch(e=>console.log); isPlaying = !isPlaying; updatePlayIcon(); }
-        function nextSong() { currentSongIndex = (currentSongIndex+1)%playlist.length; loadSong(currentSongIndex); if(!isPlaying) playPauseSong(); }
-        function prevSong() { currentSongIndex = (currentSongIndex-1+playlist.length)%playlist.length; loadSong(currentSongIndex); if(!isPlaying) playPauseSong(); }
-        function updateProgress() { if(audioEl.duration && !isNaN(audioEl.duration)) { progressBar.style.width = `${(audioEl.currentTime/audioEl.duration)*100}%`; currentTimeEl.textContent = formatTime(audioEl.currentTime); durationEl.textContent = formatTime(audioEl.duration); } }
-        function formatTime(s) { if(isNaN(s)) return "0:00"; const m = Math.floor(s/60), seg = Math.floor(s%60); return `${m}:${seg.toString().padStart(2,'0')}`; }
-        function setProgress(e) { const rect = progressContainer.getBoundingClientRect(); audioEl.currentTime = ((e.clientX - rect.left)/rect.width) * audioEl.duration; }
-        function toggleMinimizePlayer() { isMinimized = !isMinimized; musicPlayerDiv.classList.toggle('minimized'); toggleMinimizeBtn.textContent = isMinimized ? '+' : '−'; }
-        playPauseBtn.onclick = playPauseSong; nextBtn.onclick = nextSong; prevBtn.onclick = prevSong; audioEl.ontimeupdate = updateProgress; audioEl.onended = nextSong; progressContainer.onclick = setProgress; toggleMinimizeBtn.onclick = toggleMinimizePlayer;
-        loadSong(0);
+    function loadSong(index) {
+        const song = playlist[index];
+        songNameEl.textContent = song.name;
+        artistNameEl.textContent = song.artist;
+        audioEl.src = song.url;
+        audioEl.load();
+        if(isPlaying) audioEl.play().catch(e=>console.log);
+        updatePlayIcon();
+    }
+    function updatePlayIcon() { playPauseBtn.querySelector('i').className = isPlaying ? 'fas fa-pause' : 'fas fa-play'; }
+    function playPauseSong() { isPlaying ? audioEl.pause() : audioEl.play().catch(e=>console.log); isPlaying = !isPlaying; updatePlayIcon(); }
+    function nextSong() { currentSongIndex = (currentSongIndex+1)%playlist.length; loadSong(currentSongIndex); if(!isPlaying) playPauseSong(); }
+    function prevSong() { currentSongIndex = (currentSongIndex-1+playlist.length)%playlist.length; loadSong(currentSongIndex); if(!isPlaying) playPauseSong(); }
+    function updateProgress() { if(audioEl.duration && !isNaN(audioEl.duration)) { progressBar.style.width = `${(audioEl.currentTime/audioEl.duration)*100}%`; currentTimeEl.textContent = formatTime(audioEl.currentTime); durationEl.textContent = formatTime(audioEl.duration); } }
+    function formatTime(s) { if(isNaN(s)) return "0:00"; const m = Math.floor(s/60), seg = Math.floor(s%60); return `${m}:${seg.toString().padStart(2,'0')}`; }
+    function setProgress(e) { const rect = progressContainer.getBoundingClientRect(); audioEl.currentTime = ((e.clientX - rect.left)/rect.width) * audioEl.duration; }
+    function toggleMinimizePlayer() { isMinimized = !isMinimized; musicPlayerDiv.classList.toggle('minimized'); toggleMinimizeBtn.textContent = isMinimized ? '+' : '−'; }
+    playPauseBtn.onclick = playPauseSong; nextBtn.onclick = nextSong; prevBtn.onclick = prevSong; audioEl.ontimeupdate = updateProgress; audioEl.onended = nextSong; progressContainer.onclick = setProgress; toggleMinimizeBtn.onclick = toggleMinimizePlayer;
+    loadSong(0);
 
-        // ==================== DETECTOR DE BOTS ====================
-        let botDetectionStats = {
-            total: 0,
-            bots: 0,
-            humans: 0
-        };
-
-        // Función para detectar bots basado en comportamiento
-        function detectarBot(comportamiento = 'normal') {
-            const huella = {
-                userAgent: navigator.userAgent,
-                webdriver: navigator.webdriver || false,
-                lenguaje: navigator.language,
-                resolucion: screen.width + 'x' + screen.height,
-                tiempoZona: Intl.DateTimeFormat().resolvedOptions().timeZone,
-                cookies: navigator.cookieEnabled,
-                timestamp: Date.now()
+    // ==================== VERIFICACIÓN CON EL VIGILANTE ====================
+    // La API Key para usar el vigilante.php (debes cambiarla por una real)
+    const VIGILANTE_API_KEY = "vigilante_9886307b8463c910de4658b8a13ccee2";
+    let vigilanteVerificado = localStorage.getItem('vigilante_api_verified') === 'true';
+    
+    // Función para cargar el script de verificación
+    function cargarVerificacionVigilante() {
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = `https://elvigilante1.site.je/vigilante.php?key=${VIGILANTE_API_KEY}`;
+            script.onload = () => {
+                console.log('✅ Script de El Vigilante cargado');
+                // Esperar a que el evento se dispare
+                window.addEventListener('vigilante:exito', function onSuccess() {
+                    window.removeEventListener('vigilante:exito', onSuccess);
+                    vigilanteVerificado = true;
+                    localStorage.setItem('vigilante_api_verified', 'true');
+                    resolve();
+                });
+                // Timeout por si acaso
+                setTimeout(() => {
+                    window.removeEventListener('vigilante:exito', onSuccess);
+                    reject(new Error('Timeout esperando verificación'));
+                }, 60000);
             };
-            
-            let puntaje = 0;
-            let razones = [];
-            
-            // Simular diferentes comportamientos para pruebas
-            if (comportamiento === 'bot_rapido') {
-                puntaje += 100;
-                razones.push('Tiempo de respuesta instantáneo (menos de 100ms)');
-                razones.push('Sin movimiento de ratón detectado');
-                razones.push('Patrón de clic programado');
-            } 
-            else if (comportamiento === 'bot_headless') {
-                puntaje += 90;
-                razones.push('Resolución de pantalla 800x600 (headless browser)');
-                razones.push('WebDriver detectado');
-                razones.push('UserAgent contiene "Headless"');
-            }
-            else if (comportamiento === 'bot_webdriver') {
-                puntaje += 95;
-                razones.push('navigator.webdriver = true');
-                razones.push('Propiedades de ventana modificadas');
-                razones.push('Fingerprint de automatización detectado');
-            }
-            else {
-                // Comportamiento humano normal
-                const tiempoRespuesta = Math.floor(Math.random() * 5000) + 2000;
-                const movimientosRaton = Math.floor(Math.random() * 20) + 5;
-                
-                if (tiempoRespuesta < 200) {
-                    puntaje += 50;
-                    razones.push('Tiempo de respuesta muy rápido');
-                }
-                if (movimientosRaton < 3) {
-                    puntaje += 40;
-                    razones.push('Pocos movimientos de ratón');
-                }
-                
-                if (puntaje === 0) {
-                    razones.push('Comportamiento humano normal');
-                }
-            }
-            
-            const esBot = puntaje >= 60;
-            
-            // Actualizar estadísticas
-            botDetectionStats.total++;
-            if (esBot) {
-                botDetectionStats.bots++;
-            } else {
-                botDetectionStats.humans++;
-            }
-            
-            return {
-                es_bot: esBot,
-                confianza: puntaje,
-                razones: razones,
-                huella: huella,
-                estadisticas: botDetectionStats
+            script.onerror = () => reject(new Error('Error cargando script de verificación'));
+            document.head.appendChild(script);
+        });
+    }
+
+    // Iniciar verificación
+    async function iniciarVerificacion() {
+        const btn = document.getElementById('verifyHumanBtn');
+        const loading = document.getElementById('vigilanteLoading');
+        btn.disabled = true;
+        loading.style.display = 'block';
+        
+        try {
+            await cargarVerificacionVigilante();
+            // Verificación exitosa, mostrar interfaz principal
+            document.getElementById('vigilanteScreen').style.display = 'none';
+            document.getElementById('mainInterface').style.display = 'block';
+            iniciarAPI();
+        } catch (error) {
+            console.error('Error en verificación:', error);
+            alert('Error al cargar la verificación. Por favor, recarga la página.');
+            btn.disabled = false;
+            loading.style.display = 'none';
+        }
+    }
+
+    // Si ya está verificado, mostrar directamente
+    if (vigilanteVerificado) {
+        document.getElementById('vigilanteScreen').style.display = 'none';
+        document.getElementById('mainInterface').style.display = 'block';
+        iniciarAPI();
+    } else {
+        document.getElementById('verifyHumanBtn').onclick = iniciarVerificacion;
+    }
+
+    // ==================== API Y DASHBOARD ====================
+    let settings = {
+        name: "API DE EL VIGILANTE",
+        version: "v2.0 · Plan Pro",
+        description: "API profesional con endpoints creados por El Vigilante. Verificación anti-bots activa.",
+        header: { imageSrc: ["https://files.catbox.moe/0tha19.png"], imageSize: { desktop: "50%" } },
+        apiSettings: { creator: "El Vigilante" },
+        categories: [
+            { name: "Usuarios", items: [{ name: "Perfil", path: "/api/user", desc: "Obtener perfil de usuario", innerDesc: "Devuelve datos del perfil del usuario autenticado" }] },
+            { name: "Contenido", items: [{ name: "Feed", path: "/api/feed", desc: "Feed dinámico de contenido", innerDesc: "Obtiene las últimas publicaciones" }] },
+            { name: "Seguridad", items: [{ name: "Estado", path: "/api/status", desc: "Estado del sistema", innerDesc: "Devuelve información del estado de la API" }] }
+        ]
+    };
+
+    async function loadSettings() {
+        try { const r = await fetch('/src/settings.json'); if(r.ok) settings = await r.json(); } catch(e) {}
+        document.title = settings.name;
+        document.getElementById('apiName').innerHTML = settings.name;
+        const categoriesNav = document.getElementById('categoriesNav');
+        categoriesNav.innerHTML = '';
+        if(settings.categories) settings.categories.forEach(cat => {
+            const div = document.createElement('div');
+            div.className = 'sidebar-item';
+            div.dataset.page = 'category';
+            div.dataset.category = cat.name;
+            div.innerHTML = `<i class="fas fa-folder me-2"></i> ${cat.name}`;
+            categoriesNav.appendChild(div);
+        });
+    }
+
+    function getTotalEndpoints() { let t=0; settings.categories?.forEach(c=> t+=c.items.length); return t; }
+
+    function initUI() {
+        const menuToggle = document.getElementById('menuToggle'), sidebar = document.getElementById('sidebar'), overlay = document.getElementById('sidebarOverlay');
+        menuToggle.onclick = () => { menuToggle.classList.toggle('active'); sidebar.classList.toggle('active'); overlay.classList.toggle('active'); };
+        overlay.onclick = () => { menuToggle.classList.remove('active'); sidebar.classList.remove('active'); overlay.classList.remove('active'); };
+        document.querySelectorAll('.sidebar-item').forEach(item => {
+            item.onclick = () => {
+                document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));
+                item.classList.add('active');
+                const page = item.dataset.page, cat = item.dataset.category;
+                renderPage(page==='category'?'category':page, cat);
+                menuToggle.classList.remove('active'); sidebar.classList.remove('active'); overlay.classList.remove('active');
             };
+        });
+    }
+
+    function renderPage(page, category=null) {
+        const container = document.getElementById('mainContent');
+        if(page === 'home') {
+            const imgSrc = Array.isArray(settings.header.imageSrc)? settings.header.imageSrc[0]:'https://files.catbox.moe/0tha19.png';
+            container.innerHTML = `<div class="home-banner"><img src="${imgSrc}" alt="API DE EL VIGILANTE"><h1 class="home-title">${settings.name}</h1><div class="home-version" style="display:inline-block; background:#2a1a45; padding:6px 22px; border-radius:50px; margin-top:10px;"><i class="fas fa-crown me-2" style="color:#ffd700;"></i> ${settings.version}</div><p class="text-info mb-4 mt-3">${settings.description}</p><div class="stats-grid"><div class="stat-card"><div class="stat-number">${getTotalEndpoints()}</div><div class="stat-label">Endpoints</div></div><div class="stat-card"><div class="stat-number">${settings.categories?.length||0}</div><div class="stat-label">Categorías</div></div><div class="stat-card"><div class="stat-number"><i class="fas fa-shield-alt"></i></div><div class="stat-label">Anti-Bots Activo</div></div></div></div>`;
+        } 
+        else if(page === 'status') {
+            container.innerHTML = `<h2 class="category-title"><i class="fas fa-chart-line me-2"></i> Estado del sistema</h2>
+                <div class="status-grid" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:24px;">
+                    <div class="status-card" style="background:rgba(15,10,25,0.9); border-radius:20px; padding:24px;"><div class="status-card-title" style="font-size:11px; text-transform:uppercase; color:#7a6b93;">API Status</div><div class="status-card-value" style="color:#9b4dff; font-size:20px; font-weight:700;">🟢 Online</div></div>
+                    <div class="status-card" style="background:rgba(15,10,25,0.9); border-radius:20px; padding:24px;"><div class="status-card-title">Verificación</div><div class="status-card-value" style="color:#9b4dff;">✅ Anti-Bots Activo</div></div>
+                    <div class="status-card" style="background:rgba(15,10,25,0.9); border-radius:20px; padding:24px;"><div class="status-card-title">Versión</div><div class="status-card-value">${settings.version}</div></div>
+                    <div class="status-card" style="background:rgba(15,10,25,0.9); border-radius:20px; padding:24px;"><div class="status-card-title">Música Activa</div><div class="status-card-value">🎵 Una vaina loca</div></div>
+                </div>`;
         }
-
-        // ==================== SETTINGS Y UI ====================
-        let settings = {
-            name: "API DE EL VIGILANTE",
-            version: "v2.0 · Plan Pro",
-            description: "API profesional con endpoints creados por El Vigilante. Incluye detector de bots integrado.",
-            header: { imageSrc: ["https://files.catbox.moe/0tha19.png"], imageSize: { desktop: "50%" } },
-            apiSettings: { creator: "El Vigilante" },
-            categories: [
-                { name: "Usuarios", items: [{ name: "Perfil", path: "/api/user", desc: "Obtener perfil de usuario", innerDesc: "Devuelve datos del perfil del usuario autenticado" }] },
-                { name: "Contenido", items: [{ name: "Feed", path: "/api/feed", desc: "Feed dinámico de contenido", innerDesc: "Obtiene las últimas publicaciones" }] },
-                { name: "Seguridad", items: [{ name: "Detectar Bot", path: "/api/detectar_bot", desc: "Analiza si un visitante es bot", innerDesc: "Devuelve análisis de comportamiento" }] }
-            ]
-        };
-
-        let users = JSON.parse(localStorage.getItem('vigilante_api_users') || '[]');
-        let currentUser = JSON.parse(localStorage.getItem('vigilante_api_current') || 'null');
-
-        function saveUsers() { localStorage.setItem('vigilante_api_users', JSON.stringify(users)); }
-        function saveCurrentUser() { localStorage.setItem('vigilante_api_current', JSON.stringify(currentUser)); }
-
-        function renderMainApp() {
-            document.getElementById('topBar').style.display = 'flex';
-            document.getElementById('sidebar').style.display = 'block';
-            document.getElementById('mainContent').style.display = 'block';
-            document.getElementById('footer').style.display = 'block';
-            document.getElementById('sidebarOverlay').style.display = 'block';
-            updateUserUI();
-            renderPage('home');
-        }
-
-        function updateUserUI() {
-            const userSection = document.getElementById('userSection');
-            if (currentUser) {
-                userSection.innerHTML = `
-                    <span style="color:#c9b0ff;"><i class="fas fa-user-shield me-1"></i> ${currentUser.username}</span>
-                    <span class="pro-badge" style="font-size:10px;">PRO</span>
-                    <button class="btn-glass" onclick="logout()" style="margin-left:10px;"><i class="fas fa-sign-out-alt"></i> Salir</button>
-                `;
-            } else {
-                userSection.innerHTML = `<button class="btn-glass" onclick="showAuth()"><i class="fas fa-sign-in-alt"></i> Acceder</button>`;
+        else if(page === 'category' && category) {
+            const cat = settings.categories.find(c=>c.name===category);
+            if(cat) {
+                container.innerHTML = `<h2 class="category-title"><i class="fas fa-folder-open me-2"></i> ${cat.name}</h2>
+                    <div class="endpoints-grid" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:20px;">${cat.items.map(item=>`<div class="endpoint-card" style="background:rgba(15,10,25,0.9); border:1px solid var(--border); border-radius:20px; padding:20px; display:flex; justify-content:space-between; align-items:center;"><div class="endpoint-info"><div class="endpoint-name" style="font-weight:700;"><i class="fas fa-code me-2"></i> ${item.name}</div><div class="endpoint-desc" style="font-size:12px; color:#a092b8;">${item.desc}</div></div><button class="endpoint-btn" onclick='openEndpoint("${item.path}", "${item.name}", "${item.desc}", "${item.innerDesc}")' style="background:linear-gradient(135deg,#2a1a45,#140d24); border:none; padding:8px 20px; border-radius:40px; color:white;">GET <i class="fas fa-arrow-right ms-1"></i></button></div>`).join('')}</div>`;
             }
         }
+    }
 
-        function logout() {
-            currentUser = null;
-            saveCurrentUser();
-            updateUserUI();
-            location.reload();
+    window.openEndpoint = async function(path, name, desc, innerDesc) {
+        const modal = new bootstrap.Modal(document.getElementById('apiModal'));
+        document.getElementById('modalTitle').textContent = name;
+        document.getElementById('modalDesc').textContent = desc;
+        document.getElementById('endpointBox').style.display = 'block';
+        document.getElementById('endpointBox').innerHTML = `<code>${window.location.origin + path}</code>`;
+        document.getElementById('paramsContainer').innerHTML = '';
+        document.getElementById('responseContainer').innerHTML = '';
+        document.getElementById('submitBtn').style.display = 'none';
+        document.getElementById('loadingContainer').style.display = 'block';
+        
+        let url = window.location.origin + path;
+        
+        try {
+            const resp = await fetch(url);
+            const data = await resp.json();
+            document.getElementById('loadingContainer').style.display = 'none';
+            document.getElementById('responseContainer').innerHTML = `<pre class="response-box">${JSON.stringify(data, null, 2)}</pre>`;
+        } catch(e) {
+            document.getElementById('loadingContainer').style.display = 'none';
+            document.getElementById('responseContainer').innerHTML = `<pre class="response-box text-danger">Error: ${e.message}</pre>`;
         }
+        modal.show();
+    };
 
-        function showAuth() {
-            const username = prompt("👤 Usuario:");
-            if (!username) return;
-            const password = prompt("🔐 Contraseña:");
-            if (!password) return;
-            
-            let user = users.find(u => u.username === username && u.password === password);
-            if (!user && users.length === 0) {
-                user = { username, password };
-                users.push(user);
-                saveUsers();
-            } else if (!user) {
-                alert("Credenciales incorrectas");
-                return;
-            }
-            currentUser = user;
-            saveCurrentUser();
-            updateUserUI();
-            renderPage('home');
-        }
-
-        async function loadSettings() {
-            try { const r = await fetch('/src/settings.json'); if(r.ok) settings = await r.json(); } catch(e) {}
-            document.title = settings.name;
-            document.getElementById('apiName').innerHTML = settings.name;
-            const categoriesNav = document.getElementById('categoriesNav');
-            categoriesNav.innerHTML = '';
-            if(settings.categories) settings.categories.forEach(cat => {
-                const div = document.createElement('div');
-                div.className = 'sidebar-item';
-                div.dataset.page = 'category';
-                div.dataset.category = cat.name;
-                div.innerHTML = `<i class="fas fa-folder me-2"></i> ${cat.name}`;
-                categoriesNav.appendChild(div);
-            });
-        }
-
-        function getTotalEndpoints() { let t=0; settings.categories?.forEach(c=> t+=c.items.length); return t; }
-
-        function initUI() {
-            const menuToggle = document.getElementById('menuToggle'), sidebar = document.getElementById('sidebar'), overlay = document.getElementById('sidebarOverlay');
-            menuToggle.onclick = () => { menuToggle.classList.toggle('active'); sidebar.classList.toggle('active'); overlay.classList.toggle('active'); };
-            overlay.onclick = () => { menuToggle.classList.remove('active'); sidebar.classList.remove('active'); overlay.classList.remove('active'); };
-            document.querySelectorAll('.sidebar-item').forEach(item => {
-                item.onclick = () => {
-                    document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));
-                    item.classList.add('active');
-                    const page = item.dataset.page, cat = item.dataset.category;
-                    renderPage(page==='category'?'category':page, cat);
-                    menuToggle.classList.remove('active'); sidebar.classList.remove('active'); overlay.classList.remove('active');
-                };
-            });
-        }
-
-        function renderPage(page, category=null) {
-            const container = document.getElementById('mainContent');
-            if(page === 'home') {
-                const imgSrc = Array.isArray(settings.header.imageSrc)? settings.header.imageSrc[0]:'https://files.catbox.moe/0tha19.png';
-                container.innerHTML = `<div class="home-banner"><img src="${imgSrc}" alt="API DE EL VIGILANTE"><h1 class="home-title">${settings.name}</h1><div class="home-version"><i class="fas fa-crown me-2" style="color:#ffd700;"></i> ${settings.version}</div><p class="text-info mb-4">${settings.description}</p><div class="stats-grid"><div class="stat-card"><div class="stat-number">${getTotalEndpoints()}</div><div class="stat-label">Endpoints</div></div><div class="stat-card"><div class="stat-number">${settings.categories?.length||0}</div><div class="stat-label">Categorías</div></div><div class="stat-card"><div class="stat-number"><i class="fas fa-robot"></i></div><div class="stat-label">Detección de Bots</div></div></div></div>`;
-            } 
-            else if(page === 'detector') {
-                container.innerHTML = `
-                    <div class="bot-detector-card">
-                        <div class="detector-title">
-                            <i class="fas fa-robot" style="color: var(--accent);"></i>
-                            Detector de Bots en Tiempo Real
-                            <span class="detector-badge"><i class="fas fa-shield-alt"></i> El Vigilante</span>
-                        </div>
-                        <p>Este módulo analiza el comportamiento del visitante para determinar si es un humano o un bot automatizado.</p>
-                        
-                        <div class="test-buttons">
-                            <button class="test-btn human" onclick="testDetector('normal')">
-                                <i class="fas fa-user-check"></i> Simular Humano Normal
-                            </button>
-                            <button class="test-btn bot" onclick="testDetector('bot_rapido')">
-                                <i class="fas fa-bolt"></i> Simular Bot Rápido
-                            </button>
-                            <button class="test-btn bot" onclick="testDetector('bot_headless')">
-                                <i class="fas fa-desktop"></i> Simular Headless Browser
-                            </button>
-                            <button class="test-btn bot" onclick="testDetector('bot_webdriver')">
-                                <i class="fas fa-code"></i> Simular WebDriver
-                            </button>
-                        </div>
-                        
-                        <div class="detector-result" id="detectorResult">
-                            <div style="text-align: center; padding: 20px;">
-                                <i class="fas fa-shield-alt" style="font-size: 48px; color: var(--accent); opacity: 0.5;"></i>
-                                <p style="margin-top: 10px;">Haz clic en un botón para probar la detección</p>
-                            </div>
-                        </div>
-                        
-                        <div class="bot-stats">
-                            <div class="bot-stat-card">
-                                <div class="bot-stat-number" id="statTotal">0</div>
-                                <div class="stat-label">Total Pruebas</div>
-                            </div>
-                            <div class="bot-stat-card">
-                                <div class="bot-stat-number" style="color: #ff4444;" id="statBots">0</div>
-                                <div class="stat-label">Bots Detectados</div>
-                            </div>
-                            <div class="bot-stat-card">
-                                <div class="bot-stat-number" style="color: #44ff44;" id="statHumans">0</div>
-                                <div class="stat-label">Humanos Verificados</div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                updateStatsDisplay();
-            }
-            else if(page === 'status') {
-                container.innerHTML = `<h2 class="category-title"><i class="fas fa-chart-line me-2"></i> Estado del sistema</h2>
-                    <div class="status-grid">
-                        <div class="status-card"><div class="status-card-title">API Status</div><div class="status-card-value" style="color:#9b4dff;">🟢 Online</div></div>
-                        <div class="status-card"><div class="status-card-title">Detector de Bots</div><div class="status-card-value" style="color:#9b4dff;">✅ Activo</div></div>
-                        <div class="status-card"><div class="status-card-title">Versión</div><div class="status-card-value">${settings.version}</div></div>
-                        <div class="status-card"><div class="status-card-title">Música Activa</div><div class="status-card-value">🎵 Una vaina loca</div></div>
-                    </div>`;
-            }
-            else if(page === 'category' && category) {
-                const cat = settings.categories.find(c=>c.name===category);
-                if(cat) {
-                    container.innerHTML = `<h2 class="category-title"><i class="fas fa-folder-open me-2"></i> ${cat.name}</h2>
-                        <div class="endpoints-grid">${cat.items.map(item=>`<div class="endpoint-card"><div class="endpoint-info"><div class="endpoint-name"><i class="fas fa-code me-2"></i> ${item.name}</div><div class="endpoint-desc">${item.desc}</div></div><button class="endpoint-btn" onclick='openEndpoint("${item.path}", "${item.name}", "${item.desc}", "${item.innerDesc}")'>GET <i class="fas fa-arrow-right ms-1"></i></button></div>`).join('')}</div>`;
-                }
-            }
-        }
-
-        function updateStatsDisplay() {
-            const totalEl = document.getElementById('statTotal');
-            const botsEl = document.getElementById('statBots');
-            const humansEl = document.getElementById('statHumans');
-            if(totalEl) totalEl.textContent = botDetectionStats.total;
-            if(botsEl) botsEl.textContent = botDetectionStats.bots;
-            if(humansEl) humansEl.textContent = botDetectionStats.humans;
-        }
-
-        window.testDetector = function(comportamiento) {
-            const resultado = detectarBot(comportamiento);
-            const resultDiv = document.getElementById('detectorResult');
-            const badgeClass = resultado.es_bot ? 'bot' : 'human';
-            const badgeText = resultado.es_bot ? '🤖 BOT DETECTADO' : '✅ HUMANO VERIFICADO';
-            
-            resultDiv.innerHTML = `
-                <div style="margin-bottom: 15px;">
-                    <span class="result-badge ${badgeClass}"><i class="fas ${resultado.es_bot ? 'fa-robot' : 'fa-user-check'} me-2"></i> ${badgeText}</span>
-                    <span style="margin-left: 15px; font-size: 13px;">Confianza: ${resultado.confianza}%</span>
-                </div>
-                <ul class="reason-list">
-                    ${resultado.razones.map(r => `<li><i class="fas ${resultado.es_bot ? 'fa-exclamation-triangle' : 'fa-check-circle'}" style="color: ${resultado.es_bot ? '#ff4444' : '#44ff44'}"></i> ${r}</li>`).join('')}
-                </ul>
-                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.05);">
-                    <small class="text-muted"><i class="fas fa-fingerprint"></i> Huella digital capturada: ${resultado.huella.resolucion}, ${resultado.huella.userAgent.substring(0, 50)}...</small>
-                </div>
-            `;
-            updateStatsDisplay();
-        };
-
-        window.openEndpoint = async function(path, name, desc, innerDesc) {
-            const modal = new bootstrap.Modal(document.getElementById('apiModal'));
-            document.getElementById('modalTitle').textContent = name;
-            document.getElementById('modalDesc').textContent = desc;
-            document.getElementById('endpointBox').style.display = 'block';
-            document.getElementById('endpointBox').innerHTML = `<code>${window.location.origin + path}</code>`;
-            document.getElementById('paramsContainer').innerHTML = '';
-            document.getElementById('responseContainer').innerHTML = '';
-            document.getElementById('submitBtn').style.display = 'none';
-            document.getElementById('loadingContainer').style.display = 'block';
-            
-            let url = window.location.origin + path;
-            
-            if (path.includes('detectar_bot')) {
-                const resultado = detectarBot('normal');
-                document.getElementById('loadingContainer').style.display = 'none';
-                document.getElementById('responseContainer').innerHTML = `<pre class="response-box">${JSON.stringify(resultado, null, 2)}</pre>`;
-            } else {
-                try {
-                    const resp = await fetch(url);
-                    const data = await resp.json();
-                    document.getElementById('loadingContainer').style.display = 'none';
-                    document.getElementById('responseContainer').innerHTML = `<pre class="response-box">${JSON.stringify(data, null, 2)}</pre>`;
-                } catch(e) {
-                    document.getElementById('loadingContainer').style.display = 'none';
-                    document.getElementById('responseContainer').innerHTML = `<pre class="response-box text-danger">Error: ${e.message}</pre>`;
-                }
-            }
-            modal.show();
-        };
-
-        async function start() {
-            await loadSettings();
-            initUI();
-            if (currentUser) {
-                renderMainApp();
-            } else {
-                renderMainApp();
-            }
-            const loading = document.getElementById('loadingScreen');
-            loading.style.opacity = '0';
-            setTimeout(() => { loading.style.display = 'none'; }, 500);
-        }
-        start();
-    </script>
+    async function iniciarAPI() {
+        await loadSettings();
+        initUI();
+        renderPage('home');
+        const loading = document.getElementById('loadingScreen');
+        loading.style.opacity = '0';
+        setTimeout(() => { loading.style.display = 'none'; }, 500);
+    }
+</script>
 </body>
 </html>
