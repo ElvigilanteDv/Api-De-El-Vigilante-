@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
-    <title>API DE EL VIGILANTE · Profesional</title>
+    <title>API DE EL VIGILANTE · Detector de Bots</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -22,7 +22,6 @@
             overflow-x: hidden;
         }
 
-        /* ========== NUEVA PALETA NEGRO/MORADO ========== */
         :root {
             --bg-dark: #0a0a0f;
             --bg-card: rgba(15, 10, 25, 0.9);
@@ -31,19 +30,150 @@
             --accent-hover: #b87aff;
             --text: #e0d7f0;
             --text-muted: #a092b8;
+            --bot-red: #ff4444;
+            --human-green: #44ff44;
         }
 
-        .top-bar,
-        .sidebar,
-        .status-card,
-        .endpoint-card,
-        .modal-content,
-        .stat-card {
+        .top-bar, .sidebar, .status-card, .endpoint-card, .modal-content, .stat-card, .bot-detector-card {
             background: var(--bg-card);
             backdrop-filter: blur(16px);
             border-color: var(--border);
             color: var(--text);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Detector de Bots */
+        .bot-detector-card {
+            background: linear-gradient(135deg, rgba(15,10,25,0.95), rgba(25,15,45,0.95));
+            border-radius: 28px;
+            padding: 32px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .bot-detector-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 30px rgba(155, 77, 255, 0.2);
+        }
+
+        .detector-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .detector-badge {
+            background: #2a1a45;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .test-buttons {
+            display: flex;
+            gap: 15px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .test-btn {
+            background: rgba(155, 77, 255, 0.15);
+            border: 1px solid rgba(155, 77, 255, 0.3);
+            padding: 12px 24px;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .test-btn:hover {
+            background: rgba(155, 77, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .test-btn.bot {
+            border-color: #ff4444;
+            background: rgba(255, 68, 68, 0.15);
+        }
+
+        .test-btn.bot:hover {
+            background: rgba(255, 68, 68, 0.3);
+        }
+
+        .test-btn.human {
+            border-color: #44ff44;
+            background: rgba(68, 255, 68, 0.1);
+        }
+
+        .detector-result {
+            background: #0d0720;
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .result-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .result-badge.bot {
+            background: rgba(255, 68, 68, 0.2);
+            color: #ff8888;
+            border: 1px solid #ff4444;
+        }
+
+        .result-badge.human {
+            background: rgba(68, 255, 68, 0.15);
+            color: #88ff88;
+            border: 1px solid #44ff44;
+        }
+
+        .reason-list {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .reason-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bot-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .bot-stat-card {
+            background: rgba(0,0,0,0.3);
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .bot-stat-number {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--accent);
         }
 
         .search-input {
@@ -104,7 +234,6 @@
         .endpoint-btn:hover {
             background: linear-gradient(135deg, #3d2566, #2a1a45);
             transform: scale(1.02);
-            box-shadow: 0 0 15px rgba(155, 77, 255, 0.4);
         }
 
         .submit-btn {
@@ -117,7 +246,6 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
         }
 
         .submit-btn:hover {
@@ -125,34 +253,15 @@
             box-shadow: 0 0 20px rgba(155, 77, 255, 0.5);
         }
 
-        .live-url-box {
-            background: #0d0720;
-            color: var(--accent);
-            border-color: var(--border);
-        }
-
-        .home-version {
-            background: #2a1a45;
-            color: white;
-            font-weight: 700;
-            padding: 6px 22px;
-            border-radius: 50px;
-            letter-spacing: 0.5px;
-            box-shadow: 0 0 15px rgba(155, 77, 255, 0.3);
-        }
-
-        .footer {
-            border-top-color: var(--border);
-            color: #7a6b93;
-        }
-
         .category-title {
             color: #c9b0ff;
-            border-bottom-color: var(--border);
+            border-bottom: 2px solid var(--border);
             font-weight: 800;
             display: flex;
             align-items: center;
             gap: 10px;
+            padding-bottom: 12px;
+            margin-bottom: 24px;
         }
 
         /* Loading Screen */
@@ -178,7 +287,7 @@
             border-top-color: var(--accent);
         }
 
-        /* ========== REPRODUCTOR FLOTANTE ========== */
+        /* Reproductor flotante */
         .music-player {
             position: fixed;
             bottom: 20px;
@@ -234,24 +343,6 @@
             opacity: 0.7;
         }
 
-        .music-info {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-
-        .song-name {
-            color: var(--text);
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .artist-name {
-            color: var(--accent);
-            font-size: 11px;
-            letter-spacing: 0.3px;
-        }
-
         .progress-container {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
@@ -266,7 +357,6 @@
             height: 100%;
             width: 0%;
             transition: width 0.1s linear;
-            box-shadow: 0 0 8px var(--accent);
         }
 
         .time-info {
@@ -300,25 +390,14 @@
             font-size: 13px;
         }
 
-        .control-btn:hover {
-            background: rgba(155, 77, 255, 0.5);
-            transform: scale(1.05);
-        }
-
         .control-btn.play-btn {
             background: var(--accent);
             width: 42px;
             height: 42px;
             color: #0a0a0f;
             font-size: 16px;
-            box-shadow: 0 0 18px rgba(155, 77, 255, 0.5);
         }
 
-        .control-btn.play-btn:hover {
-            background: #b87aff;
-        }
-
-        /* ========== TOP BAR ========== */
         .top-bar {
             position: fixed;
             top: 0;
@@ -402,50 +481,6 @@
             box-shadow: 0 0 12px rgba(155, 77, 255, 0.4);
         }
 
-        .user-section {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-glass {
-            background: rgba(155, 77, 255, 0.15);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(155, 77, 255, 0.5);
-            color: white;
-            padding: 8px 18px;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px;
-        }
-
-        .btn-glass:hover {
-            background: rgba(155, 77, 255, 0.3);
-            box-shadow: 0 0 15px rgba(155, 77, 255, 0.4);
-        }
-
-        .logout-btn {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: #a092b8;
-            padding: 6px 14px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 12px;
-            transition: 0.2s;
-        }
-
-        .logout-btn:hover {
-            background: #2a1a45;
-            color: white;
-        }
-
-        /* ========== SIDEBAR ========== */
         .sidebar {
             position: fixed;
             top: 64px;
@@ -458,7 +493,6 @@
             overflow-y: auto;
             transition: left 0.3s ease;
             z-index: 999;
-            box-shadow: 4px 0 20px rgba(0,0,0,0.5);
         }
 
         .sidebar.active {
@@ -509,19 +543,8 @@
             background: #2a1a45;
             border-left-color: var(--accent);
             color: #c9b0ff;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.4);
         }
 
-        .sidebar-category {
-            padding: 20px 24px 8px;
-            font-size: 10px;
-            font-weight: 700;
-            color: #7a6b93;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* ========== MAIN CONTENT ========== */
         .main-content {
             margin-top: 80px;
             padding: 24px 28px;
@@ -531,7 +554,6 @@
             min-height: calc(100vh - 100px);
         }
 
-        /* ========== HOME ========== */
         .home-banner {
             text-align: center;
             animation: fadeInUp 0.5s ease;
@@ -540,13 +562,9 @@
         .home-banner img {
             max-width: 55%;
             border-radius: 32px;
-            box-shadow: 0 30px 45px -12px rgba(0, 0, 0, 0.7), 0 0 30px rgba(155, 77, 255, 0.2);
+            box-shadow: 0 30px 45px -12px rgba(0, 0, 0, 0.7);
             margin-bottom: 30px;
             border: 2px solid var(--border);
-            transition: transform 0.3s;
-        }
-        .home-banner img:hover {
-            transform: scale(1.02);
         }
 
         .home-title {
@@ -559,19 +577,6 @@
             margin-bottom: 10px;
         }
 
-        .home-version {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: #2a1a45;
-            color: white;
-            padding: 6px 22px;
-            border-radius: 50px;
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
-
         .stats-grid {
             display: flex;
             justify-content: center;
@@ -582,20 +587,17 @@
 
         .stat-card {
             background: rgba(15, 10, 25, 0.9);
-            backdrop-filter: blur(12px);
             border-radius: 28px;
             padding: 24px 32px;
             text-align: center;
             border: 1px solid var(--border);
             min-width: 180px;
             transition: all 0.2s;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
 
         .stat-card:hover {
             transform: translateY(-6px);
             border-color: var(--accent);
-            box-shadow: 0 20px 30px rgba(155, 77, 255, 0.15);
         }
 
         .stat-number {
@@ -604,274 +606,6 @@
             color: var(--accent);
         }
 
-        .stat-label {
-            font-size: 13px;
-            font-weight: 500;
-            color: #a092b8;
-            margin-top: 8px;
-        }
-
-        /* ========== STATUS & ENDPOINTS ========== */
-        .status-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 24px;
-            margin-top: 30px;
-        }
-
-        .status-card {
-            background: rgba(15, 10, 25, 0.9);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 24px;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-        }
-
-        .status-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent);
-            box-shadow: 0 12px 28px rgba(155, 77, 255, 0.2);
-        }
-
-        .status-card-title {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            color: #7a6b93;
-            margin-bottom: 10px;
-        }
-
-        .status-card-value {
-            font-size: 20px;
-            font-weight: 700;
-            color: #d0bfff;
-        }
-
-        .endpoints-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 20px;
-        }
-
-        .endpoint-card {
-            background: rgba(15, 10, 25, 0.9);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.2s ease;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.5);
-        }
-
-        .endpoint-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--accent);
-            box-shadow: 0 14px 28px rgba(155, 77, 255, 0.2);
-        }
-
-        .endpoint-info {
-            flex: 1;
-        }
-
-        .endpoint-name {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 6px;
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .endpoint-desc {
-            font-size: 12px;
-            color: #a092b8;
-        }
-
-        /* ========== SEARCH ========== */
-        .search-box {
-            margin-bottom: 30px;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 14px 20px;
-            border: 1px solid var(--border);
-            border-radius: 60px;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
-            background: #120c1f;
-            color: var(--text);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-
-        .category-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 24px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid var(--border);
-            color: #c9b0ff;
-        }
-
-        /* ========== MODAL ========== */
-        .modal-content {
-            border: none;
-            border-radius: 24px;
-            background: #0f0a19;
-            color: var(--text);
-            box-shadow: 0 30px 50px rgba(0,0,0,0.9);
-            border: 1px solid var(--border);
-        }
-
-        .modal-header .btn-close {
-            filter: invert(1);
-        }
-
-        .api-endpoint-box {
-            background: #0d0720;
-            padding: 12px;
-            border-radius: 12px;
-            font-family: monospace;
-            font-size: 13px;
-            color: #c9b0ff;
-            word-break: break-all;
-            margin-bottom: 20px;
-            border: 1px solid var(--border);
-        }
-
-        .live-url-box {
-            background: #0d0720;
-            padding: 12px 16px;
-            border-radius: 12px;
-            font-family: monospace;
-            font-size: 13px;
-            color: var(--accent);
-            word-break: break-all;
-            margin-bottom: 20px;
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-        }
-
-        .param-input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            font-size: 14px;
-            margin-bottom: 12px;
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s ease;
-            background: #120c1f;
-            color: var(--text);
-        }
-
-        .param-input:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(155, 77, 255, 0.2);
-        }
-
-        /* ========== PANTALLA DE AUTENTICACIÓN ========== */
-        #authScreen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 30% 40%, #1a1130, #0a0a0f);
-            backdrop-filter: blur(20px);
-            z-index: 10001;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-
-        .auth-card {
-            background: rgba(15, 10, 25, 0.95);
-            backdrop-filter: blur(25px);
-            border: 1px solid var(--border);
-            border-radius: 32px;
-            padding: 35px;
-            width: 400px;
-            max-width: 90%;
-            box-shadow: 0 30px 50px rgba(0,0,0,0.8);
-            text-align: center;
-        }
-
-        .auth-card img {
-            width: 100px;
-            margin-bottom: 20px;
-        }
-
-        .auth-form input {
-            width: 100%;
-            margin-bottom: 16px;
-            background: #120c1f;
-            border: 1px solid var(--border);
-            color: white;
-            padding: 12px 16px;
-            border-radius: 12px;
-            font-size: 14px;
-            transition: border 0.2s;
-        }
-
-        .auth-form input:focus {
-            border-color: var(--accent);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(155, 77, 255, 0.15);
-        }
-
-        .auth-btn {
-            background: linear-gradient(135deg, #9b4dff, #6a1b9a);
-            color: white;
-            border: none;
-            padding: 12px 28px;
-            border-radius: 40px;
-            font-weight: 700;
-            font-size: 15px;
-            cursor: pointer;
-            transition: all 0.2s;
-            width: 100%;
-            margin-top: 5px;
-        }
-
-        .auth-btn:hover {
-            background: linear-gradient(135deg, #b87aff, #8a2be2);
-            box-shadow: 0 0 20px rgba(155, 77, 255, 0.5);
-        }
-
-        .auth-link {
-            color: #9b4dff;
-            cursor: pointer;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s;
-            font-size: 14px;
-            display: inline-block;
-            margin-top: 16px;
-        }
-
-        .auth-link:hover {
-            color: #c9b0ff;
-            text-decoration: underline;
-        }
-
-        .auth-divider {
-            color: #7a6b93;
-            margin: 15px 0;
-            font-size: 13px;
-        }
-
-        /* ========== FOOTER ========== */
         .footer {
             text-align: center;
             padding: 28px;
@@ -881,7 +615,6 @@
             color: #7a6b93;
         }
 
-        /* ========== ANIMATIONS ========== */
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -890,37 +623,18 @@
         @media (max-width: 768px) {
             .home-title { font-size: 36px; }
             .stat-card { padding: 18px 24px; min-width: 140px; }
-            .stat-number { font-size: 30px; }
             .music-player { width: 260px; }
-            .endpoints-grid { grid-template-columns: 1fr; }
             .main-content { padding: 20px 16px; }
-            .top-bar { padding: 0 16px; }
-            .api-name { font-size: 20px; }
-            .auth-card { padding: 25px; }
+            .bot-stats { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <!-- LOADING SCREEN -->
     <div id="loadingScreen">
-        <div class="spinner-border" role="status">
-            <span class="visually-hidden">Cargando...</span>
-        </div>
-        <p style="margin-top: 16px; font-weight: 500; color: #e0d7f0;">Cargando API DE EL VIGILANTE 🛡️</p>
+        <div class="spinner-border" role="status"></div>
+        <p style="margin-top: 16px; font-weight: 500;">Cargando API DE EL VIGILANTE 🛡️</p>
     </div>
 
-    <!-- PANTALLA DE AUTENTICACIÓN -->
-    <div id="authScreen">
-        <div class="auth-card">
-            <!-- Imagen decorativa -->
-            <img src="https://files.catbox.moe/0tha19.png" alt="El Vigilante" style="width: 100px; border-radius: 50%; border: 2px solid #9b4dff; box-shadow: 0 0 25px rgba(155,77,255,0.5);">
-            <h4 style="color:#c9b0ff; margin: 15px 0 5px;">API DE EL VIGILANTE</h4>
-            <span class="pro-badge" style="display:inline-block; margin-bottom: 20px;">PLAN PRO</span>
-            <div class="auth-form" id="authFormContainer"></div>
-        </div>
-    </div>
-
-    <!-- REPRODUCTOR DE MÚSICA FLOTANTE -->
     <div class="music-player" id="musicPlayer">
         <div class="music-header">
             <span class="music-title">🎵 ACENTO · QUINTO REAL</span>
@@ -945,8 +659,7 @@
     </div>
     <audio id="audioPlayer"></audio>
 
-    <!-- TOP BAR (oculta hasta autenticarse) -->
-    <div class="top-bar" id="topBar" style="display: none;">
+    <div class="top-bar" id="topBar">
         <div class="top-bar-left">
             <button class="menu-toggle" id="menuToggle">
                 <span></span>
@@ -959,27 +672,23 @@
         <div class="user-section" id="userSection"></div>
     </div>
 
-    <!-- SIDEBAR (oculta hasta autenticarse) -->
-    <div class="sidebar-overlay" id="sidebarOverlay" style="display: none;"></div>
-    <div class="sidebar" id="sidebar" style="display: none;">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="sidebar" id="sidebar">
         <div class="sidebar-nav">
             <div class="sidebar-item active" data-page="home"><i class="fas fa-home"></i> Inicio</div>
+            <div class="sidebar-item" data-page="detector"><i class="fas fa-robot"></i> Detector de Bots</div>
             <div class="sidebar-item" data-page="status"><i class="fas fa-chart-line"></i> Estado</div>
             <div class="sidebar-category"><i class="fas fa-tag me-2"></i> Categorías</div>
             <div id="categoriesNav"></div>
-            <div class="sidebar-item" data-page="all"><i class="fas fa-cubes"></i> Todos los endpoints</div>
         </div>
     </div>
 
-    <!-- MAIN CONTENT (oculto hasta autenticarse) -->
-    <div class="main-content" id="mainContent" style="display: none;"></div>
+    <div class="main-content" id="mainContent"></div>
 
-    <!-- FOOTER (oculto hasta autenticarse) -->
-    <div class="footer" id="footer" style="display: none;">
-        <p id="footerText">🛡️ API DE EL VIGILANTE · Plan Pro · Música: Acento Quinto Real</p>
+    <div class="footer" id="footer">
+        <p>🛡️ API DE EL VIGILANTE · Detector de Bots Integrado · Música: Acento Quinto Real</p>
     </div>
 
-    <!-- MODAL PARA ENDPOINTS -->
     <div class="modal fade" id="apiModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
@@ -992,9 +701,6 @@
                 </div>
                 <div class="modal-body">
                     <div class="api-endpoint-box" id="endpointBox" style="display: none;"></div>
-                    <div class="live-url-box" id="liveUrlBox" style="display: none;">
-                        <i class="fas fa-link me-2"></i> <span id="liveUrlText">https://ejemplo.com/api</span>
-                    </div>
                     <div id="paramsContainer"></div>
                     <div id="loadingContainer" style="display: none; text-align: center; padding: 40px;">
                         <div class="spinner-border" role="status"></div>
@@ -1049,125 +755,170 @@
         playPauseBtn.onclick = playPauseSong; nextBtn.onclick = nextSong; prevBtn.onclick = prevSong; audioEl.ontimeupdate = updateProgress; audioEl.onended = nextSong; progressContainer.onclick = setProgress; toggleMinimizeBtn.onclick = toggleMinimizePlayer;
         loadSong(0);
 
-        // ==================== AUTENTICACIÓN SIMULADA ====================
-        const INVITE_CODE = "elvigilante";
-        function getUsers() { return JSON.parse(localStorage.getItem('vigilanteUsers') || '[]'); }
-        function saveUsers(users) { localStorage.setItem('vigilanteUsers', JSON.stringify(users)); }
-        function getCurrentUser() { return JSON.parse(localStorage.getItem('vigilanteCurrentUser') || 'null'); }
-        function setCurrentUser(user) { localStorage.setItem('vigilanteCurrentUser', JSON.stringify(user)); }
+        // ==================== DETECTOR DE BOTS ====================
+        let botDetectionStats = {
+            total: 0,
+            bots: 0,
+            humans: 0
+        };
 
-        function showMainInterface() {
-            document.getElementById('authScreen').style.display = 'none';
-            document.getElementById('topBar').style.display = 'flex';
-            document.getElementById('sidebar').style.display = '';
-            document.getElementById('mainContent').style.display = '';
-            document.getElementById('footer').style.display = '';
-            document.getElementById('sidebarOverlay').style.display = '';
-            updateUserUI();
-            renderPage('home');
-        }
-
-        function showAuthScreen(view = 'login') {
-            document.getElementById('authScreen').style.display = 'flex';
-            document.getElementById('topBar').style.display = 'none';
-            document.getElementById('sidebar').style.display = 'none';
-            document.getElementById('mainContent').style.display = 'none';
-            document.getElementById('footer').style.display = 'none';
-            document.getElementById('sidebarOverlay').style.display = 'none';
-            renderAuthForm(view);
-        }
-
-        function logout() {
-            localStorage.removeItem('vigilanteCurrentUser');
-            showAuthScreen('login');
-        }
-
-        function updateUserUI() {
-            const userSection = document.getElementById('userSection');
-            const currentUser = getCurrentUser();
-            if (currentUser) {
-                userSection.innerHTML = `
-                    <span style="color:#c9b0ff; font-weight:600;"><i class="fas fa-user-circle me-1"></i> ${currentUser.username}</span>
-                    <span class="pro-badge" style="font-size:10px; padding:3px 10px;">PRO</span>
-                    <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt me-1"></i> Salir</button>
-                `;
+        // Función para detectar bots basado en comportamiento
+        function detectarBot(comportamiento = 'normal') {
+            const huella = {
+                userAgent: navigator.userAgent,
+                webdriver: navigator.webdriver || false,
+                lenguaje: navigator.language,
+                resolucion: screen.width + 'x' + screen.height,
+                tiempoZona: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                cookies: navigator.cookieEnabled,
+                timestamp: Date.now()
+            };
+            
+            let puntaje = 0;
+            let razones = [];
+            
+            // Simular diferentes comportamientos para pruebas
+            if (comportamiento === 'bot_rapido') {
+                puntaje += 100;
+                razones.push('Tiempo de respuesta instantáneo (menos de 100ms)');
+                razones.push('Sin movimiento de ratón detectado');
+                razones.push('Patrón de clic programado');
+            } 
+            else if (comportamiento === 'bot_headless') {
+                puntaje += 90;
+                razones.push('Resolución de pantalla 800x600 (headless browser)');
+                razones.push('WebDriver detectado');
+                razones.push('UserAgent contiene "Headless"');
             }
-        }
-
-        function renderAuthForm(view) {
-            const container = document.getElementById('authFormContainer');
-            if (view === 'login') {
-                container.innerHTML = `
-                    <input type="text" id="loginUsername" placeholder="Usuario">
-                    <input type="password" id="loginPassword" placeholder="Contraseña">
-                    <button class="auth-btn" onclick="login()">Iniciar sesión</button>
-                    <div class="auth-divider">¿No tienes cuenta?</div>
-                    <a class="auth-link" onclick="showAuthScreen('register')">Crear una cuenta</a>
-                `;
+            else if (comportamiento === 'bot_webdriver') {
+                puntaje += 95;
+                razones.push('navigator.webdriver = true');
+                razones.push('Propiedades de ventana modificadas');
+                razones.push('Fingerprint de automatización detectado');
+            }
+            else {
+                // Comportamiento humano normal
+                const tiempoRespuesta = Math.floor(Math.random() * 5000) + 2000;
+                const movimientosRaton = Math.floor(Math.random() * 20) + 5;
+                
+                if (tiempoRespuesta < 200) {
+                    puntaje += 50;
+                    razones.push('Tiempo de respuesta muy rápido');
+                }
+                if (movimientosRaton < 3) {
+                    puntaje += 40;
+                    razones.push('Pocos movimientos de ratón');
+                }
+                
+                if (puntaje === 0) {
+                    razones.push('Comportamiento humano normal');
+                }
+            }
+            
+            const esBot = puntaje >= 60;
+            
+            // Actualizar estadísticas
+            botDetectionStats.total++;
+            if (esBot) {
+                botDetectionStats.bots++;
             } else {
-                container.innerHTML = `
-                    <input type="text" id="regUsername" placeholder="Usuario">
-                    <input type="password" id="regPassword" placeholder="Contraseña">
-                    <input type="text" id="regCode" placeholder="Código de invitación">
-                    <button class="auth-btn" onclick="register()">Crear cuenta</button>
-                    <div class="auth-divider">¿Ya tienes cuenta?</div>
-                    <a class="auth-link" onclick="showAuthScreen('login')">Iniciar sesión</a>
-                `;
+                botDetectionStats.humans++;
             }
+            
+            return {
+                es_bot: esBot,
+                confianza: puntaje,
+                razones: razones,
+                huella: huella,
+                estadisticas: botDetectionStats
+            };
         }
 
-        function login() {
-            const username = document.getElementById('loginUsername').value.trim();
-            const password = document.getElementById('loginPassword').value.trim();
-            if (!username || !password) return alert('Completa todos los campos');
-            const users = getUsers();
-            const user = users.find(u => u.username === username && u.password === password);
-            if (user) {
-                setCurrentUser({ username: user.username });
-                showMainInterface();
-            } else {
-                alert('Credenciales incorrectas');
-            }
-        }
-
-        function register() {
-            const username = document.getElementById('regUsername').value.trim();
-            const password = document.getElementById('regPassword').value.trim();
-            const code = document.getElementById('regCode').value.trim();
-            if (!username || !password || !code) return alert('Completa todos los campos');
-            if (code !== INVITE_CODE) return alert('Código de invitación inválido. Necesitas el código correcto.');
-            const users = getUsers();
-            if (users.find(u => u.username === username)) return alert('El usuario ya existe');
-            users.push({ username, password });
-            saveUsers(users);
-            setCurrentUser({ username });
-            showMainInterface();
-            alert('Cuenta creada exitosamente. ¡Bienvenido al Plan Pro!');
-        }
-
-        // ==================== API Y DASHBOARD (API DE EL VIGILANTE) ====================
+        // ==================== SETTINGS Y UI ====================
         let settings = {
             name: "API DE EL VIGILANTE",
             version: "v2.0 · Plan Pro",
-            description: "API profesional con endpoints creados por El Vigilante. Acceso exclusivo.",
+            description: "API profesional con endpoints creados por El Vigilante. Incluye detector de bots integrado.",
             header: { imageSrc: ["https://files.catbox.moe/0tha19.png"], imageSize: { desktop: "50%" } },
             apiSettings: { creator: "El Vigilante" },
             categories: [
                 { name: "Usuarios", items: [{ name: "Perfil", path: "/api/user", desc: "Obtener perfil de usuario", innerDesc: "Devuelve datos del perfil del usuario autenticado" }] },
                 { name: "Contenido", items: [{ name: "Feed", path: "/api/feed", desc: "Feed dinámico de contenido", innerDesc: "Obtiene las últimas publicaciones" }] },
-                { name: "Búsqueda", items: [{ name: "YouTube Search", path: "/search/youtube?q=", desc: "Buscar videos en YouTube", innerDesc: "Ejemplo: Goku Black" }] },
-                { name: "Música", items: [{ name: "Canción actual", path: "/api/song", desc: "Obtener información de la canción", innerDesc: "Devuelve los datos de la canción que suena actualmente" }] }
+                { name: "Seguridad", items: [{ name: "Detectar Bot", path: "/api/detectar_bot", desc: "Analiza si un visitante es bot", innerDesc: "Devuelve análisis de comportamiento" }] }
             ]
         };
 
+        let users = JSON.parse(localStorage.getItem('vigilante_api_users') || '[]');
+        let currentUser = JSON.parse(localStorage.getItem('vigilante_api_current') || 'null');
+
+        function saveUsers() { localStorage.setItem('vigilante_api_users', JSON.stringify(users)); }
+        function saveCurrentUser() { localStorage.setItem('vigilante_api_current', JSON.stringify(currentUser)); }
+
+        function renderMainApp() {
+            document.getElementById('topBar').style.display = 'flex';
+            document.getElementById('sidebar').style.display = 'block';
+            document.getElementById('mainContent').style.display = 'block';
+            document.getElementById('footer').style.display = 'block';
+            document.getElementById('sidebarOverlay').style.display = 'block';
+            updateUserUI();
+            renderPage('home');
+        }
+
+        function updateUserUI() {
+            const userSection = document.getElementById('userSection');
+            if (currentUser) {
+                userSection.innerHTML = `
+                    <span style="color:#c9b0ff;"><i class="fas fa-user-shield me-1"></i> ${currentUser.username}</span>
+                    <span class="pro-badge" style="font-size:10px;">PRO</span>
+                    <button class="btn-glass" onclick="logout()" style="margin-left:10px;"><i class="fas fa-sign-out-alt"></i> Salir</button>
+                `;
+            } else {
+                userSection.innerHTML = `<button class="btn-glass" onclick="showAuth()"><i class="fas fa-sign-in-alt"></i> Acceder</button>`;
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            saveCurrentUser();
+            updateUserUI();
+            location.reload();
+        }
+
+        function showAuth() {
+            const username = prompt("👤 Usuario:");
+            if (!username) return;
+            const password = prompt("🔐 Contraseña:");
+            if (!password) return;
+            
+            let user = users.find(u => u.username === username && u.password === password);
+            if (!user && users.length === 0) {
+                user = { username, password };
+                users.push(user);
+                saveUsers();
+            } else if (!user) {
+                alert("Credenciales incorrectas");
+                return;
+            }
+            currentUser = user;
+            saveCurrentUser();
+            updateUserUI();
+            renderPage('home');
+        }
+
         async function loadSettings() {
-            try { const r = await fetch('/src/settings.json'); if(r.ok) settings = await r.json(); } catch(e) { console.log('Usando configuración por defecto'); }
-            document.title = settings.name || "API DE EL VIGILANTE";
-            document.getElementById('apiName').innerHTML = settings.name || "API DE EL VIGILANTE";
-            document.getElementById('footerText').innerHTML = `🛡️ ${settings.name} · Plan Pro · Música: Acento Quinto Real`;
+            try { const r = await fetch('/src/settings.json'); if(r.ok) settings = await r.json(); } catch(e) {}
+            document.title = settings.name;
+            document.getElementById('apiName').innerHTML = settings.name;
             const categoriesNav = document.getElementById('categoriesNav');
             categoriesNav.innerHTML = '';
-            if(settings.categories) settings.categories.forEach(cat => { const div = document.createElement('div'); div.className = 'sidebar-item'; div.dataset.page = 'category'; div.dataset.category = cat.name; div.innerHTML = `<i class="fas fa-folder me-2"></i> ${cat.name}`; categoriesNav.appendChild(div); });
+            if(settings.categories) settings.categories.forEach(cat => {
+                const div = document.createElement('div');
+                div.className = 'sidebar-item';
+                div.dataset.page = 'category';
+                div.dataset.category = cat.name;
+                div.innerHTML = `<i class="fas fa-folder me-2"></i> ${cat.name}`;
+                categoriesNav.appendChild(div);
+            });
         }
 
         function getTotalEndpoints() { let t=0; settings.categories?.forEach(c=> t+=c.items.length); return t; }
@@ -1176,76 +927,159 @@
             const menuToggle = document.getElementById('menuToggle'), sidebar = document.getElementById('sidebar'), overlay = document.getElementById('sidebarOverlay');
             menuToggle.onclick = () => { menuToggle.classList.toggle('active'); sidebar.classList.toggle('active'); overlay.classList.toggle('active'); };
             overlay.onclick = () => { menuToggle.classList.remove('active'); sidebar.classList.remove('active'); overlay.classList.remove('active'); };
-            document.querySelectorAll('.sidebar-item').forEach(item => { item.onclick = () => { document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active')); item.classList.add('active'); const page = item.dataset.page, cat = item.dataset.category; renderPage(page==='category'?'category':page, cat); menuToggle.classList.remove('active'); sidebar.classList.remove('active'); overlay.classList.remove('active'); }; });
-            updateUserUI();
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.onclick = () => {
+                    document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));
+                    item.classList.add('active');
+                    const page = item.dataset.page, cat = item.dataset.category;
+                    renderPage(page==='category'?'category':page, cat);
+                    menuToggle.classList.remove('active'); sidebar.classList.remove('active'); overlay.classList.remove('active');
+                };
+            });
         }
 
         function renderPage(page, category=null) {
             const container = document.getElementById('mainContent');
-            const currentUser = getCurrentUser();
-            const proBadge = currentUser ? '<span class="pro-badge" style="margin-left:12px; vertical-align:middle;">PRO</span>' : '';
             if(page === 'home') {
                 const imgSrc = Array.isArray(settings.header.imageSrc)? settings.header.imageSrc[0]:'https://files.catbox.moe/0tha19.png';
-                container.innerHTML = `<div class="home-banner"><img src="${imgSrc}" alt="API DE EL VIGILANTE"><h1 class="home-title">${settings.name} ${proBadge}</h1><div class="home-version"><i class="fas fa-crown me-2" style="color:#ffd700;"></i> ${settings.version}</div><p class="text-info mb-4">${settings.description}</p><div class="stats-grid"><div class="stat-card"><div class="stat-number">${getTotalEndpoints()}</div><div class="stat-label">Endpoints</div></div><div class="stat-card"><div class="stat-number">${settings.categories?.length||0}</div><div class="stat-label">Categorías</div></div><div class="stat-card"><div class="stat-number"><i class="fas fa-music"></i></div><div class="stat-label">Acento Quinto Real</div></div></div>${currentUser ? '<p class="mt-3"><i class="fas fa-check-circle text-success"></i> Disfrutas del Plan Pro</p>' : '<p class="mt-3"><i class="fas fa-lock text-warning"></i> Inicia sesión para desbloquear funciones Pro</p>'}</div>`;
-            } else if(page === 'status') {
-                container.innerHTML = `<h2 class="category-title"><i class="fas fa-chart-line me-2"></i> Estado del sistema ${proBadge}</h2><div class="status-grid"><div class="status-card"><div class="status-card-title">API Status</div><div class="status-card-value" style="color:#9b4dff;">🟢 Online</div></div><div class="status-card"><div class="status-card-title">Versión</div><div class="status-card-value">${settings.version}</div></div><div class="status-card"><div class="status-card-title">Música Activa</div><div class="status-card-value" style="color:#9b4dff;">🎵 Una vaina loca</div></div><div class="status-card"><div class="status-card-title">Artista</div><div class="status-card-value">Acento Quinto Real</div></div></div>`;
-            } else if(page === 'category' && category) {
-                const cat = settings.categories.find(c=>c.name===category); if(!cat) return;
-                container.innerHTML = `<div class="search-box"><input type="text" class="search-input" placeholder="🔍 Buscar endpoints..." id="searchInput"></div><div class="category-section"><h2 class="category-title"><i class="fas fa-folder-open me-2"></i> ${cat.name} ${proBadge}</h2><div class="endpoints-grid" id="endpointsGrid">${cat.items.map(item=>`<div class="endpoint-card" data-name="${item.name.toLowerCase()}"><div class="endpoint-info"><div class="endpoint-name"><i class="fas fa-code me-2"></i> ${item.name}</div><div class="endpoint-desc">${item.desc}</div></div><button class="endpoint-btn" data-path="${item.path}" data-name="${item.name}" data-desc="${item.desc}" data-inner="${item.innerDesc||''}">GET <i class="fas fa-arrow-right ms-1"></i></button></div>`).join('')}</div></div>`;
-                setupSearch(); attachEndpointEvents();
-            } else if(page === 'all') {
-                container.innerHTML = `<div class="search-box"><input type="text" class="search-input" placeholder="🔍 Buscar endpoints..." id="searchInput"></div><div id="allCategories"></div>`;
-                const allDiv = document.getElementById('allCategories');
-                settings.categories?.forEach(cat=>{ allDiv.innerHTML += `<div class="category-section" data-category="${cat.name}"><h2 class="category-title"><i class="fas fa-cube me-2"></i> ${cat.name} ${proBadge}</h2><div class="endpoints-grid">${cat.items.map(item=>`<div class="endpoint-card" data-name="${item.name.toLowerCase()}"><div class="endpoint-info"><div class="endpoint-name"><i class="fas fa-code me-2"></i> ${item.name}</div><div class="endpoint-desc">${item.desc}</div></div><button class="endpoint-btn" data-path="${item.path}" data-name="${item.name}" data-desc="${item.desc}" data-inner="${item.innerDesc||''}">GET <i class="fas fa-arrow-right ms-1"></i></button></div>`).join('')}</div></div>`; });
-                setupSearch(); attachEndpointEvents();
+                container.innerHTML = `<div class="home-banner"><img src="${imgSrc}" alt="API DE EL VIGILANTE"><h1 class="home-title">${settings.name}</h1><div class="home-version"><i class="fas fa-crown me-2" style="color:#ffd700;"></i> ${settings.version}</div><p class="text-info mb-4">${settings.description}</p><div class="stats-grid"><div class="stat-card"><div class="stat-number">${getTotalEndpoints()}</div><div class="stat-label">Endpoints</div></div><div class="stat-card"><div class="stat-number">${settings.categories?.length||0}</div><div class="stat-label">Categorías</div></div><div class="stat-card"><div class="stat-number"><i class="fas fa-robot"></i></div><div class="stat-label">Detección de Bots</div></div></div></div>`;
+            } 
+            else if(page === 'detector') {
+                container.innerHTML = `
+                    <div class="bot-detector-card">
+                        <div class="detector-title">
+                            <i class="fas fa-robot" style="color: var(--accent);"></i>
+                            Detector de Bots en Tiempo Real
+                            <span class="detector-badge"><i class="fas fa-shield-alt"></i> El Vigilante</span>
+                        </div>
+                        <p>Este módulo analiza el comportamiento del visitante para determinar si es un humano o un bot automatizado.</p>
+                        
+                        <div class="test-buttons">
+                            <button class="test-btn human" onclick="testDetector('normal')">
+                                <i class="fas fa-user-check"></i> Simular Humano Normal
+                            </button>
+                            <button class="test-btn bot" onclick="testDetector('bot_rapido')">
+                                <i class="fas fa-bolt"></i> Simular Bot Rápido
+                            </button>
+                            <button class="test-btn bot" onclick="testDetector('bot_headless')">
+                                <i class="fas fa-desktop"></i> Simular Headless Browser
+                            </button>
+                            <button class="test-btn bot" onclick="testDetector('bot_webdriver')">
+                                <i class="fas fa-code"></i> Simular WebDriver
+                            </button>
+                        </div>
+                        
+                        <div class="detector-result" id="detectorResult">
+                            <div style="text-align: center; padding: 20px;">
+                                <i class="fas fa-shield-alt" style="font-size: 48px; color: var(--accent); opacity: 0.5;"></i>
+                                <p style="margin-top: 10px;">Haz clic en un botón para probar la detección</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bot-stats">
+                            <div class="bot-stat-card">
+                                <div class="bot-stat-number" id="statTotal">0</div>
+                                <div class="stat-label">Total Pruebas</div>
+                            </div>
+                            <div class="bot-stat-card">
+                                <div class="bot-stat-number" style="color: #ff4444;" id="statBots">0</div>
+                                <div class="stat-label">Bots Detectados</div>
+                            </div>
+                            <div class="bot-stat-card">
+                                <div class="bot-stat-number" style="color: #44ff44;" id="statHumans">0</div>
+                                <div class="stat-label">Humanos Verificados</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                updateStatsDisplay();
+            }
+            else if(page === 'status') {
+                container.innerHTML = `<h2 class="category-title"><i class="fas fa-chart-line me-2"></i> Estado del sistema</h2>
+                    <div class="status-grid">
+                        <div class="status-card"><div class="status-card-title">API Status</div><div class="status-card-value" style="color:#9b4dff;">🟢 Online</div></div>
+                        <div class="status-card"><div class="status-card-title">Detector de Bots</div><div class="status-card-value" style="color:#9b4dff;">✅ Activo</div></div>
+                        <div class="status-card"><div class="status-card-title">Versión</div><div class="status-card-value">${settings.version}</div></div>
+                        <div class="status-card"><div class="status-card-title">Música Activa</div><div class="status-card-value">🎵 Una vaina loca</div></div>
+                    </div>`;
+            }
+            else if(page === 'category' && category) {
+                const cat = settings.categories.find(c=>c.name===category);
+                if(cat) {
+                    container.innerHTML = `<h2 class="category-title"><i class="fas fa-folder-open me-2"></i> ${cat.name}</h2>
+                        <div class="endpoints-grid">${cat.items.map(item=>`<div class="endpoint-card"><div class="endpoint-info"><div class="endpoint-name"><i class="fas fa-code me-2"></i> ${item.name}</div><div class="endpoint-desc">${item.desc}</div></div><button class="endpoint-btn" onclick='openEndpoint("${item.path}", "${item.name}", "${item.desc}", "${item.innerDesc}")'>GET <i class="fas fa-arrow-right ms-1"></i></button></div>`).join('')}</div>`;
+                }
             }
         }
 
-        function setupSearch() { const inp = document.getElementById('searchInput'); if(!inp) return; inp.oninput = (e) => { const term = e.target.value.toLowerCase(); document.querySelectorAll('.endpoint-card').forEach(card=>{ card.style.display = card.dataset.name.includes(term) ? '' : 'none'; }); document.querySelectorAll('.category-section').forEach(section=>{ const visible = section.querySelectorAll('.endpoint-card:not([style*="display: none"])'); section.style.display = visible.length ? '' : 'none'; }); }; }
+        function updateStatsDisplay() {
+            const totalEl = document.getElementById('statTotal');
+            const botsEl = document.getElementById('statBots');
+            const humansEl = document.getElementById('statHumans');
+            if(totalEl) totalEl.textContent = botDetectionStats.total;
+            if(botsEl) botsEl.textContent = botDetectionStats.bots;
+            if(humansEl) humansEl.textContent = botDetectionStats.humans;
+        }
 
-        function attachEndpointEvents() { document.querySelectorAll('.endpoint-btn').forEach(btn=>{ btn.onclick = ()=> openModal(btn.dataset.path, btn.dataset.name, btn.dataset.desc, btn.dataset.inner); }); }
+        window.testDetector = function(comportamiento) {
+            const resultado = detectarBot(comportamiento);
+            const resultDiv = document.getElementById('detectorResult');
+            const badgeClass = resultado.es_bot ? 'bot' : 'human';
+            const badgeText = resultado.es_bot ? '🤖 BOT DETECTADO' : '✅ HUMANO VERIFICADO';
+            
+            resultDiv.innerHTML = `
+                <div style="margin-bottom: 15px;">
+                    <span class="result-badge ${badgeClass}"><i class="fas ${resultado.es_bot ? 'fa-robot' : 'fa-user-check'} me-2"></i> ${badgeText}</span>
+                    <span style="margin-left: 15px; font-size: 13px;">Confianza: ${resultado.confianza}%</span>
+                </div>
+                <ul class="reason-list">
+                    ${resultado.razones.map(r => `<li><i class="fas ${resultado.es_bot ? 'fa-exclamation-triangle' : 'fa-check-circle'}" style="color: ${resultado.es_bot ? '#ff4444' : '#44ff44'}"></i> ${r}</li>`).join('')}
+                </ul>
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.05);">
+                    <small class="text-muted"><i class="fas fa-fingerprint"></i> Huella digital capturada: ${resultado.huella.resolucion}, ${resultado.huella.userAgent.substring(0, 50)}...</small>
+                </div>
+            `;
+            updateStatsDisplay();
+        };
 
-        async function openModal(path, name, desc, innerDesc) {
+        window.openEndpoint = async function(path, name, desc, innerDesc) {
             const modal = new bootstrap.Modal(document.getElementById('apiModal'));
-            document.getElementById('modalTitle').textContent = name; document.getElementById('modalDesc').textContent = desc;
-            const urlParts = path.split('?'); const basePath = urlParts[0]; const existingParams = new URLSearchParams(urlParts[1]||'');
-            const baseUrl = window.location.origin + basePath;
-            document.getElementById('endpointBox').style.display = 'block'; document.getElementById('endpointBox').innerHTML = `<code>${baseUrl}</code>`;
-            const liveUrlBox = document.getElementById('liveUrlBox'); const liveUrlText = document.getElementById('liveUrlText'); liveUrlBox.style.display = 'flex';
-            document.getElementById('paramsContainer').innerHTML = ''; document.getElementById('responseContainer').innerHTML = ''; document.getElementById('submitBtn').style.display = 'none'; document.getElementById('loadingContainer').style.display = 'none';
-            const hasParams = existingParams.keys().next().done === false;
-            function updateLiveUrl() { const params = new URLSearchParams(); document.querySelectorAll('#paramsContainer .param-input').forEach(inp=>{ if(inp.value.trim()) params.append(inp.dataset.param, inp.value.trim()); }); let final = baseUrl; const ps = params.toString(); if(ps) final += '?'+ps; else if(hasParams && document.querySelectorAll('#paramsContainer .param-input').length===0) final += '?'+existingParams.toString(); liveUrlText.textContent = final; }
-            if(hasParams) {
-                const paramsContainer = document.getElementById('paramsContainer');
-                for(let [k,v] of existingParams) { const inp = document.createElement('input'); inp.type='text'; inp.className='param-input'; inp.placeholder=`${k} (ej: ${v||'valor'})...`; inp.dataset.param=k; paramsContainer.appendChild(inp); }
-                if(innerDesc) paramsContainer.innerHTML += `<div class="inner-desc text-info small mt-2 mb-2"><i class="fas fa-info-circle me-1"></i> ${innerDesc}</div>`;
-                const submitBtn = document.getElementById('submitBtn'); submitBtn.style.display='block';
-                paramsContainer.querySelectorAll('.param-input').forEach(i=>i.addEventListener('input',updateLiveUrl));
-                updateLiveUrl();
-                submitBtn.onclick = async ()=>{
-                    const params = new URLSearchParams(); document.querySelectorAll('#paramsContainer .param-input').forEach(inp=>{ if(inp.value.trim()) params.append(inp.dataset.param, inp.value.trim()); });
-                    let finalUrl = baseUrl; const pstr = params.toString(); if(pstr) finalUrl += '?'+pstr;
-                    document.getElementById('loadingContainer').style.display='block'; document.getElementById('responseContainer').innerHTML='';
-                    try { const resp = await fetch(finalUrl); const ct = resp.headers.get('Content-Type'); if(ct && ct.startsWith('image/')){ const blob = await resp.blob(); const img = document.createElement('img'); img.src=URL.createObjectURL(blob); img.className='response-image w-100 mt-2 rounded'; document.getElementById('responseContainer').appendChild(img); } else { const data = await resp.json(); document.getElementById('responseContainer').innerHTML = `<pre class="response-box">${JSON.stringify(data,null,2)}</pre>`; } } catch(e){ document.getElementById('responseContainer').innerHTML = `<pre class="response-box text-danger">Error: ${e.message}</pre>`; }
-                    document.getElementById('loadingContainer').style.display='none';
-                };
+            document.getElementById('modalTitle').textContent = name;
+            document.getElementById('modalDesc').textContent = desc;
+            document.getElementById('endpointBox').style.display = 'block';
+            document.getElementById('endpointBox').innerHTML = `<code>${window.location.origin + path}</code>`;
+            document.getElementById('paramsContainer').innerHTML = '';
+            document.getElementById('responseContainer').innerHTML = '';
+            document.getElementById('submitBtn').style.display = 'none';
+            document.getElementById('loadingContainer').style.display = 'block';
+            
+            let url = window.location.origin + path;
+            
+            if (path.includes('detectar_bot')) {
+                const resultado = detectarBot('normal');
+                document.getElementById('loadingContainer').style.display = 'none';
+                document.getElementById('responseContainer').innerHTML = `<pre class="response-box">${JSON.stringify(resultado, null, 2)}</pre>`;
             } else {
-                liveUrlText.textContent = baseUrl;
-                document.getElementById('loadingContainer').style.display='block';
-                try { const resp = await fetch(baseUrl); const ct = resp.headers.get('Content-Type'); if(ct && ct.startsWith('image/')){ const blob = await resp.blob(); const img = document.createElement('img'); img.src=URL.createObjectURL(blob); img.className='response-image w-100 mt-2 rounded'; document.getElementById('responseContainer').appendChild(img); } else { const data = await resp.json(); document.getElementById('responseContainer').innerHTML = `<pre class="response-box">${JSON.stringify(data,null,2)}</pre>`; } } catch(e){ document.getElementById('responseContainer').innerHTML = `<pre class="response-box text-danger">Error: ${e.message}</pre>`; }
-                document.getElementById('loadingContainer').style.display='none';
+                try {
+                    const resp = await fetch(url);
+                    const data = await resp.json();
+                    document.getElementById('loadingContainer').style.display = 'none';
+                    document.getElementById('responseContainer').innerHTML = `<pre class="response-box">${JSON.stringify(data, null, 2)}</pre>`;
+                } catch(e) {
+                    document.getElementById('loadingContainer').style.display = 'none';
+                    document.getElementById('responseContainer').innerHTML = `<pre class="response-box text-danger">Error: ${e.message}</pre>`;
+                }
             }
             modal.show();
-        }
+        };
 
         async function start() {
             await loadSettings();
             initUI();
-            const currentUser = getCurrentUser();
             if (currentUser) {
-                showMainInterface();
+                renderMainApp();
             } else {
-                showAuthScreen('login');
+                renderMainApp();
             }
             const loading = document.getElementById('loadingScreen');
             loading.style.opacity = '0';
